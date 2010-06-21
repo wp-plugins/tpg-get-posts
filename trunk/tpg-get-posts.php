@@ -119,26 +119,7 @@ function tpg_get_posts_gen($args = '') {
 	if ($show_as_list) {
 		$content .="<ul class=\"".$r['ul_class']."\">\n";
 	}
-//
-//	$gp_args = explode(" ",$args);
-//	echo ("<br />gp_args1<br />");
-//	print_r ($gp_args[1]);
-//	echo ("<br />gp_args<br />");
-//	print_r ($gp_args);
 
-// 	echo ("arg: <br />");
-//	print_r ($args);
-//	echo ("<br />");
-//	echo ("array: <br />");
-//	print_r ($r);
-//
-//	echo ("<br />fld_lists: <br />");
-//	print_r ($fields_list);
-//	echo ("<br />fld_cls: <br />");
-//	print_r ($fields_classes_list);
-//
-
-	
 // get posts
 	$posts = get_posts($args);
 	foreach( $posts as $post ) {
@@ -159,7 +140,7 @@ function tpg_get_posts_gen($args = '') {
 			switch ($field) {
 				case "post_title":
 					$wkcontent = '<h2><a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a></h2>';
-					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y.', $post->post_date).'</p>';
+					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y.', $post->post_date)'</p>';
 					break;
 				case "post_content":					
 					if (!$post_entire) {           //show only teaser 
