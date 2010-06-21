@@ -140,7 +140,7 @@ function tpg_get_posts_gen($args = '') {
 			switch ($field) {
 				case "post_title":
 					$wkcontent = '<h2><a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a></h2>';
-					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y.', $post->post_date)'</p>';
+					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
 					break;
 				case "post_content":					
 					if (!$post_entire) {           //show only teaser 
