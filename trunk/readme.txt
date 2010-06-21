@@ -84,7 +84,7 @@ working on it.....
 
 == Screenshots ==
 
-This screen shot (screenshot-1.png)of a page using the plugin shows how the output is formatted by default. 
+1. This screen shot (screenshot-1.png)of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
 
