@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: TPG Get Posts
-Plugin URI: http://blog.tpginc.net/wp-plugins/
+Plugin URI: http://www.tpginc.net/blog/wp-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
 Version: 0.1
 Author: Criss Swaim
-Author URI: http://blog.tpginc.net/wp-plugins
+Author URI: http://blog.tpginc.net/
 */
 
 /*  The code is based on nurelm-get-posts
