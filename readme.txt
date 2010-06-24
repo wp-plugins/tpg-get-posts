@@ -83,7 +83,8 @@ Check the [get_posts template tag](http://codex.wordpress.org/Template_Tags/get_
 
 = How to I format the output? =
 
-Set the format in your css 
+Set the format in your css
+ 
 * heading - .p_title_class
 * byline - .p_byline
 * content - .p_content_class
