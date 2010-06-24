@@ -15,6 +15,17 @@ This plugin adds the ability to put a shortcode tag in a page or post and have i
 By default it will show the 5 most recent posts ordered in reverse date order,
 but it will accept any of the options provided by the [get_posts template tag](<a href="http://codex.wordpress.org/Template_Tags/get_posts" target=_new>http://codex.wordpress.org/Template_Tags/get_posts</a>).
 
+To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
+
+	[tpg_get_posts]
+
+This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, 
+author, modified date, comments, categories and tags is also displayed.
+	
+See the usage section for a list of parms and more examples of use.
+	
+== Usage ==
+
 **WARNING**  If you copy/paste the commands, the function may not work. If this happens, type the entire command in to avoid introducing hidden characters.
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
