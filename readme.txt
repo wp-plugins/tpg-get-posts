@@ -22,7 +22,7 @@ To use it, just put the following into the HTML of any page or post, use as many
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, 
 author, modified date, comments, categories and tags is also displayed.
 	
-See the usage section for a list of parms and more examples of use.
+See the usage section in 'Other Notes' for a list of parms and more examples of use.
 	
 == Usage ==
 
