@@ -93,7 +93,11 @@ Set the format in your css
 
 = Can this plugin select by category? =
 
-working on it.....
+Yes, but only a single category_name can be submitted.  This seems to be a limit of the get_posts function of WordPress.  
+
+= Can I combine categories and tags? =
+
+Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets bot selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.  
 
 == Screenshots ==
 
