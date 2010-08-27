@@ -2,9 +2,9 @@
 Contributors: Criss Swaim, based on plugin nurelm-get-posts
 Donate link: http://tpginc.net/
 Tags: get_posts, post, posts, formatting, list, shortcode
-Requires at least: 2.?    (only tested on 2.9.2)
-Tested up to: 2.9.2
-Stable tag: 0.1
+Requires at least: 2.?    
+Tested up to: 3.0.1
+Stable tag: 1.0
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags.
 
@@ -93,17 +93,20 @@ Set the format in your css
 
 = Can this plugin select by category? =
 
-Yes, but only a single category_name can be submitted.  This seems to be a limit of the get_posts function of WordPress.  
+Yes, multiple category_name(s) can be submitted.  The WordPress function get_posts accepts only a single category, but multiple category ids.  So the category name is converted to the category id and the category_name parameter is blanked out.
 
 = Can I combine categories and tags? =
 
-Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets bot selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.  
+Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets both selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.  
 
 == Screenshots ==
 
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+
+= 1.0 =
+* Update to allow multiple categories to be entered
 
 = 0.1 =
 * Initial release. 

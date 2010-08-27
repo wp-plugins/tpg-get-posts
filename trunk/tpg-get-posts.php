@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/blog/wp-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 0.1
+Version: 1.0
 Author: Criss Swaim
 Author URI: http://blog.tpginc.net/
 */
@@ -82,6 +82,7 @@ function tpg_get_posts_gen($args = '') {
       'post_status'      => '',
       'post_parent'      => '',
       'nopaging'         => '',
+	  'end-of-parms'     => '---------',
 	  'post_entire'      => 'false',
 	  'show_meta'        => 'true',
       'ul_class'         => '',
@@ -89,7 +90,33 @@ function tpg_get_posts_gen($args = '') {
       'fields_classes'   => 'p_title_class, p_content_class'),
     $args );
 	
-	//set up 
+	//if multiple category_names passed, convert to cat_id
+	$cat_nam_list = explode(",", $r['category_name']);
+	if (sizeof($cat_nam_list) <= 1 ) {
+		//single or no cat name submitted - continue  
+	} else {
+		//loop to get cat id and replace cat_names with cat ids
+		foreach ($cat_nam_list as $value) {
+			$r['category'] .= get_cat_ID($value).",";
+		}
+		$r['category'] = substr_replace($r['category'],"",-1);
+		$r['category_name'] = "";
+	}
+	
+	//setup parms for query
+	$q_args = array();
+	reset ($r);
+	while (list($key, $value) =  each($r)){
+		if ($key == 'end-of-parms') {
+			end ($r);
+			break;
+		} 
+		if ($value != ''){
+			$q_args[$key] = $value; 
+		}
+	}
+	
+	//set up output fields
 	$fields_list = explode(",", $r['fields']);
 	$fields_classes_list = explode(",", $r['fields_classes']);
 
@@ -121,7 +148,7 @@ function tpg_get_posts_gen($args = '') {
 	}
 
 // get posts
-	$posts = get_posts($args);
+	$posts = get_posts($q_args);
 	foreach( $posts as $post ) {
 		if ($show_as_list) 
 			$content .= "  <li>";
