@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/blog/wp-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.0
+Version: 1.1
 Author: Criss Swaim
 Author URI: http://blog.tpginc.net/
 */
@@ -147,7 +147,8 @@ function tpg_get_posts_gen($args = '') {
 		$content .="<ul class=\"".$r['ul_class']."\">\n";
 	}
 
-// get posts
+	// get posts
+	$tmp_post = $post;                    // save current post/page settings
 	$posts = get_posts($q_args);
 	foreach( $posts as $post ) {
 		if ($show_as_list) 
@@ -212,6 +213,7 @@ function tpg_get_posts_gen($args = '') {
 	if ($show_as_list)
 		$content .= '</ul>';
 	$content .= '</div><!-- #tpg-get-posts -->';
+	$post = $tmp_post;            //restore current page/post settings
 	return $content;	
 }
 

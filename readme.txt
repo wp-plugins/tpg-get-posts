@@ -4,9 +4,9 @@ Donate link: http://tpginc.net/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.?    
 Tested up to: 3.0.1
-Stable tag: 1.0
+Stable tag: 1.1
 
-Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags.
+Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags or categories.
 
 == Description ==
 
@@ -93,7 +93,7 @@ Set the format in your css
 
 = Can this plugin select by category? =
 
-Yes, multiple category_name(s) can be submitted.  The WordPress function get_posts accepts only a single category, but multiple category ids.  So the category name is converted to the category id and the category_name parameter is blanked out.
+Yes, multiple category_name(s) can be submitted.  The base WordPress function get_posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the category_name parameter is blanked out and the post is requested by multiple ids.
 
 = Can I combine categories and tags? =
 
@@ -104,6 +104,11 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+
+= 1.1 =
+* Add code to honor the page comment settings.  (Thanks to unidentified person for providing the code fix.)
+  Problem:  comments were not being allowed on page where the short-code was used.
+  Solution:  save the page settings before fetching the posts and then restore settings before returning the page.
 
 = 1.0 =
 * Update to allow multiple categories to be entered
