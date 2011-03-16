@@ -1,10 +1,10 @@
 ===  TPG Get Posts ===
 Contributors: Criss Swaim, based on plugin nurelm-get-posts
-Donate link: http://tpginc.net/
+Donate link: http://www.tpginc.net/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.?    
-Tested up to: 3.0.1
-Stable tag: 1.1
+Tested up to: 3.1
+Stable tag: 1.2
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags or categories.
 
@@ -20,8 +20,7 @@ To use it, just put the following into the HTML of any page or post, use as many
 	[tpg_get_posts]
 
 	
-This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, 
-author, modified date, comments, categories and tags is also displayed.
+This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.
 	
@@ -50,9 +49,21 @@ it will also accept a few additional options:
 
 * tag. This allows for the selection of posts by tag.
 
+* category_name. This allows for the selection of posts by category_name.
+
+* category. This allows for the selection of posts by category number.
+
 * show_entire. This option show_entire="true" will show the entire post, not just the teaser. Default is "false"
 
 * show_meta. This option show_meta="false" will suppress the display of metadata.  Default is "true".
+
+* shorten_title.  This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters.  The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.
+
+* shorten_content. Using the more tag is generally a better option, but is is provided for consistenency.  This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text.  The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included.  The 'read more' tag is proceessed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.
+
+* text_ellipsis.  This parameter allows you to set the ellipsis displayed after shortened text.  it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.
+
+* title_tag.  This parameter controls the formatting of the title line.  The default is to make post titles h2, which is consistent with the regular post markup.  title_tag="p" will apply the paragraph markup.  Note: do not include the <>.
 
 * ul_class. This is the class assigned to the bullet list.  When this class is provided, the output is returned as an unordered list.
 
@@ -64,11 +75,15 @@ of p_metadata_class.
 
 A couple of examples:
 
-	[tpg-get_posts tag="tag1,tag2" numberposts=5 orderby="title]
+	[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]
 
 Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.
 
-	[get_posts tag="tag5" fields="post_title" ul_class="p_ul_class"]
+	[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
+
+Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
+
+	[tpg_get_posts tag="tag5" fields="post_title" ul_class="p_ul_class"]
 
 Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p_ul_class".  The title will provide a link to the post. The title can be formatted with a css style .p_ul_class h2 {}.
 
@@ -104,6 +119,11 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+
+= 1.2 =
+* Corrected typos in documentation
+* Add function to restrict length of title and content.
+  New options are available to specify the max length of title and max length of content in characters.  The option also includes a code ('c' or 'w') to specify if the filtered text should only contain whole words.
 
 = 1.1 =
 * Add code to honor the page comment settings.  (Thanks to unidentified person for providing the code fix.)
