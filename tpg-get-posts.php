@@ -3,9 +3,9 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/blog/wp-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.1
+Version: 1.2
 Author: Criss Swaim
-Author URI: http://blog.tpginc.net/
+Author URI: http://www.tpginc.net/
 */
 
 /*  The code is based on nurelm-get-posts
@@ -25,7 +25,29 @@ Author URI: http://blog.tpginc.net/
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/**
+ * @todo ... Description
+ *
+ *  1) when post contains an image with caption, the caption is not formatted correctly
+ */
+
 // functions for formating post
+
+/**
+ * format routine to identify category selection
+ *
+ * @package WordPress
+ * @subpackage tpg_get_posts
+ * @since 2.8
+ *
+ * if request by category name is made, this is a preprocess routine to 
+ * convert the name to a category id, allowing for multiple category names
+ * 
+ * @param    type    $id    post id
+ * @return   string         category ids for selection
+ *
+
+ */
 function get_my_cats($id) { 
 	// init $tpg_cats fld
 	$tpg_cats =''; 
@@ -42,6 +64,22 @@ function get_my_cats($id) {
 //	substr_replace($tpg_cats,"",-1);             // remove last ','
 	return substr_replace($tpg_cats,"",-1);
 }
+
+/**
+ * format routine for tag selection
+ *
+ * @package WordPress
+ * @subpackage tpg_get_posts
+ * @since 2.8
+ *
+ * if request by tag is made, this is a preprocess routine to 
+ * convert creates a list of tags in comma delimited format
+ * 
+ * @param    type    $id    	post id
+ * @return   string             string of the tags for selecting posts
+ *
+ */
+
 function get_my_tags($id) {
 	// init $tpg_tags fld
 	$tpg_tags =''; 
@@ -60,7 +98,62 @@ function get_my_tags($id) {
 	return  substr_replace($tpg_tags,"",-1);
 }
 
-// get the posts
+/**
+ * shorten text to fixed length or complete word less than length
+ *
+ * @package WordPress
+ * @subpackage tpg_get_posts
+ * @since 2.8
+ *
+ * to control formatting, sometimes it is necessary to restrict a text field to 
+ * a specific length or the last word less than the length 
+ * 
+ * @param    string  $style			the code value of c or w
+ * @param    string  $len			length of the output text
+ * @param    string  $text			the string to be shortened
+ * @return   string  $text			the shortened text string
+ *
+ */
+
+function shorten_text($style='w', $len='20', $text, $ellipsis) {
+	//if style is w and the next char is space change style to c
+	if ($style == 'w') {
+		if (substr($text,$len,1) == " ") {$style = 'c';}
+	}
+	
+	// if style is c shorten to char and truncate
+	// if style is w shorten to last complete word
+	switch ($style) {
+		case 'c' :
+			$text = substr($text,0,$len);
+			break;
+		case 'w' :
+			if (strlen($text) <= $len) {
+    			$text = $text; //do nothing
+			} else {
+				$text = preg_replace('/\s+?(\S+)?$/', '', substr($text, 0, $len+1));				
+			}
+			break;
+	}
+	$text .= $ellipsis;                     // add elipse
+	return $text;
+}
+
+/**
+ * get the posts
+ *
+ * @package WordPress
+ * @subpackage tpg_get_posts
+ * @since 2.8
+ *
+ * to control formatting, sometimes it is necessary to restrict a text field to 
+ * a specific length or the last word less than the length 
+ * 
+ * @param    array    $args   		values from the shortcode passed to this routine
+ * @return   string   $content      the selected formated posts
+ *
+ */
+
 function tpg_get_posts_gen($args = '') {
 	global $id, $post, $more;
 //	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
@@ -85,7 +178,11 @@ function tpg_get_posts_gen($args = '') {
 	  'end-of-parms'     => '---------',
 	  'post_entire'      => 'false',
 	  'show_meta'        => 'true',
+	  'shorten_title'    => '',
+	  'shorten_content'  => '',
+	  'text_ellipsis'    => ' ...',
       'ul_class'         => '',
+	  'title_tag'        => 'h2',
       'fields'           => 'post_title, post_content',
       'fields_classes'   => 'p_title_class, p_content_class'),
     $args );
@@ -141,7 +238,34 @@ function tpg_get_posts_gen($args = '') {
 		$show_as_list = true;
 	}
 	
-	//
+	// set flag to shorten text in title
+	$ellip = $r['text_ellipsis'];
+	if ($r['shorten_title'] == "") {
+		$short_title = false;
+	} else {
+		$short_title = true;
+		$st_style = substr($r['shorten_title'],0,1);
+		$st_len= substr($r['shorten_title'],1);
+	}
+	
+	if ($r['shorten_content'] == "") {
+		$short_content = false;
+	} else {
+		$short_content = true;
+		$sc_style = substr($r['shorten_content'],0,1);
+		$sc_len= substr($r['shorten_content'],1);
+	}
+	
+	//set up title tag
+	if ($r['title_tag'] == '') {
+		$t_tag_beg = '';
+		$t_tag_end = '';
+	} else {
+		$t_tag_beg = "<".$r['title_tag'].">";
+		$t_tag_end = "</".$r['title_tag'].">";
+	}
+	
+	//open div and begin post process
 	$content = '<div id="tpg-get-posts" />';
 	if ($show_as_list) {
 		$content .="<ul class=\"".$r['ul_class']."\">\n";
@@ -167,13 +291,15 @@ function tpg_get_posts_gen($args = '') {
 			$wkcontent = $post->$field;                                         //get the content
 			switch ($field) {
 				case "post_title":
-					$wkcontent = '<h2><a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a></h2>';
+					$wkcontent = ($short_title)? shorten_text($st_style,$st_len,$wkcontent,$ellip): $wkcontent;
+					$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
 					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
 					break;
 				case "post_content":					
 					if (!$post_entire) {           //show only teaser 
-						$content_strings = preg_split('/<!--more(.*?)?-->/', $wkcontent);
-						$wkcontent = '<div id="tpg_post_content">'.$content_strings[0];
+						$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
+						$wkcontent = ($short_content)? shorten_text($sc_style,$sc_len,$wkarr[0],$ellip): $wkarr[0];
+						$wkcontent = '<div id="tpg_post_content">'.$wkcontent;
 //						$wkcontent .= '<a href="'.get_permalink($post->ID).'" class=\"more-link\">'.$more_link_text.'</a></div>';
 						$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a></div>", $more_link_text );
 						$wkcontent = force_balance_tags($wkcontent);
