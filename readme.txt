@@ -138,4 +138,6 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 
 == Upgrade Notice ==
 
+= 1.2 =
+Updated the documentation and added additional format control when post titles are shown as lists
 
