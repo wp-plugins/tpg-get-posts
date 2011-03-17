@@ -10,6 +10,8 @@ Adds a shortcode tag [tpg_get_posts] to display posts within any static page or 
 
 == Description ==
 
+Updated: 2011-03-16      (since the wp last updated field is broken)
+
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values to show only items relevant to the page.
 
 By default it will show the 5 most recent posts ordered in reverse date order,
