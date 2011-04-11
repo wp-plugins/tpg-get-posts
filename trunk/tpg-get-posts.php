@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: TPG Get Posts
-Plugin URI: http://www.tpginc.net/blog/wp-plugins/
+Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.2
+Version: 1.2.1
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 */
@@ -178,6 +178,7 @@ function tpg_get_posts_gen($args = '') {
 	  'end-of-parms'     => '---------',
 	  'post_entire'      => 'false',
 	  'show_meta'        => 'true',
+	  'show_byline'		 => 'true',
 	  'shorten_title'    => '',
 	  'shorten_content'  => '',
 	  'text_ellipsis'    => ' ...',
@@ -230,6 +231,12 @@ function tpg_get_posts_gen($args = '') {
 		$show_meta = true;
 	} else {
 		$show_meta = false;
+	}
+	
+	if ($r['show_byline'] == "true") {
+		$show_byline = true;
+	} else {
+		$show_byline = false;
 	}
 	
 	if ($r['ul_class'] == "") {
@@ -293,7 +300,9 @@ function tpg_get_posts_gen($args = '') {
 				case "post_title":
 					$wkcontent = ($short_title)? shorten_text($st_style,$st_len,$wkcontent,$ellip): $wkcontent;
 					$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
-					$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
+					if ($show_byline) {
+						$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
+					}
 					break;
 				case "post_content":					
 					if (!$post_entire) {           //show only teaser 
