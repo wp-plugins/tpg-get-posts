@@ -1,10 +1,10 @@
 ===  TPG Get Posts ===
 Contributors: Criss Swaim, based on plugin nurelm-get-posts
-Donate link: http://www.tpginc.net/
+Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.?    
 Tested up to: 3.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags or categories.
 
@@ -59,9 +59,11 @@ it will also accept a few additional options:
 
 * show_meta. This option show_meta="false" will suppress the display of metadata.  Default is "true".
 
+* show_byline. This option show_byline="false" will suppress the display of the by-line.  Default is "true".
+
 * shorten_title.  This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters.  The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.
 
-* shorten_content. Using the more tag is generally a better option, but is is provided for consistenency.  This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text.  The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included.  The 'read more' tag is proceessed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.
+* shorten_content. Using the more tag is generally a better option, but is is provided for consistency.  This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text.  The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included.  The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.
 
 * text_ellipsis.  This parameter allows you to set the ellipsis displayed after shortened text.  it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.
 
@@ -121,6 +123,8 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+= 1.2.1 =
+* Added option to suppress byline with show_byline tag.
 
 = 1.2 =
 * Corrected typos in documentation
@@ -140,6 +144,6 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 
 == Upgrade Notice ==
 
-= 1.2 =
-Updated the documentation and added additional format control when post titles are shown as lists
+= 1.2.1 =
+Added option to supress byline
 
