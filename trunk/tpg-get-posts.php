@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.2.1
+Version: 1.2.2
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 */
@@ -157,8 +157,9 @@ function shorten_text($style='w', $len='20', $text, $ellipsis) {
 function tpg_get_posts_gen($args = '') {
 	global $id, $post, $more;
 //	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
-		
-  $r = shortcode_atts(
+
+	//default values passed to get_posts
+  	$default_attr =   
     array(
       'numberposts'      => '5',
       'offset'           => '',
@@ -166,15 +167,6 @@ function tpg_get_posts_gen($args = '') {
       'category_name'    => '',
       'tag'              => '',
       'orderby'          => 'date',
-      'order'            => '',
-      'include'          => '',
-      'exclude'          => '',
-      'meta_key'         => '',
-      'meta_value'       => '',
-      'post_type'        => '',
-      'post_status'      => '',
-      'post_parent'      => '',
-      'nopaging'         => '',
 	  'end-of-parms'     => '---------',
 	  'post_entire'      => 'false',
 	  'show_meta'        => 'true',
@@ -185,8 +177,20 @@ function tpg_get_posts_gen($args = '') {
       'ul_class'         => '',
 	  'title_tag'        => 'h2',
       'fields'           => 'post_title, post_content',
-      'fields_classes'   => 'p_title_class, p_content_class'),
-    $args );
+      'fields_classes'   => 'p_title_class, p_content_class');
+	
+	//loop through attributes and add if array if key does not exist
+	foreach ($args as $key => $value) {
+		if (array_key_exists ($key,$default_attr)) {
+			continue;
+		} else {
+			$default_attr=array($key=>$value)+$default_attr;
+		}
+	}
+	reset($default_attr);
+	reset($args);
+	
+    $r = shortcode_atts($default_attr,$args );
 	
 	//if multiple category_names passed, convert to cat_id
 	$cat_nam_list = explode(",", $r['category_name']);
