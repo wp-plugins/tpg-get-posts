@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.2.2
+Version: 1.2.3
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 */
@@ -180,16 +180,20 @@ function tpg_get_posts_gen($args = '') {
       'fields_classes'   => 'p_title_class, p_content_class');
 	
 	//loop through attributes and add if array if key does not exist
-	foreach ($args as $key => $value) {
-		if (array_key_exists ($key,$default_attr)) {
-			continue;
-		} else {
-			$default_attr=array($key=>$value)+$default_attr;
+	if ($args != '') {
+		foreach ($args as $key => $value) {
+			if (array_key_exists ($key,$default_attr)) {
+				continue;
+			} else {
+				$default_attr=array($key=>$value)+$default_attr;
+			}
 		}
+		reset($args);
 	}
-	reset($default_attr);
-	reset($args);
 	
+	reset($default_attr);
+	
+	//now apply any options passed to the default array
     $r = shortcode_atts($default_attr,$args );
 	
 	//if multiple category_names passed, convert to cat_id
