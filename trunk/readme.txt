@@ -4,13 +4,13 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.?    
 Tested up to: 3.2.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags, category, category_name or any other option supported by the WP get_posts function.
 
 == Description ==
 
-Updated: 2011-09-25      (since the wp last updated field is broken)
+Updated: 2011-09-27      (since the wp last updated field is broken)
 
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values to show only items relevant to the page.
 
@@ -123,6 +123,9 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+= 1.2.3 =
+* Corrected error introduced in version 1.2.2 when no parameters were passed - the argument parameter defaulted as a space and not an array which threw an invalid type error. 
+
 = 1.2.2 =
 * Corrected option behavior to allow additional get_posts options to be accepted.  The earlier releases of this plugin only allowed the options defined in the default table to be passed to WP get_posts.  This fix appends any undefined option to the table and passes it to WP get_posts.  thanks cdaley1981 for pointing this out.
 
