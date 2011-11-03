@@ -2,15 +2,13 @@
 Contributors: Criss Swaim, based on plugin nurelm-get-posts
 Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
-Requires at least: 2.?    
+Requires at least: 2.8    
 Tested up to: 3.2.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any static page or post.  Posts can be selected by tags, category, category_name or any other option supported by the WP get_posts function.
 
 == Description ==
-
-Updated: 2011-09-27      (since the wp last updated field is broken)
 
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values to show only items relevant to the page.
 
@@ -73,8 +71,7 @@ it will also accept a few additional options:
 
 * fields. This is a comma separated list of fields to show, taken right from the [wp_posts database table fields](http://codex.wordpress.org/Database_Description/2.7#Table:_wp_posts). The default is "post_title, post_content".
 
-* fields_classes.  Another comma separated list that lets you assign a class to each of the fields specified above, which will be provided via a <span> tag wrapped around the field.  The default value for this list is "post_title_class".  The default classes are p_title_class, p_content_class.  The metadata has a class
-of p_metadata_class.
+* fields_classes.  Another comma separated list that lets you assign a class to each of the fields specified above, which will be provided via a <span> tag wrapped around the field.  The default classes are p_title_class, p_content_class.  The metadata has a class of p_metadata_class, but cannot be overridden at this time.
 
 
 A couple of examples:
@@ -123,6 +120,9 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. This screen shot of a page using the plugin shows how the output is formatted by default. 
 
 == Changelog ==
+= 1.2.4 =
+* Modified the display of content to correctly parse the caption for images.  Note that the metadata will move up beside the image if a custom css is not set to clear.  I opted to leave formating to the designer and not change the behavior. 
+
 = 1.2.3 =
 * Corrected error introduced in version 1.2.2 when no parameters were passed - the argument parameter defaulted as a space and not an array which threw an invalid type error. 
 
