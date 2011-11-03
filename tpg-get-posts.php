@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.2.3
+Version: 1.2.4
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 */
@@ -28,7 +28,7 @@ Author URI: http://www.tpginc.net/
 /**
  * @todo ... Description
  *
- *  1) when post contains an image with caption, the caption is not formatted correctly
+ * 1) add excerpt handling  
  */
 
 // functions for formating post
@@ -323,6 +323,8 @@ function tpg_get_posts_gen($args = '') {
 					}else {
 						$wkcontent = '<div id="tpg_post_content">'.$wkcontent.'</div>';
 					}
+					$wkcontent = apply_filters('the_content',$wkcontent);
+					$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
 					break;
 			}
 			
