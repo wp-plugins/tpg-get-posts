@@ -45,7 +45,7 @@ A common usage is to show post on a page that have a common tag or category:
 	or 
 		[tpg_get_posts category_name="catname1, catname2, catname3"]
 
-See Settings for plugin for full list of parameters
+See Settings in plugin for full list of parameters
 
 A couple of examples:
 

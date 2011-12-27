@@ -93,6 +93,7 @@
 field_classes ="post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class,
 post_byline=p_byline_class" numberposts=5 ]</pre></blockquote></p></li>
 		 </ol></p>
+		 <p>To alter the entire post, use method one and modify the #tpg-get-posts-post style.  This is a wrapper div for the entire post.</p>
 		 
 	</div>	
 	<div id="gp-examples">
