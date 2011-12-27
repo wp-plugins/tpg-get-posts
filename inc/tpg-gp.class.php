@@ -25,6 +25,15 @@
  class tpg_get_posts {
  // define constants for the plugin
  	public function __construct() {
+		//build url to css
+		$tgp_css = "tpg-get-posts-style.css";
+		//check if file exists with path
+		if (file_exists(TGP_CSS.$tgp_css)) {
+			wp_enqueue_style('tpg_get_posts_css',TGP_CSS_URL.$tgp_css);
+		}
+		if (file_exists(TGP_CSS."user-get-posts-style.css")) {
+			wp_enqueue_style('user_get_posts_css',TGP_CSS_URL."user-get-posts-style.css");
+		}
 		
 		if(is_admin()) {
 			// Register link to the pluging list

@@ -8,6 +8,10 @@ class tpg_gp_settings extends tpg_get_posts {
 	
 	function __construct() {
 		parent::__construct();
+		wp_enqueue_script('jquery-ui-tabs');
+		if (file_exists(TGP_DIR."js/tpg-get-posts-admin.js")) {
+			wp_enqueue_script('tpg_get_posts_admin_js',TGP_JS_URL."tpg-get-posts-admin.js");
+		}
 		//generate pp donate button
 		include_once("tpg-pp-donate-button.class.php");
 		$ppb = new tpg_pp_donate_button;
@@ -33,12 +37,7 @@ class tpg_gp_settings extends tpg_get_posts {
 	 *
 	 */ 
 	public function tpg_gp_show_settings() {
-		//build url to css
-		$tgp_css = "tpg-get-posts-style.css";
-		//check if file exists with path
-		if (file_exists(TGP_CSS.$tgp_css)) {
-			wp_enqueue_style('tpg_get_posts_css',TGP_CSS_URL.$tgp_css);
-		}
+		
 		// footer info for settings page
 		add_action('in_admin_footer', array($this,'tgp_footer'));
 

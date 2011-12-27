@@ -148,7 +148,7 @@ public function tpg_get_posts_gen($args = '') {
       'ul_class'         => '',
 	  'title_tag'        => 'h2',
       'fields'           => 'post_title, post_content',
-      'fields_classes'   => 'p_title_class, p_content_class');
+      'field_classes'    => 'post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class, post_byline=p_byline_class');
 	
 	//loop through attributes and add if array if key does not exist
 	if ($args != '') {
@@ -195,7 +195,14 @@ public function tpg_get_posts_gen($args = '') {
 	
 	//set up output fields
 	$fields_list = explode(",", $r['fields']);
-	$fields_classes_list = explode(",", $r['fields_classes']);
+	
+	//build assoc array for class assignment
+	$field_classes_list = explode(",", $r['field_classes']);
+	$classes_arr = array();
+	foreach ($field_classes_list as $fcl_items) {
+		$fcl_item = explode('=',$fcl_items);
+		$classes_arr[trim($fcl_item[0])] = trim($fcl_item[1]);
+	}
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(read more...)' );
@@ -247,7 +254,11 @@ public function tpg_get_posts_gen($args = '') {
 		$t_tag_beg = '';
 		$t_tag_end = '';
 	} else {
-		$t_tag_beg = "<".$r['title_tag'].">";
+		$t_tag_beg = '<'.$r['title_tag'];
+		if (isset($classes_arr["post_title"])) {
+			$t_tag_beg .= ' class="'.$classes_arr["post_title"].'"';
+		}	
+		$t_tag_beg .= '>';
 		$t_tag_end = "</".$r['title_tag'].">";
 	}
 	
@@ -261,18 +272,22 @@ public function tpg_get_posts_gen($args = '') {
 	$tmp_post = $post;                    // save current post/page settings
 	$posts = get_posts($q_args);
 	foreach( $posts as $post ) {
-		if ($show_as_list) 
+		// if list wrap each post in list; if not list wrap in div
+		if ($show_as_list) {
 			$content .= "  <li>";
+		} else {
+			$content .= '<div id="tpg-get-posts-post" />';
+		}
 			
 		setup_postdata($post);
 		$i = 0;
     	foreach ( $fields_list as $field ) {
 
-			if (isset($fields_classes_list[$i])) {
-				$content .= "<span class=\"" . trim($fields_classes_list[$i]) . "\">";
-			}
-
 			$field = trim($field);
+			
+			if (isset($classes_arr[$field])) {
+				$content .= "<span class=\"" . $classes_arr[$field] . "\">";
+			}			
 			
 			$wkcontent = $post->$field;                                         //get the content
 			switch ($field) {
@@ -280,7 +295,11 @@ public function tpg_get_posts_gen($args = '') {
 					$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$ellip): $wkcontent;
 					$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
 					if ($show_byline) {
-						$wkcontent .= '<p class="p_byline" >By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
+						$wkcontent .= '<p  ';
+						if (isset($classes_arr["post_byline"])) {
+							$wkcontent .= ' class="'.$classes_arr["post_byline"].'"';
+						}	
+						$wkcontent .= '>By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
 					}
 					break;
 				case "post_content":					
@@ -300,7 +319,7 @@ public function tpg_get_posts_gen($args = '') {
 			
 	  		$content .= $wkcontent;
 
-			if (isset($fields_classes_list[$i])) {
+			if (isset($classes_arr[$field])) {
 				$content .=  "</span>";
 			}
 			
@@ -308,7 +327,11 @@ public function tpg_get_posts_gen($args = '') {
 		}
 // print post metadata
 		if ($show_meta) {
-			$content .= '<small><p class="p_metadata_class">&nbsp;&nbsp;&nbsp;';
+			$content .= '<p  ';
+			if (isset($classes_arr["post_metadata"])) {
+				$content .= ' class="'.$classes_arr["post_metadata"].'"';
+			}	
+			$content .= '>';
 //			$content .= "<b>Posted:</b> ".$post->post_date." | <b>Author:</b> ".get_the_author_login();
 			ob_start();
 //			echo " | <b>Last Modified:</b> ";
@@ -317,12 +340,15 @@ public function tpg_get_posts_gen($args = '') {
 			comments_popup_link(' No Comments &#187;', ' 1 Comment &#187;', ' % Comments &#187;');
 			$content .= ob_get_clean();
 			$content .= " | <b>Filed under:</b> ".$this->get_my_cats($post->ID)."&nbsp;&nbsp;|&nbsp;&nbsp;<b>Tags:</b> ".$this->get_my_tags($post->ID);
-			$content .= '</p></small>';
+			$content .= '</p>';
 		}
 // end of metadata
 
-    	if ($show_as_list) 
+    	if ($show_as_list) {
 			$content .= "</li> <hr class=\"tpg_get_post_hr\" />";
+		} else {
+			$content .= '</div>';
+		}
 	}	
 	
 	if ($show_as_list)
