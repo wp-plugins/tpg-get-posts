@@ -13,7 +13,7 @@ Adds a shortcode tag [tpg_get_posts] to display posts within any page or post.
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values, suchs as tags, category, category_name or any other option supported by the WP get_posts function, to show only items relevant for the page.
 
 By default it will show the 5 most recent posts ordered in reverse date order,
-but it will accept any of the options provided by the [get_posts template tag]( href="http://codex.wordpress.org/Template_Tags/get_posts" ).
+but it will accept any of the options provided by the [get_posts template tag]( href=http://codex.wordpress.org/Template_Tags/get_posts ).
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
