@@ -3,8 +3,11 @@
  * all items prefaced with tgp (for tpg_get_posts)
 */
 /* styling for posts*/
+/* wrapper for all posts pulled by shortcode */
+#tpg-get-posts{clear:both;}
+
 /* wrapper for individual post */
-#tpg-get-posts-post{}
+#tpg-get-posts-post{clear:both;}
 /* class for title*/
 .p_title_class{}
 /* class of by-line*/
@@ -13,7 +16,11 @@
 	font-size:small;
 }
 /* class for content*/
+#tpg-get-posts-thumbnail{clear:both;}
+#tpg_posts_content{
+}
 .p_content_class{}
+#tpg-get-posts-excerpt{clear:both;}
 /* class for metadata*/
 .p_metadata_class {
 	margin-left:2em;
