@@ -59,6 +59,9 @@
 			<dt>show_meta</dt><dd>This option show_meta="false" will suppress the display of metadata. Default is "true".</dd>
 		
 			<dt>show_byline</dt><dd>This option show_byline="false" will suppress the display of the by-line. Default is "true".</dd>
+			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  Note:  the thumbnail requires an extra database call before fetching the image from the media gallery, so from a performance standpoint, it is best to insert the images in your post.</dd>
+			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  ** This is experimental and is subject to change. ** Default is "false".</dd>
+			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
 		
 			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
 		

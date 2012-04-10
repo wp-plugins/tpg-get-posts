@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any page or post.  
 
@@ -79,6 +79,8 @@ Set the format in your css
 * content - .p_content_class
 * metadata - .p_metadata_class
 
+With release 1.3.1, a custom stylesheet is supported so changes made in the custom style sheet are not lost with an upgrade
+
 = Can this plugin select by category? =
 
 Yes, multiple category_name(s) can be submitted.  The base WordPress function get_posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the category_name parameter is blanked out and the post is requested by multiple ids.
@@ -92,8 +94,16 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 1. Page without plugin active.
 2. Plugin setup on a page - selecting only posts assigned to the category home page and supressing by-line and meta data. 
 3. The output from the shortcode.
+4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.2 =
+* add support for excerpts
+* add thumbnail support
+* add thumbnail only -- expiremental feature, subject to change 
+
+= 1.3.1.1= 
+* correct readme tag appearing on enteries without a more tag
 
 = 1.3.1 =
 * add div wrapper around each post to allow some formatting to entire post
