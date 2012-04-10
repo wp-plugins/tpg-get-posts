@@ -23,7 +23,10 @@
  */
  
  class tpg_get_posts {
- // define constants for the plugin
+	 // values for thumbnail size
+	 public $thumbnail_sizes = array('thumbnail', 'medium', 'large', 'full');
+	 
+ 	// define constants for the plugin
  	public function __construct() {
 		//build url to css
 		$tgp_css = "tpg-get-posts-style.css";
