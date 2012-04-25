@@ -97,6 +97,10 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.3 =
+* allow more tag text to be changed in either the more tag
+* or using new parm more_link_text
+
 = 1.3.2 =
 * add support for excerpts
 * add thumbnail support
