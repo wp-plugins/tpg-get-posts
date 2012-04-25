@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag [tpg_get_posts] to display posts on page.
-Version: 1.3.2
+Version: 1.3.3
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 */
@@ -27,9 +27,9 @@ Author URI: http://www.tpginc.net/
 
 /**
  * @todo ... Description
- *
- * 1) add excerpt handling 
- * 2) verify exclude code works 
+ * 
+ * 1) verify exclude code works
+ * 2) pagination 
  */
 
 

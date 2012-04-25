@@ -150,10 +150,11 @@ class tpg_gp_process extends tpg_get_posts {
 		  'thumbnail_size'	 => '',
 		  'thumbnail_only'	 => 'false',
 		  'show_excerpt'     => 'false',
+		  'more_link_text'   => '(read more...)',
 		  'fields'           => 'post_title, post_content',
 		  'field_classes'    => 'post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class, post_byline=p_byline_class');
 		
-		//loop through attributes and add if array if key does not exist
+		//loop through attributes and add to array if key does not exist
 		if ($args != '') {
 			foreach ($args as $key => $value) {
 				if (array_key_exists ($key,$default_attr)) {
@@ -207,8 +208,7 @@ class tpg_gp_process extends tpg_get_posts {
 			$classes_arr[trim($fcl_item[0])] = trim($fcl_item[1]);
 		}
 	
-		if ( null === $more_link_text )
-			$more_link_text = __( '(read more...)' );
+		$more_link_text = __( $r['more_link_text'] );
 			
 		if ($r['post_entire'] == "true") {
 			$post_entire = true;
@@ -421,9 +421,20 @@ class tpg_gp_process extends tpg_get_posts {
 	public function get_post_content($wkcontent) {
 		//legacy design requires globals until refactoring can occur
 		global $shorten_content, $sc_style, $sc_len, $ellip, $more_link_text;
-		$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
+		
+		//$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
+		if ( preg_match('/<!--more(.*?)?-->/', $wkcontent, $matches) ) {
+ 	    	$wkarr = explode($matches[0], $wkcontent, 2);
+            if ( !empty($matches[1]) && !empty($more_link_text) ) {
+ 	        	$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
+			}
+			$hasTeaser = true;
+		} else {
+			$wkarr = array($wkcontent);
+		}
+		
 		$wkcontent = ($short_content)? $this->shorten_text($sc_style,$sc_len,$wkarr[0],$ellip): $wkarr[0];
-		if (!empty($wkarr[1])) {
+		if (!empty($wkarr[0])) {
 			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
 		$wkcontent = force_balance_tags($wkcontent);
