@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.3
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 
 Adds a shortcode tag [tpg_get_posts] to display posts within any page or post.  
 
