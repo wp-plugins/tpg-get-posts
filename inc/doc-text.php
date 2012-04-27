@@ -19,7 +19,7 @@
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts show_meta="true" post_entire="false" fields="post_title, post_content" 
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
 		 field_classes ="post_title=p_title_class, post_content=p_content_class, 
 		 post_metadata=p_metadata_class, post_byline=p_byline_class" numberposts=5 ]</pre></blockquote>
 		
@@ -94,7 +94,7 @@
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
 			<p>The default classes are post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class, post_byline=p_byline_class as shown in the following short-code:
-		<blockquote><pre>[tpg_get_posts show_meta="true" post_entire="false" fields="post_title, post_content"
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content"
 field_classes ="post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class,
 post_byline=p_byline_class" numberposts=5 ]</pre></blockquote></p></li>
 		 </ol></p>

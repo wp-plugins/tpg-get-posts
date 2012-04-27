@@ -4,9 +4,9 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.3
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 
-Adds a shortcode tag [tpg_get_posts] to display posts within any page or post.  
+Adds a shortcode tag to display posts within a static page or another post.  
 
 == Description ==
 
@@ -34,7 +34,7 @@ To use it, just put the following into the HTML of any page or post, use as many
 	
 	this is equivalent to:
 	
-	[tpg_get_posts show_meta="true" post_entire="false" fields="post_title, post_content" 
+	[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
 	fields_classes ="p_title_class, p_content_class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
@@ -97,9 +97,13 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.4 =
+* correction for shorten_content which was broken several releases back...guess it isn't used much
+* corrected doc to use show_entire instead of post_entire.  post_entire is grandfathered, but not documented.
+
 = 1.3.3 =
 * allow more tag text to be changed in either the more tag
-* or using new parm more_link_text
+  or using new parm more_link_text
 
 = 1.3.2 =
 * add support for excerpts

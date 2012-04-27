@@ -5,6 +5,12 @@
 
 
 class tpg_gp_process extends tpg_get_posts {
+	//variables 
+	private	$short_content= false;
+	private	$sc_style='w';
+	private	$sc_len='20';
+	private $ellip='';	
+	
 	
 	/*
 	 * format routine to identify category selection
@@ -19,7 +25,8 @@ class tpg_gp_process extends tpg_get_posts {
 	 * @param    type    $id    post id
 	 * @return   string         category ids for selection
 	 *
-	 */ 
+	 */
+		 
 	function get_my_cats($id) { 
 		// init $tpg_cats fld
 		$tpg_cats =''; 
@@ -107,6 +114,7 @@ class tpg_gp_process extends tpg_get_posts {
 				}
 				break;
 		}
+		
 		$text .= $ellipsis;                     // add elipse
 		return $text;
 	}
@@ -139,7 +147,7 @@ class tpg_gp_process extends tpg_get_posts {
 		  'tag'              => '',
 		  'orderby'          => 'date',
 		  'end-of-parms'     => '---------',
-		  'post_entire'      => 'false',
+		  'show_entire'      => 'false',
 		  'show_meta'        => 'true',
 		  'show_byline'		 => 'true',
 		  'shorten_title'    => '',
@@ -209,11 +217,16 @@ class tpg_gp_process extends tpg_get_posts {
 		}
 	
 		$more_link_text = __( $r['more_link_text'] );
-			
-		if ($r['post_entire'] == "true") {
-			$post_entire = true;
+		
+		//legacy for typo in early release
+		if (array_key_exists('post_entire',$r)) {
+			$r['show_entire']=$r['post_entire'];
+		}
+		
+		if ($r['show_entire'] == "true") {
+			$show_entire = true;
 		} else {
-			$post_entire = false;
+			$show_entire = false;
 		}
 		
 		if ($r['show_meta'] == "true") {
@@ -258,7 +271,7 @@ class tpg_gp_process extends tpg_get_posts {
 		}
 		
 		// set flag to shorten text in title
-		$ellip = $r['text_ellipsis'];
+		$this->ellip = $r['text_ellipsis'];
 		if ($r['shorten_title'] == "") {
 			$short_title = false;
 		} else {
@@ -268,11 +281,11 @@ class tpg_gp_process extends tpg_get_posts {
 		}
 		
 		if ($r['shorten_content'] == "") {
-			$short_content = false;
+			$this->short_content = false;
 		} else {
-			$short_content = true;
-			$sc_style = substr($r['shorten_content'],0,1);
-			$sc_len= substr($r['shorten_content'],1);
+			$this->short_content = true;
+			$this->sc_style = substr($r['shorten_content'],0,1);
+			$this->sc_len= substr($r['shorten_content'],1);
 		}
 		
 		//set up title tag
@@ -293,7 +306,7 @@ class tpg_gp_process extends tpg_get_posts {
 		if ($show_as_list) {
 			$content .="<ul class=\"".$r['ul_class']."\">\n";
 		}
-	
+		
 		// get posts
 		$tmp_post = $post;                    // save current post/page settings
 		$posts = get_posts($q_args);
@@ -330,7 +343,7 @@ class tpg_gp_process extends tpg_get_posts {
 				$wkcontent = $post->$field;                                         //get the content
 				switch ($field) {
 					case "post_title":
-						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$ellip): $wkcontent;
+						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$$this->ellip): $wkcontent;
 						$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
 						if ($show_byline) {
 							$wkcontent .= '<p  ';
@@ -342,7 +355,7 @@ class tpg_gp_process extends tpg_get_posts {
 						break;
 					case "post_content":
 						// if not post entire -- show only teaser or excerpt if avaliable and requested					
-						if (!$post_entire) {           //show only teaser
+						if (!$show_entire) {           //show only teaser
 							if ($show_excerpt == true) {
 								$e_content = $this->get_excerpt($post);
 								if ($e_content == null) {
@@ -351,6 +364,7 @@ class tpg_gp_process extends tpg_get_posts {
 									$wkcontent = '<p class="tpg-get-posts-excerpt">'.$e_content.'</p>';
 								}
 							} else {
+								
 								$wkcontent = $this->get_post_content($wkcontent);
 							}
 						}
@@ -420,11 +434,12 @@ class tpg_gp_process extends tpg_get_posts {
      */
 	public function get_post_content($wkcontent) {
 		//legacy design requires globals until refactoring can occur
-		global $shorten_content, $sc_style, $sc_len, $ellip, $more_link_text;
+		global $more_link_text;
 		
 		//$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
 		if ( preg_match('/<!--more(.*?)?-->/', $wkcontent, $matches) ) {
  	    	$wkarr = explode($matches[0], $wkcontent, 2);
+			
             if ( !empty($matches[1]) && !empty($more_link_text) ) {
  	        	$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
 			}
@@ -432,8 +447,8 @@ class tpg_gp_process extends tpg_get_posts {
 		} else {
 			$wkarr = array($wkcontent);
 		}
-		
-		$wkcontent = ($short_content)? $this->shorten_text($sc_style,$sc_len,$wkarr[0],$ellip): $wkarr[0];
+
+		$wkcontent = ($this->short_content)? $this->shorten_text($this->sc_style,$this->sc_len,$wkarr[0],$this->ellip): $wkarr[0];
 		if (!empty($wkarr[0])) {
 			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
