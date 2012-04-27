@@ -343,7 +343,7 @@ class tpg_gp_process extends tpg_get_posts {
 				$wkcontent = $post->$field;                                         //get the content
 				switch ($field) {
 					case "post_title":
-						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$$this->ellip): $wkcontent;
+						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$this->ellip): $wkcontent;
 						$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
 						if ($show_byline) {
 							$wkcontent .= '<p  ';
