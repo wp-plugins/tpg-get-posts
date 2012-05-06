@@ -435,7 +435,7 @@ class tpg_gp_process extends tpg_get_posts {
 	public function get_post_content($wkcontent) {
 		//legacy design requires globals until refactoring can occur
 		global $more_link_text;
-		
+		$has_teaser=false;
 		//$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
 		if ( preg_match('/<!--more(.*?)?-->/', $wkcontent, $matches) ) {
  	    	$wkarr = explode($matches[0], $wkcontent, 2);
@@ -443,13 +443,20 @@ class tpg_gp_process extends tpg_get_posts {
             if ( !empty($matches[1]) && !empty($more_link_text) ) {
  	        	$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
 			}
-			$hasTeaser = true;
+			$has_teaser = true;
 		} else {
 			$wkarr = array($wkcontent);
 		}
-
-		$wkcontent = ($this->short_content)? $this->shorten_text($this->sc_style,$this->sc_len,$wkarr[0],$this->ellip): $wkarr[0];
-		if (!empty($wkarr[0])) {
+		
+		if ($this->short_content) {
+			$wkcontent = $this->shorten_text($this->sc_style,$this->sc_len,$wkarr[0],$this->ellip);
+			$has_teaser = true;
+		}else {
+			$wkcontent = $wkarr[0];
+		}
+		//$wkcontent = ($this->short_content)? $this->shorten_text($this->sc_style,$this->sc_len,$wkarr[0],$this->ellip): $wkarr[0];
+		//if (!empty($wkarr[1])) {
+		if ($has_teaser) {
 			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
 		$wkcontent = force_balance_tags($wkcontent);
