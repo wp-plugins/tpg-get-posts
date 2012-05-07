@@ -60,7 +60,7 @@
 		
 			<dt>show_byline</dt><dd>This option show_byline="false" will suppress the display of the by-line. Default is "true".</dd>
 			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  Note:  the thumbnail requires an extra database call before fetching the image from the media gallery, so from a performance standpoint, it is best to insert the images in your post.</dd>
-			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  ** This is experimental and is subject to change. ** Default is "false".</dd>
+			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.  ** This is experimental and is subject to change. ** Default is "false".</dd>
 			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display whenthe more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
