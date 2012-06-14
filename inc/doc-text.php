@@ -36,6 +36,8 @@
 		<h3>To Do:</h3>
 		<ol>
 		<li>add pagination</li>
+		<li>add template tag...until then to incorporate TPG Get Posts into a template try using 
+&lt;?php echo do_shortcode('[tpg_shortcode]'); ?&gt;   </li>
 		</ol>
 	</div>
 	<div id="gp-options">	
