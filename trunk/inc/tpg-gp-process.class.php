@@ -11,6 +11,37 @@ class tpg_gp_process extends tpg_get_posts {
 	private	$sc_len='20';
 	private $ellip='';	
 	
+	function __construct($url,$dir,$base) {
+		parent::__construct($url,$dir,$base);
+		add_action( 'wp_enqueue_scripts', array($this,'gp_load_inc') );
+		
+	}
+	
+	/*
+	 *	gp_load_inc
+	 *  enque css, js and other items for admin page
+	 *
+	 * @package WordPress
+	 * @subpackage tpg_phplist
+	 * @since 0.1
+	 *
+	 * enque the css, js and other items only when the admin page is called.
+	 * 	
+	 * @param    null
+	 * @return   null
+	 */
+	public function gp_load_inc(){
+		//enque css style 
+		$tgp_css = "tpg-get-posts-style.css";
+		//check if file exists with path
+		if (file_exists($this->gp_css.$tgp_css)) {
+			wp_enqueue_style('tpg_get_posts_css',$this->gp_css_url.$tgp_css);
+		}
+		if (file_exists($this->gp_css."user-get-posts-style.css")) {
+			wp_enqueue_style('user_get_posts_css',$this->gp_css_url."user-get-posts-style.css");
+		}
+	}
+		
 	
 	/*
 	 * format routine to identify category selection
@@ -434,7 +465,7 @@ class tpg_gp_process extends tpg_get_posts {
      */
 	public function get_post_content($wkcontent) {
 		//legacy design requires globals until refactoring can occur
-		global $more_link_text;
+		global $more_link_text, $id;
 		$has_teaser=false;
 		//$wkarr = preg_split('/<!--more(.*?)?-->/', $wkcontent);
 		if ( preg_match('/<!--more(.*?)?-->/', $wkcontent, $matches) ) {

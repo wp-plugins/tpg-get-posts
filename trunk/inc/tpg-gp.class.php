@@ -22,21 +22,24 @@
 
  */
  
- class tpg_get_posts {
+class tpg_get_posts {
+	// path variables	 
+	public $gp_url = '';
+	public $gp_dir = '';
+	public $gp_css = '';
+	public $gp_css_url = '';
+	public $gp_js =	'';
+	public $gp_js_url =  '';
+	public $gp_inc =  '';
+	public $gp_base = '';
+	public $gp_name= '';
+	
 	 // values for thumbnail size
 	 public $thumbnail_sizes = array('thumbnail', 'medium', 'large', 'full');
 	 
  	// define constants for the plugin
- 	public function __construct() {
-		//build url to css
-		$tgp_css = "tpg-get-posts-style.css";
-		//check if file exists with path
-		if (file_exists(TGP_CSS.$tgp_css)) {
-			wp_enqueue_style('tpg_get_posts_css',TGP_CSS_URL.$tgp_css);
-		}
-		if (file_exists(TGP_CSS."user-get-posts-style.css")) {
-			wp_enqueue_style('user_get_posts_css',TGP_CSS_URL."user-get-posts-style.css");
-		}
+ 	public function __construct($url,$dir,$base) {
+		$this->set_paths($url,$dir,$base);
 		
 		if(is_admin()) {
 			// Register link to the pluging list
@@ -66,7 +69,7 @@
 	 *
 	 */
 	public function tgp_footer() {
-		$p_data = get_plugin_data(TGP_DIR."tpg-get-posts.php");
+		$p_data = get_plugin_data($this->gp_dir."tpg-get-posts.php");
 		printf('%1$s by %2$s<br />', $p_data['Title'].'  Version: '.$p_data['Version'], $p_data['Author']);
 	}
 
@@ -85,7 +88,7 @@
 	 */
 	function tpg_get_posts_settings_link($links, $file) {
 		static $this_plugin;
-		if (!$this_plugin) $this_plugin = plugin_basename(TGP_PLUGIN_BASE);
+		if (!$this_plugin) $this_plugin = plugin_basename($this->gp_base);
 		if ($file == $this_plugin){
 			$settings_link = '<a href="options-general.php?page=tpg-get-posts-settings">'.__('Settings', 'tpg_get_posts').'</a>';
 			array_unshift($links, $settings_link);
@@ -116,6 +119,36 @@
 							);
 		}
 	}
+	
+	/**
+	 *	set_paths
+	 * @package WordPress
+	 * @subpackage tpg_get_posts
+	 * @since 1.3.5
+	 *
+	 * add the TPG GET POSTS menu item to the Setting tab 
+	 * 
+	 * @param	string	url
+	 * @param 	string	directory path from home
+	 * @param	string	base to plugin
+	 * @return	void
+	 *
+	 */
+	function set_paths($url,$dir,$base) {
+		
+		$this->gp_url = $url;
+		$this->gp_dir = $dir;
+		$this->gp_css = $dir."css/";
+		$this->gp_css_url = $url."css/";
+		$this->gp_js =	$dir."js/";
+		$this->gp_js_url =  $url."js/";
+		$this->gp_inc =  $dir."inc/";
+		$this->gp_base = $base;
+		$_arr= explode("/",$base);
+		$this->gp_name=$_arr[1];
+	}
 
 }
+
+
 ?>
