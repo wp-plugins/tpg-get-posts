@@ -35,8 +35,7 @@
 		{donate}
 		<h3>To Do:</h3>
 		<ol>
-		<li>Support Excerpts</li>
-		<li>Support Post Thumbnails</li>
+		<li>add pagination</li>
 		</ol>
 	</div>
 	<div id="gp-options">	

@@ -3,8 +3,8 @@ Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
-Tested up to: 3.3
-Stable tag: 1.3.4
+Tested up to: 3.4
+Stable tag: 1.3.5
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -97,6 +97,12 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.5 =
+* This is a code restructure to correct some old (and poor) coding techniques
+* correct conflict with WP 3.4 in style loading which caused errors in admin section
+* correct conflict with tpg_phplist plugin
+* corrected doc 
+
 = 1.3.4 =
 * correction for shorten_content which was broken several releases back...guess it isn't used much
 * corrected doc to use show_entire instead of post_entire.  post_entire is grandfathered, but not documented.
