@@ -6,7 +6,7 @@ Description: Adds a shortcode tag to display posts on static page.
 Version: 1.3.5
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
-License: This software is licensed under <a href="http://creativecommons.org/licenses/GPL/2.0/">CC-GNU GPL</a> version 2.0 or later.
+License: This software is licensed under <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</a> version 2.0.
 
 Description:  TPG Get Posts adds a shortcode tag to display posts within a static page or another post.  
 */
