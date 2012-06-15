@@ -19,13 +19,13 @@ class tpg_gp_process extends tpg_get_posts {
 	
 	/*
 	 *	gp_load_inc
-	 *  enque css, js and other items for admin page
+	 *  enque css, js and other items for proc page
 	 *
 	 * @package WordPress
-	 * @subpackage tpg_phplist
+	 * @subpackage tpg_get_posts
 	 * @since 0.1
 	 *
-	 * enque the css, js and other items only when the admin page is called.
+	 * enque the css, js and other items only when on front end.
 	 * 	
 	 * @param    null
 	 * @return   null
