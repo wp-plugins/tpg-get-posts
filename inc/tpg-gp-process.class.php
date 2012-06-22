@@ -186,6 +186,7 @@ class tpg_gp_process extends tpg_get_posts {
 		  'text_ellipsis'    => ' ...',
 		  'ul_class'         => '',
 		  'title_tag'        => 'h2',
+		  'title_link'       => 'true',
 		  'thumbnail_size'	 => '',
 		  'thumbnail_only'	 => 'false',
 		  'show_excerpt'     => 'false',
@@ -270,6 +271,12 @@ class tpg_gp_process extends tpg_get_posts {
 			$show_byline = true;
 		} else {
 			$show_byline = false;
+		}
+		
+		if ($r['title_link'] == "true") {
+			$title_link = true;
+		} else {
+			$title_link = false;
 		}
 		
 		if ($r['ul_class'] == "") {
@@ -375,7 +382,12 @@ class tpg_gp_process extends tpg_get_posts {
 				switch ($field) {
 					case "post_title":
 						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$this->ellip): $wkcontent;
-						$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
+						$wkcontent = apply_filters( 'the_title', $wkcontent);
+						if ($title_link) {
+							$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
+						} else {
+							$wkcontent = $t_tag_beg.$wkcontent.$t_tag_end;
+						}
 						if ($show_byline) {
 							$wkcontent .= '<p  ';
 							if (isset($classes_arr["post_byline"])) {
@@ -406,9 +418,8 @@ class tpg_gp_process extends tpg_get_posts {
 								$wkcontent = $t_content.$wkcontent;
 							}
 						}
+						//wrap content in div tag					
 						$wkcontent = '<div id="tpg_post_content">'.$wkcontent.'</div>';
-						$wkcontent = apply_filters('the_content',$wkcontent);
-						$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
 						break;
 				}
 				
@@ -491,6 +502,8 @@ class tpg_gp_process extends tpg_get_posts {
 			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
 		$wkcontent = force_balance_tags($wkcontent);
+		$wkcontent = apply_filters('the_content',$wkcontent);
+		$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
 		return $wkcontent;
 	}
 	

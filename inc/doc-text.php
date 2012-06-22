@@ -16,6 +16,8 @@
 		<h3>Overview</h3>
 		<p>To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:</p>
 		
+		<p class="tgp_warn">WARNING: If you copy/paste the commands, the function may not work.  Often the hidden &lt;code&gt; and &lt;pre&gt; are copied into the page and only show in the html edit view of the WP editor.  If this happens, type the entire command in to avoid introducing hidden characters.</p>
+		
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
@@ -76,6 +78,8 @@
 			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 		
 			<dt>title_tag</dt><dd>This parameter controls the formatting of the title line. The default is to make post titles h2, which is consistent with the regular post markup. title_tag="p" will apply the paragraph markup to the title instead of the h2 markup. Note: do not include the <>.</dd>
+			
+			<dt>title_link</dt><dd>Setting this option to title_link="false" will suppress the wrapping of the title with the hyperlink tag and the title will not be a link. Default is "true".</dd>
 		
 			<dt>ul_class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
 		
@@ -87,7 +91,8 @@
 	</div>
 	<div id="gp-styling">	
 		<h3>Styling</h3>
-		<p>To over-ride the default styling, create a css file in the tgp-get-post/css folder named user-get-posts-style.css.  When the plugin is loaded, the standard style sheet is loaded and then the user defined style sheet is loaded, if it exists.  The user defined style sheet will not be changed by an upgrade.</p>
+		<p>To over-ride the default styling, create a css file in the <b>tgp-get-post/css</b> folder named <b>user-get-posts-style.css</b>.  When the plugin is loaded, the standard style sheet is loaded and then the user defined style sheet is loaded, if it exists.  </p>
+		<p><em><b>Save your custom user defined style sheet on your local machine as it will be deleted with an upgrade and you will need to reapply it.</b></em></p>
 		<p>There are two ways to alter the styling: 
 		<ol>
 		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg-get-posts-style.css and modify them as needed.

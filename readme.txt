@@ -4,11 +4,12 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
 == Description ==
+Please review the Changelog for release change notices and save any custom styling before applying any upgrade.
 
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values, suchs as tags, category, category_name or any other option supported by the WP get_posts function, to show only items relevant for the page.
 
@@ -22,7 +23,7 @@ To use it, just put the following into the HTML of any page or post, use as many
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 	
-See the usage section in 'Other Notes' for a list of parms and more examples of use.
+See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
 	
 == Usage ==
 
@@ -97,6 +98,12 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.6 =
+* Apply title filters before displaying the post title
+* Thank you Collin Donahue-Oponski for supplying this patch. 
+* Change order of applying filter to content to match base wp 
+* Added option title_link="false" to suppress making the title a link
+
 = 1.3.5 =
 * This is a code restructure to correct some old (and poor) coding techniques
 * correct conflict with WP 3.4 in style loading which caused errors in admin section
