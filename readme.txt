@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -98,6 +98,10 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.7 =
+* Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire  
+* Thank you Hennie de Klerk for your assist in correcting this
+
 = 1.3.6 =
 * Apply title filters before displaying the post title
 * Thank you Collin Donahue-Oponski for supplying this patch. 
