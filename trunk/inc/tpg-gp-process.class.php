@@ -420,6 +420,9 @@ class tpg_gp_process extends tpg_get_posts {
 						}
 						//wrap content in div tag					
 						$wkcontent = '<div id="tpg_post_content">'.$wkcontent.'</div>';
+						#apply filters for all content
+						$wkcontent = apply_filters('the_content',$wkcontent);
+						$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
 						break;
 				}
 				
@@ -502,8 +505,6 @@ class tpg_gp_process extends tpg_get_posts {
 			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 		}
 		$wkcontent = force_balance_tags($wkcontent);
-		$wkcontent = apply_filters('the_content',$wkcontent);
-		$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
 		return $wkcontent;
 	}
 	
