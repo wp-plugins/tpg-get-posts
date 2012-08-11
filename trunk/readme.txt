@@ -25,9 +25,8 @@ This default usage will return the last 5 posts in reverse chronological order. 
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
 
---------
-
-Recent Change: Correct html code that fails validation.  Remove span wrapper which may break some formatting on existing sites.  Change div id to div class to eliminate duplicate id names.  Please test before installing in public site.
+**Recent Change**
+	Correct html code that fails validation.  Remove span wrapper which may break some formatting on existing sites.  Change div id to div class to eliminate duplicate id names.  Please test before installing in public site.
 	
 == Usage ==
 
