@@ -340,7 +340,7 @@ class tpg_gp_process extends tpg_get_posts {
 		}
 		
 		//open div and begin post process
-		$content = '<div id="tpg-get-posts" />';
+		$content = '<div id="tpg-get-posts" >';
 		if ($show_as_list) {
 			$content .="<ul class=\"".$r['ul_class']."\">\n";
 		}
@@ -354,7 +354,7 @@ class tpg_gp_process extends tpg_get_posts {
 			if ($thumbnail_only) {
 				$t_content = $this->get_thumbnail($post,$thumbnail_size);
 				if ($t_content != null) {
-					$wkcontent = '<div id="tpg-get-posts-thumbnail"><a href="' . get_permalink() .'">'.$t_content.'</a></div>';
+					$wkcontent = '<div class="tpg-get-posts-thumbnail"><a href="' . get_permalink() .'">'.$t_content.'</a></div>';
 				} else {
 					$wkcontent = "<p>thumbnail missing</p>";
 				}
@@ -366,7 +366,7 @@ class tpg_gp_process extends tpg_get_posts {
 			if ($show_as_list) {
 				$content .= "  <li>";
 			} else {
-				$content .= '<div id="tpg-get-posts-post" />';
+				$content .= '<div class="tpg-get-posts-post" >';
 			}
 
 			$i = 0;
@@ -374,9 +374,9 @@ class tpg_gp_process extends tpg_get_posts {
 	
 				$field = trim($field);
 				
-				if (isset($classes_arr[$field])) {
-					$content .= "<span class=\"" . $classes_arr[$field] . "\">";
-				}			
+				//if (isset($classes_arr[$field])) {
+				//	$content .= "<span class=\"" . $classes_arr[$field] . "\">";
+				//}			
 				
 				$wkcontent = $post->$field;                                         //get the content
 				switch ($field) {
@@ -384,7 +384,7 @@ class tpg_gp_process extends tpg_get_posts {
 						$wkcontent = ($short_title)? $this->shorten_text($st_style,$st_len,$wkcontent,$this->ellip): $wkcontent;
 						$wkcontent = apply_filters( 'the_title', $wkcontent);
 						if ($title_link) {
-							$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" id="">'.$wkcontent.'</a>'.$t_tag_end;
+							$wkcontent = $t_tag_beg.'<a href="'.get_permalink($post->ID).'" >'.$wkcontent.'</a>'.$t_tag_end;
 						} else {
 							$wkcontent = $t_tag_beg.$wkcontent.$t_tag_end;
 						}
@@ -419,7 +419,7 @@ class tpg_gp_process extends tpg_get_posts {
 							}
 						}
 						//wrap content in div tag					
-						$wkcontent = '<div id="tpg_post_content">'.$wkcontent.'</div>';
+						$wkcontent = '<div class="tpg_post_content '.$classes_arr[$field].'">'.$wkcontent.'</div>';
 						#apply filters for all content
 						$wkcontent = apply_filters('the_content',$wkcontent);
 						$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
@@ -428,9 +428,9 @@ class tpg_gp_process extends tpg_get_posts {
 				
 				$content .= $wkcontent;
 	
-				if (isset($classes_arr[$field])) {
-					$content .=  "</span>";
-				}
+				//if (isset($classes_arr[$field])) {
+				//	$content .=  "</span>";
+				//}
 				
 				$i++;
 			}
@@ -454,7 +454,7 @@ class tpg_gp_process extends tpg_get_posts {
 	// end of metadata
 	
 			if ($show_as_list) {
-				$content .= "</li> <hr class=\"tpg_get_post_hr\" />";
+				$content .= '</li> <hr class="tpg_get_post_hr" >';
 			} else {
 				$content .= '</div>';
 			}

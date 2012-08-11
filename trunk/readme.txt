@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -24,6 +24,10 @@ To use it, just put the following into the HTML of any page or post, use as many
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
+
+--------
+
+Recent Change: Correct html code that fails validation.  Remove span wrapper which may break some formatting on existing sites.  Change div id to div class to eliminate duplicate id names.  Please test before installing in public site.
 	
 == Usage ==
 
@@ -98,6 +102,11 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 1.3.8 =
+* Correct html which was failing the validator.  Removed empty id='' and invalid slash.
+* Removed span around entire post which conflicted with heading formatting.
+* Changed div id tpg-get-posts-post, tpg_post_content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
+
 = 1.3.7 =
 * Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire  
 * Thank you Hennie de Klerk for your assist in correcting this
