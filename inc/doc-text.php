@@ -1,8 +1,9 @@
 <!--usage documentation-->
 
 <div id="tgp" class="wrap">
-	{icon}<h2 class="tgp_head">TPG Get Posts Usage</h2>
-	<p class="tgp_warn">WARNING: If you copy/paste the commands, the function may not work. If this happens, type the entire command in to avoid introducing hidden characters.</p>
+	{icon}<h2 class="tgp-head">TPG Get Posts Usage</h2>
+	<!--<p class="tgp-warn">WARNING: If you copy/paste the commands, the function may not work. If this happens, type the entire command in to avoid introducing hidden characters.</p>-->
+	<p>&nbsp;</p>
 	
 	<div id="gp-tabbed-area">
 		<ul class="gp-tabs">
@@ -10,20 +11,21 @@
 			<li><a href="#gp-options">Options</a></li>
 			<li><a href="#gp-styling">Styling</a></li>
 			<li><a href="#gp-examples">Examples</a></li>
+			<li><a href="#gp-settings">Settings</a></li>
 		</ul>
 		
 	<div id="gp-overview">
 		<h3>Overview</h3>
 		<p>To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:</p>
 		
-		<p class="tgp_warn">WARNING: If you copy/paste the commands, the function may not work.  Often the hidden &lt;code&gt; and &lt;pre&gt; are copied into the page and only show in the html edit view of the WP editor.  If this happens, type the entire command in to avoid introducing hidden characters.</p>
+		<p class="tgp-warn">WARNING: If you copy/paste the commands, the function may not work.  Often the hidden &lt;code&gt; and &lt;pre&gt; are copied into the page and only show in the html edit view of the WP editor.  If this happens, type the entire command in to avoid introducing hidden characters.</p>
 		
-		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
-		 field_classes ="post_title=p_title_class, post_content=p_content_class, 
-		 post_metadata=p_metadata_class, post_byline=p_byline_class" numberposts=5 ]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content" 
+		 field_classes ="post_title=p-title-class, post_content=p-content-class, 
+		 post_metadata=p-metadata-class, post_byline=p-byline-class" numberposts=5 ]</pre></blockquote>
 		
 		<p>This default usage will return the last 5 posts in reverse chronological order. It will display the post similarly to a standard post, honoring the tag to produce a teaser. Meta data showing post date, author, modified date, comments, categories and tags is also displayed.</p>
 		
@@ -31,9 +33,9 @@
 		
 		<p>A common usage is to show post on a page that have a common tag(s):</p>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag1, tag2,tag3"]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts tag="tag1, tag2,tag3"]</pre></blockquote>
 		<p>or to show specific posts on the home page:</p>
-		<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts category_name="homepage" numberposts=2]</pre></blockquote>
 		{donate}
 		<h3>To Do:</h3>
 		<ol>
@@ -55,6 +57,10 @@
 			<dt>category</dt><dd>This allows for the selection of posts by category number.</dd>
 			<dt>numberposts</dt>
 			<dd>Specify the maximum number of posts to select.  The default is 5.</dd>
+			
+			<dt class="tpg-prem">category__and</dt> <dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected with and logic.  Category or category_name may be used.</dd> 
+			<dt class="tpg-prem">category__in </dt><dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are in the list and child categories are not selected.  Category or category_name may be used.</dd>
+			<dt class="tpg-prem">'category__not_in</dt> <dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are not in the list.  Category or category_name may be used.</dd>
 		
 		<h4>Along with all the parameters provided by the WordPress get_posts template tag, this plugin will also accept a few additional parameters:</h4>
 			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser. Default is "false".</dd>
@@ -81,49 +87,86 @@
 			
 			<dt>title_link</dt><dd>Setting this option to title_link="false" will suppress the wrapping of the title with the hyperlink tag and the title will not be a link. Default is "true".</dd>
 		
-			<dt>ul_class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
+			<dt>ul-class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
 		
 			<dt>fields</dt><dd>This is a comma separated list of fields to show, taken right from the <a href="http://codex.wordpress.org/Database_Description#Table:_wp_posts" target="_blank">wp_posts database</a> table fields. The default is "post_title, post_content".  If only a list of titles is desired, remove the post_content parm from the list and no content will be returned.  At this time only post_title and post_content are selectable.</dd>
 		
-			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class, post_byline=p_byline_class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
+			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 		</dl>
+		
+		<p>To exclude posts, see examples.</p>
 		
 	</div>
 	<div id="gp-styling">	
 		<h3>Styling</h3>
-		<p>To over-ride the default styling, create a css file in the <b>tgp-get-post/css</b> folder named <b>user-get-posts-style.css</b>.  When the plugin is loaded, the standard style sheet is loaded and then the user defined style sheet is loaded, if it exists.  </p>
-		<p><em><b>Save your custom user defined style sheet on your local machine as it will be deleted with an upgrade and you will need to reapply it.</b></em></p>
+		<p>To over-ride the default styling, create a css file in your theme root folder named <b>user-get-posts-style.css</b>.  When the plugin is loaded, the standard style sheet is loaded and then the user defined style sheet is loaded, if it exists.  Any tags in the user style-sheet will override the standard style.</p>
+		<p><em><b>By saving your custom user defined style sheet in the theme folder it will not be deleted with an upgrade to the plugin.  This is a change from version 1.x</b></em></p>
 		<p>There are two ways to alter the styling: 
 		<ol>
 		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg-get-posts-style.css and modify them as needed.
-		<dt>p_title_class</dt><dd>class of the post title</dd>
-		<dt>p_byline_class</dt><dd>class of the post byline</dd>
-		<dt>p_content_class</dt><dd>class for the body of the post</dd>
-		<dt>p_metadata_class</dt><dd>class for the metadata</dd>
+		<dt>tpg-title-class</dt><dd>class of the post title</dd>
+		<dt>tpg-byline-class</dt><dd>class of the post byline</dd>
+		<dt>tpg-content-class</dt><dd>class for the body of the post</dd>
+		<dt>tpg-metadata-class</dt><dd>class for the metadata</dd>
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
-			<p>The default classes are post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class, post_byline=p_byline_class as shown in the following short-code:
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content"
-field_classes ="post_title=p_title_class, post_content=p_content_class, post_metadata=p_metadata_class,
-post_byline=p_byline_class" numberposts=5 ]</pre></blockquote></p></li>
+			<p>The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
+		<blockquote><pre>[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content"
+field_classes ="post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class,
+post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		 </ol></p>
+		 <ul>
+		  <dt class="tpg-prem">Rremium Formatting Control Template</dt><dd>The Premium plugin allows for the formatting of the by line and the meta line.  For example, you can change the byline from showing the default of author, post date to just author or author, last maint date, last maint time.   <br /><br />Within each line, there are several post tags which can be displayed and each tag can be formatted.</dd>
+		
+		<dt class="tpg-prem">byline_fmt</dt><dd>default byline_fmt=" ,auth,dp" sep,meta_tag,meta_tag....</dd>
+		<dt class="tpg-prem">metaline_fmt</dt><dd>default byline_fmt="&nbsp;&nbsp;|&nbsp;&nbsp;,cmt,cat,tag"</dd>	 
+		 
+		<dt>tags for use in line</dt><dd> Valid tags for use in byline and meta data line are: <br />
+		<li>auth_fmt - author name</li> 
+		<li>cat_fmt - list of categories assigned to post</li>
+		<li>cmt_fmt - comment, with format control for no, 1 or many comments</li>
+		<li>dp_fmt - date posted</li>
+		<li>dm_fmt - date of last maintenance</li>
+		<li>tag_fmt - list of tags assigned to post</li>
+		<li>tm_fmt - time of last maintenance</li>
+		<li>tp_fmt - time of posting</li>
+		<p><b>Note</b>:  if you wish to use a comma in the the formatting, use the code <code>&amp;#44;</code>  The parsing routine uses commas to parse the format options, so the html code must be used to circumvent the parser. </p></li>
+		
+		<dt class="tpg-prem">auth_fmt</dt><dd>default: auth_fmt=",By ,"   (separator,b4 text,after text)</dd>
+		<dt class="tpg-prem">cat_fmt</dt><dd>default: cat_fmt="&amp;#44; ,Filed under: ,"   (separator,b4 text,after text)</dd>
+		<dt class="tpg-prem">cmt_fmt</dt><dd>default: cmt_fmt=" No Comments &#187;, 1 Comment &#187;, Comments &#187;"   (nocmt,1-cmt, multi-cmt)</dd>
+		<dt class="tpg-prem">dp_fmt</dt><dd>default: dp_fmt="F j&amp;#44; Y, on ,"   (date format,b4 text,after text)</dd>
+		<dt class="tpg-prem">dm_fmt</dt><dd>default: dm_fmt="F j&amp;#44; Y, on: ,"   (date format,b4 text,after text)</dd>
+		<dt class="tpg-prem">tag_fmt</dt><dd>default: tag_fmt="&amp;#44; ,<b>Tags:</b> ,"    (separator,b4 text,after text)</dd>
+		<dt class="tpg-prem">tm_fmt</dt><dd>default: tm_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
+		<dt class="tpg-prem">tp_fmt</dt><dd>default: tp_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
+		 </ul>
 		 <p>To alter the entire post, use method one and modify the #tpg-get-posts-post style.  This is a wrapper div for the entire post.</p>
 		 
 	</div>	
 	<div id="gp-examples">
 		<h3>Examples:</h3>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts tag="tag1,tag2" numberposts=5 orderby="title]</pre></blockquote>
 		
 		<p>Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.</p>
 		
-		<blockquote><pre>[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts category_name="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
 		
 		<p>Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.</p>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag5" fields="post_title" ul_class="p_ul_class"]</pre></blockquote>
+		<blockquote><pre>[tpg-get-posts tag="tag5" fields="post_title" ul_class="tpg-ul-class"]</pre></blockquote>
 		
-		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "p_ul_class". The title will provide a link to the post. The title can be formatted with a css style .p_ul_class h2 {}.</p>
+		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "tpg_ul_class". The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
+		
+		<blockquote><pre>[tpg-get-posts category="15,-4" ]</pre></blockquote>
+		
+		<p>To exclude a category within a selected category, you must use the category id for the selection.  The minus sign in front of the cateory id tells the query to exlude a category.  So this shortcode will select all the posts in category 15 and then eliminate all the post that are also in category 4.</p>
+		
+		<blockquote><pre>[tpg-get-posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
+		
+		<p class="tpg-prem">Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "p_ul_class". The title will provide a link to the post. The title can be formatted with a css style .p_ul_class h2 {}.</p>
+		
 		
 		<h3>How to Use:</h3>{donate}
 		<p>If you wish to have a subset of posts appear on a specific page.  The simplest approach is to specify a unique category and select it for the post you want to appear.  You can have multiple categories for a post, so this will not alter your existing website structure.</p>
@@ -133,9 +176,40 @@ post_byline=p_byline_class" numberposts=5 ]</pre></blockquote></p></li>
 			<li>Create a new category "homepage"</li>
 			<li>For each post that is to appear on the home page, select the category "homepage"</li>
 			<li>On your home page, enter the following shortcode where you want the posts inserted:
-			<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote></li>
+			<blockquote><pre>[tpg-get-posts category_name="homepage" numberposts=2]</pre></blockquote></li>
 		</ol> 
 		<p>That should do it!</p>
 	</div>
+	<div id="gp-settings">{settings}
+	
+		<h3>Instructions for Upgrading to the Premium Version:</h3>
+		
+		<p>After purchasing a licences, an email will be sent to you with the Lic Key.</p>
+		
+		<ol>Option 1:
+		<li>Click the download link in the email</li>
+		<li>Save the plugin on your pc</li>
+		<li>See WP Plugin instructions below.</li>
+		<li>Add the Lic Key and Lic Email on the TPG Get Posts Settings tab</li>
+		<li>Select the Keep Options on uninstall checkbox</li>
+		<li>Click the Update Options to save the options and then Validate to register and receive new update notices</li>
+		<br />
+		</ol>
+		<ol>Option 2:
+		<li>Enter the License Key and Email used for purchase</li>
+		<li>Select the Keep Options on uninstall checkbox</li>
+		<li>Click the Update Options</li>
+		<li>Next, click the Validate options - this queries the repository to see if you license is valid</li>
+		<li>Once a valid license is entered, a download link will display which will download your file</li>
+		<li>See WP Plugin instructions below.</li>
+		</ol>
+		<ul>WP Plugin install:
+		<li>Go to WP Plugins section on your Dashboard.</li>
+		<li>Disable and Delete the TPG Get Posts Plugin</li>
+		<li>Select Add New and upload and install the new Plugin</li>
+		<li>Activate the plugin</li>
+		</ul>
+	
 	</div>
+  </div>
 </div>

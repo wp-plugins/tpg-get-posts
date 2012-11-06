@@ -1,6 +1,6 @@
 /*
- *  Styling for the tpg_get_post plugin
- * all items prefaced with tgp (for tpg_get_posts)
+ *  Styling for the tpg-get-post plugin
+ * all items prefaced with tgp (for tpg-get-posts)
 */
 /* styling for posts*/
 /* wrapper for all posts pulled by shortcode */
@@ -9,19 +9,24 @@
 /* wrapper for individual post */
 .tpg-get-posts-post{clear:both;}
 /* class for title*/
-.p_title_class{}
+.tpg-title-class{
+	margin-top:1em !important; 
+}
 /* class of by-line*/
-.p_byline_class {
+.tpg-byline-class {
 	margin-left:1em;
 	font-size:small;
 }
+/*class for <hr> after list */
+.tpg-get-post-li-hr {display:none}
 /* class for content*/
 .tpg-get-posts-thumbnail{clear:both;}
-.tpg_posts_content{}
-.p_content_class{}
+.tpg-posts-content{}
+.tpg-content-class{}
 #tpg-get-posts-excerpt{clear:both;}
 /* class for metadata*/
-.p_metadata_class {
+.tpg-metadata-class {
 	margin-left:2em;
 	font-size:x-small;
 }
+.tpg-ul-class {}
