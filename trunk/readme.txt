@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 1.3.8
+Stable tag: 2.00.02
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -18,7 +18,7 @@ but it will accept any of the options provided by the [get_posts template tag]( 
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
-	[tpg_get_posts]
+	[tpg-get-posts]
 
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
@@ -26,7 +26,7 @@ This default usage will return the last 5 posts in reverse chronological order. 
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
 
 **Recent Change**
-	Correct html code that fails validation.  Remove span wrapper which may break some formatting on existing sites.  Change div id to div class to eliminate duplicate id names.  Please test before installing in public site.
+	The 2.0 release may not format like the 1.x version.  Be sure to test befor upgrading.
 	
 == Usage ==
 
@@ -34,20 +34,20 @@ See the usage section in 'Other Notes' for a list of parms and more examples of 
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
-	[tpg_get_posts]
+	[tpg-get-posts]
 	
 	this is equivalent to:
 	
-	[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
-	fields_classes ="p_title_class, p_content_class" numberposts=5 ]
+	[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content" 
+	fields_classes ="p-title-class, p-content-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 
 A common usage is to show post on a page that have a common tag or category:
 	
-		[tpg_get_posts tag="tag1, tag2,tag3"]
+		[tpg-get-posts tag="tag1, tag2,tag3"]
 	or 
-		[tpg_get_posts category_name="catname1, catname2, catname3"]
+		[tpg-get-posts category_name="catname1, catname2, catname3"]
 
 See Settings in plugin for full list of parameters
 
@@ -55,22 +55,22 @@ A couple of examples:
 
 Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.
 
-	[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]
+	[tpg-get-posts tag="tag1,tag2" numberposts=5 orderby="title]
 
 Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
-	[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
+	[tpg-get-posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
 
-Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p_ul_class".  The title will provide a link to the post. The title can be formatted with a css style .p_ul_class h2 {}.
+Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
-	[tpg_get_posts tag="tag5" fields="post_title" ul_class="p_ul_class"]
+	[tpg-get-posts tag="tag5" fields="post_title" ul_class="p-ul-class"]
 
 
 == Installation ==
 
 1. Upload the plugin to the `/wp-content/plugins/` directory and unzip it.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
-1. Place `[tpg_get_posts]` in your pages. 
+1. Place `[tpg-get-posts]` in your pages. 
 
 == Frequently Asked Questions ==
 
@@ -78,20 +78,25 @@ Shows a bullet list of post titles. The title will be wrapped in a <span> tag wi
 
 Set the format in your css
  
-* heading - .p_title_class
-* byline - .p_byline
-* content - .p_content_class
-* metadata - .p_metadata_class
+* title - .tpg-title-class
+* byline - .tpg-byline-class
+* content - .tpg-content-class
+* metadata - .tpg-metadata-class
+* ul - tpg-ul-class,
 
 With release 1.3.1, a custom stylesheet is supported so changes made in the custom style sheet are not lost with an upgrade
 
 = Can this plugin select by category? =
 
-Yes, multiple category_name(s) can be submitted.  The base WordPress function get_posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the category_name parameter is blanked out and the post is requested by multiple ids.
+Yes, multiple category_name(s) can be submitted.  The base WordPress function get-posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the category_name parameter is blanked out and the post is requested by multiple ids.
 
 = Can I combine categories and tags? =
 
 Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets both selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.  
+
+= Can I select categories with 'and' logic? =
+
+Yes.  See the doc on using category__and. 
 
 == Screenshots ==
 
@@ -101,10 +106,16 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.0.2 =
+* Add the premium version functionality which allow selection: category_and, category_in and category_not_in.
+* Add ability to format the byline & metadata line.
+* Add settings options.  
+* Code restructuring and changes some html output.
+
 = 1.3.8 =
 * Correct html which was failing the validator.  Removed empty id='' and invalid slash.
 * Removed span around entire post which conflicted with heading formatting.
-* Changed div id tpg-get-posts-post, tpg_post_content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
+* Changed div id tpg-get-posts-post, tpg-post-content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
 
 = 1.3.7 =
 * Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire  
@@ -119,7 +130,7 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 = 1.3.5 =
 * This is a code restructure to correct some old (and poor) coding techniques
 * correct conflict with WP 3.4 in style loading which caused errors in admin section
-* correct conflict with tpg_phplist plugin
+* correct conflict with tpg-phplist plugin
 * corrected doc 
 
 = 1.3.4 =

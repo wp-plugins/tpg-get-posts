@@ -10,18 +10,18 @@
  *	$ppg->set_var("desc","descript of ask");
  *	$pp_btn = $ppg->gen_donate_button();
  * Styling:
- *	#donate_button_div {
+ *	#donate-button-div {
  *		margin: 0 .5em 0 1em;
  *		width: 40%;
  *		border:#FFCC00 2px;
  * 		float: right;
  *	}
- *	#donate_desc {
+ *	#donate-desc {
  *		font-size:small;
  *		border:thin;
  *		padding: .5em .5em .5em .5em;
  *	}
- *	#donate_button {
+ *	#donate-button {
  *		text-align:center;
  *	}
  *
@@ -43,7 +43,7 @@ class tpg_pp_donate_button	{
 	 *	set variable
 	 *
 	 * @package WordPress
-	 * @subpackage tpg_get_posts
+	 * @subpackage tpg-get-posts
 	 * @since 1.3
 	 *
 	 * set a value in a variable
@@ -67,7 +67,7 @@ class tpg_pp_donate_button	{
 	 *	generate a donate button 
 	 *
 	 * @package WordPress
-	 * @subpackage tpg_get_posts
+	 * @subpackage tpg-get-posts
 	 * @since 1.3
 	 *
 	 * generate a donate buton
@@ -78,11 +78,11 @@ class tpg_pp_donate_button	{
 	 *
 	 */
 	public function gen_donate_button() {
-		$button_code  = '<div id="donate_button_div">';
+		$button_code  = '<div id="donate-button-div">';
 		if ($this->desc != '') {
-			$button_code .= '<div id="donate_desc">'.$this->desc.'</div>';
+			$button_code .= '<div id="donate-desc">'.$this->desc.'</div>';
 		}
-		$button_code .= '<div id="donate_button"><form action="https://www.paypal.com/cgi-bin/webscr" method=post>
+		$button_code .= '<div id="donate-button"><form action="https://www.paypal.com/cgi-bin/webscr" method=post>
 	<input type=hidden name=cmd value=_s-xclick>
 	<input type=hidden name=encrypted value="'.$this->acct_id.'">';
 		if ($this->for_text != '') {

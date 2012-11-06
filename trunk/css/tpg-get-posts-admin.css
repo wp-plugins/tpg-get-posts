@@ -1,6 +1,6 @@
 /*
- *  Styling for the tpg_get_post plugin
- * all items prefaced with tgp (for tpg_get_posts)
+ *  Styling for the tpg-get-post plugin
+ * all items prefaced with tgp (for tpg-get-posts)
 */
 /*@import url("tpg-get-post-style.css"); */
 
@@ -14,15 +14,18 @@
 	width:80%;
 }
 
-.tgp_head {
+.tgp-head {
 	text-align:left;
 	font-size:large;
 }
 
-.tgp_warn {
+.tgp-warn {
 	margin:1em 0 1em 1em;
 	color:#990000;
 	font-weight:bold;
+}
+.tpg-prem {
+	color:#339900;
 }
 
 /* tabs */
@@ -110,17 +113,33 @@
 }
 
 /* donation*/
-#donate_button_div {
+#donate-button-div {
 	margin: 0 .5em 0 1em;
 	width: 40%;
 	border:#FFCC00 2px;
  	float: right;
 }
-#donate_desc {
+#donate-desc {
 	font-size:small;
 	border:thin;
 	padding: .5em .5em .5em .5em;
 }
-#donate_button {
+#donate-button {
 	text-align:center
 }
+
+.tpg-settings-btn {
+	margin-right:10px;
+}
+#gp-settings ul li {
+	margin: 0 0 0 2em;
+	list-style:disc;
+}
+#gp-settings ol {
+	margin: 0 0 0 0;
+}
+#gp-settings ol li{
+	margin: 0 0 0 2em;
+}
+/*simply show id */
+#ssid { width: 50px; } /* Simply Show IDs */
