@@ -252,7 +252,7 @@ class tpg_gp_process {
 		
 		//now apply any options passed to the default array
 		$this->r = shortcode_atts($this->default_attr,$args );
-		echo "<br>get_post r:";print_r($this->r);echo "<br>";
+		//echo "<br>get_post r:";print_r($this->r);echo "<br>";
 		
 		//if category_names passed, convert to cat_id
 		if ($this->r['category_name'] != '') {
@@ -261,11 +261,11 @@ class tpg_gp_process {
 			//$this->r['category'] = substr_replace($this->r['category'],"",-1);
 			$this->r['category_name'] = "";
 		}
-		echo "<br>get_post r:";print_r($this->r);echo "<br>";	
+		//echo "<br>get_post r:";print_r($this->r);echo "<br>";	
 		if (method_exists($this,'ext_args')) {
 			$this->ext_args();
 		} 
-		echo "<br>get_post r:";print_r($this->r);echo "<br>";	
+		//echo "<br>get_post r:";print_r($this->r);echo "<br>";	
 		//set up output fields
 		$this->fields_list = explode(",", $this->r['fields']);
 		
@@ -275,7 +275,7 @@ class tpg_gp_process {
 		//override defaults if passed
 		if ($this->r['field_classes'] != '') {
 			$field_classes_list = explode(",", $this->r['field_classes']);
-			echo "for each fld class loop<br>";
+			//echo "for each fld class loop<br>";
 			foreach ($field_classes_list as $fcl_items) {
 				$fcl_item = explode('=',$fcl_items);
 				$this->classes_arr[trim($fcl_item[0])] = trim($fcl_item[1]);
@@ -308,7 +308,7 @@ class tpg_gp_process {
 		// get posts
 		$tmp_post = $post;                    // save current post/page settings
 		
-		echo "<br>get_post a_args:";print_r($this->q_args);echo "<br>";
+		//echo "<br>get_post a_args:";print_r($this->q_args);echo "<br>";
 		
 		$posts = get_posts($this->q_args);
 		foreach( $posts as $post ) {
