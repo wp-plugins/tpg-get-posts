@@ -116,7 +116,7 @@ field_classes ="post_title=tpg-title-class, post_content=tpg-content-class, post
 post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		 </ol></p>
 		 <ul>
-		  <dt class="tpg-prem">Rremium Formatting Control Template</dt><dd>The Premium plugin allows for the formatting of the by line and the meta line.  For example, you can change the byline from showing the default of author, post date to just author or author, last maint date, last maint time.   <br /><br />Within each line, there are several post tags which can be displayed and each tag can be formatted.</dd>
+		  <dt class="tpg-prem">Premium Formatting Control Template</dt><dd>The Premium plugin allows for the formatting of the by line and the meta line.  For example, you can change the byline from showing the default of author, post date to just author or author, last maint date, last maint time.   <br /><br />Within each line, there are several post tags which can be displayed and each tag can be formatted.</dd>
 		
 		<dt class="tpg-prem">byline_fmt</dt><dd>default byline_fmt=" ,auth,dp" sep,meta_tag,meta_tag....</dd>
 		<dt class="tpg-prem">metaline_fmt</dt><dd>default byline_fmt="&nbsp;&nbsp;|&nbsp;&nbsp;,cmt,cat,tag"</dd>	 
@@ -165,7 +165,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		
 		<blockquote><pre>[tpg-get-posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
 		
-		<p class="tpg-prem">Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "p_ul_class". The title will provide a link to the post. The title can be formatted with a css style .p_ul_class h2 {}.</p>
+		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
 		
 		
 		<h3>How to Use:</h3>{donate}
