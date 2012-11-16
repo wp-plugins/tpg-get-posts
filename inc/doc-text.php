@@ -20,10 +20,10 @@
 		
 		<p class="tgp-warn">WARNING: If you copy/paste the commands, the function may not work.  Often the hidden &lt;code&gt; and &lt;pre&gt; are copied into the page and only show in the html edit view of the WP editor.  If this happens, type the entire command in to avoid introducing hidden characters.</p>
 		
-		<blockquote><pre>[tpg-get-posts]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content" 
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
 		 field_classes ="post_title=p-title-class, post_content=p-content-class, 
 		 post_metadata=p-metadata-class, post_byline=p-byline-class" numberposts=5 ]</pre></blockquote>
 		
@@ -33,9 +33,9 @@
 		
 		<p>A common usage is to show post on a page that have a common tag(s):</p>
 		
-		<blockquote><pre>[tpg-get-posts tag="tag1, tag2,tag3"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag1, tag2,tag3"]</pre></blockquote>
 		<p>or to show specific posts on the home page:</p>
-		<blockquote><pre>[tpg-get-posts category_name="homepage" numberposts=2]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote>
 		{donate}
 		<h3>To Do:</h3>
 		<ol>
@@ -103,7 +103,7 @@
 		<p><em><b>By saving your custom user defined style sheet in the theme folder it will not be deleted with an upgrade to the plugin.  This is a change from version 1.x</b></em></p>
 		<p>There are two ways to alter the styling: 
 		<ol>
-		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg-get-posts-style.css and modify them as needed.
+		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg_get_posts-style.css and modify them as needed.
 		<dt>tpg-title-class</dt><dd>class of the post title</dd>
 		<dt>tpg-byline-class</dt><dd>class of the post byline</dd>
 		<dt>tpg-content-class</dt><dd>class for the body of the post</dd>
@@ -111,7 +111,7 @@
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
 			<p>The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
-		<blockquote><pre>[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content"
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content"
 field_classes ="post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class,
 post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		 </ol></p>
@@ -141,29 +141,29 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		<dt class="tpg-prem">tm_fmt</dt><dd>default: tm_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
 		<dt class="tpg-prem">tp_fmt</dt><dd>default: tp_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
 		 </ul>
-		 <p>To alter the entire post, use method one and modify the #tpg-get-posts-post style.  This is a wrapper div for the entire post.</p>
+		 <p>To alter the entire post, use method one and modify the #tpg_get_posts-post style.  This is a wrapper div for the entire post.</p>
 		 
 	</div>	
 	<div id="gp-examples">
 		<h3>Examples:</h3>
 		
-		<blockquote><pre>[tpg-get-posts tag="tag1,tag2" numberposts=5 orderby="title]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]</pre></blockquote>
 		
 		<p>Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.</p>
 		
-		<blockquote><pre>[tpg-get-posts category_name="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
 		
 		<p>Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.</p>
 		
-		<blockquote><pre>[tpg-get-posts tag="tag5" fields="post_title" ul_class="tpg-ul-class"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag5" fields="post_title" ul_class="tpg-ul-class"]</pre></blockquote>
 		
 		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "tpg_ul_class". The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
 		
-		<blockquote><pre>[tpg-get-posts category="15,-4" ]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts category="15,-4" ]</pre></blockquote>
 		
 		<p>To exclude a category within a selected category, you must use the category id for the selection.  The minus sign in front of the cateory id tells the query to exlude a category.  So this shortcode will select all the posts in category 15 and then eliminate all the post that are also in category 4.</p>
 		
-		<blockquote><pre>[tpg-get-posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
 		
 		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
 		
@@ -176,7 +176,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 			<li>Create a new category "homepage"</li>
 			<li>For each post that is to appear on the home page, select the category "homepage"</li>
 			<li>On your home page, enter the following shortcode where you want the posts inserted:
-			<blockquote><pre>[tpg-get-posts category_name="homepage" numberposts=2]</pre></blockquote></li>
+			<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote></li>
 		</ol> 
 		<p>That should do it!</p>
 	</div>
