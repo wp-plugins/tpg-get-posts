@@ -26,6 +26,7 @@ class tpg_gp_process {
 		  'thumbnail_size'	 => '',
 		  'thumbnail_only'	 => 'false',
 		  'show_excerpt'     => 'false',
+		  'mag_layout'       => 'false',
 		  'more_link_text'   => '(read more...)',
 		  'fields'           => 'post_title, post_content',
 		  'field_classes'    => '',
@@ -36,6 +37,8 @@ class tpg_gp_process {
 								 	'post_content'=>'tpg-content-class', 
 								 	'post_metadata'=>'tpg-metadata-class', 
 								 	'post_byline'=>'tpg-byline-class',
+									'post_thumbnail'=>'tpg-thumbnail-class',
+									'post_excerpt'=>'tpg-excerpt-class',
 									'ul_class'=>'tpg-ul-class',
 								 );
 								 
@@ -51,11 +54,7 @@ class tpg_gp_process {
 	// values for thumbnail size
 	public $thumbnail_sizes = array('thumbnail', 'medium', 'large', 'full');
 	
-	
-	 
-	
-//	function __construct($url,$dir,$base) {
-//		parent::__construct($url,$dir,$base);
+	// constructor
 	function __construct($opts,$paths) {
 		$this->gp_opts=$opts;
 		$this->gp_paths=$paths;
@@ -317,11 +316,11 @@ class tpg_gp_process {
 			//echo "<pre>";print_r($post);echo "</pre><br>";
 			
 			if ($this->thumbnail_only) {
-				$t_content = $this->get_thumbnail($post,$thumbnail_size);
+				$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
 				if ($t_content != null) {
 					$wkcontent = '<div class="tpg-get-posts-thumbnail"><a href="' . get_permalink() .'">'.$t_content.'</a></div>';
 				} else {
-					$wkcontent = "<p>thumbnail missing</p>";
+					$wkcontent = '<div class="tpg-get-posts-thumbnail"><p>thumbnail missing for '.$post->post_title.'</p></div>';
 				}
 				$content .=$wkcontent;	
 				continue;
@@ -334,62 +333,13 @@ class tpg_gp_process {
 				$content .= '<div class="tpg-get-posts-post" >';
 			}
 
-			$i = 0;
-			foreach ( $this->fields_list as $field ) {
-	
-				$field = trim($field);		
-				//echo '<br>',$fld,'<br>';
-				//print_r($post);
-				$wkcontent = $post->$field;                 //get the content
-				switch ($field) {
-					case "post_title":
-						$wkcontent = ($this->short_title)? $this->shorten_text($this->st_style,$this->st_len,$wkcontent,$this->ellip): $wkcontent;
-						$wkcontent = apply_filters( 'the_title', $wkcontent);
-						if ($this->title_link) {
-							$wkcontent = $this->t_tag_beg.'<a href="'.get_permalink($post->ID).'" >'.$wkcontent.'</a>'.$this->t_tag_end;
-						} else {
-							$wkcontent = $this->t_tag_beg.$wkcontent.$this->t_tag_end;
-						}
-						if ($this->show_byline) {
-							$wkcontent .= $this->format_byline($post);
-						}
-						break;
-					case "post_content":
-						// if not post entire -- show only teaser or excerpt if avaliable and requested					
-						if (!$this->show_entire) {           //show only teaser
-							if ($this->show_excerpt == true) {
-								$e_content = $this->get_excerpt($post);
-								if ($e_content == null) {
-									$wkcontent = $this->get_post_content($wkcontent,$id);
-								} else {
-									$wkcontent = '<p class="tpg-get-posts-excerpt">'.$e_content.'</p>';
-								}
-							} else {
-								
-								$wkcontent = $this->get_post_content($wkcontent,$id);
-							}
-						}
-						// add thumbnail to content
-						if ($this->show_thumbnail ){	
-							$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
-							if ($t_content != null) {
-								$wkcontent = $t_content.$wkcontent;
-							}
-						}
-						//wrap content in div tag
-						if (strlen($wkcontent) > 0) {					
-							$wkcontent = '<div class="tpg-post-content '.$this->classes_arr[$field].'">'.$wkcontent.'</div>';
-							#apply filters for all content
-							$wkcontent = apply_filters('the_content',$wkcontent);
-							$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
-						}
-						break;
-				}
-				
-				$content .= $wkcontent;
-				
-				$i++;
+			// allow magazine layout for premium version
+			if (method_exists($this,'magazine_layout') && $this->mag_layout){
+				$content .= $this->magazine_layout($post,$id);
+			} else {
+				$content .= $this->post_layout($post,$id);
 			}
+			
 			// print post metadata
 			if ($this->show_meta) {
 				$content .= $this->format_metadata($post);
@@ -410,6 +360,130 @@ class tpg_gp_process {
 		$post = $tmp_post;            //restore current page/post settings
 		return $content;
 			
+	}
+	
+	/**
+     * Get the post content
+     * 
+	 * This routine will parse the content at the more tag and return the short version
+	 *
+     * @param object $wkcontent
+     * @return char  $wkcontent
+     */
+	function post_layout($post,$id) {
+		$content='';
+		foreach ( $this->fields_list as $field ) {
+
+			$field = trim($field);	
+				
+			switch ($field) {
+				case "post_title":
+					$wkcontent = $this->fmt_post_title($post);
+					break;
+				case "post_content":
+					$wkcontent = $this->fmt_post_content($post,$id);				
+					
+					// add thumbnail to content
+					if ($this->show_thumbnail ){	
+						$wkcontent = $this->fmt_post_thumbnail($post).$wkcontent;
+					}
+					//wrap content in div tag
+					$wkcontent = $this->filter_post_content($wkcontent);
+					break;
+			}
+			
+			$content .= $wkcontent;
+		}
+		return $content;
+	}
+	/**
+     * format the post title
+     * 
+	 * This routine will format the title & byline
+	 *
+     * @param object $post
+     * @return char  $wkcontent
+     */
+	function fmt_post_title($post) {
+		$wkcontent = $post->post_title;
+		$wkcontent = ($this->short_title)? $this->shorten_text($this->st_style,$this->st_len,$wkcontent,$this->ellip): $wkcontent;
+		$wkcontent = apply_filters( 'the_title', $wkcontent);
+		if ($this->title_link) {
+			$wkcontent = $this->t_tag_beg.'<a href="'.get_permalink($post->ID).'" >'.$wkcontent.'</a>'.$this->t_tag_end;
+		} else {
+			$wkcontent = $this->t_tag_beg.$wkcontent.$this->t_tag_end;
+		}
+		if ($this->show_byline) {
+			$wkcontent .= $this->format_byline($post);
+		}
+		if (method_exists($this,'format_title')) {
+				$wkcontent = $this->format_title($wkcontent);
+			}
+		return $wkcontent;	
+	}
+	/**
+     * format the post content
+     * 
+	 * This routine formats the content for the post
+	 *
+     * @param object $post
+     * @return char  $wkcontent
+     */
+	function fmt_post_content($post,$id) {
+		// if not post entire -- show only teaser or excerpt if avaliable and requested	
+		$wkcontent = $post->post_content;
+		if (!$this->show_entire) {           //show only teaser
+			if ($this->show_excerpt == true) {
+				$e_content = $this->get_excerpt($post);
+				if ($e_content == null) {
+					$wkcontent = $this->get_post_content($wkcontent,$id);
+				} else {
+					$wkcontent = '<p class="'.$this->classes_arr['post_excerpt'].' tpg-get-posts-excerpt">'.$e_content.'</p>';
+				}
+			} else {
+				
+				$wkcontent = $this->get_post_content($wkcontent,$id);
+			}
+		}
+		return $wkcontent;	
+	}
+	
+	/**
+     * format the post content
+     * 
+	 * This routine will parse the content at the more tag and return the short version
+	 *
+     * @param object $post
+     * @return char  $wkcontent
+     */
+	function filter_post_content($wkcontent) {
+		if (strlen($wkcontent) > 0) {					
+			$wkcontent = '<div class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
+			#apply filters for all content
+			$wkcontent = apply_filters('the_content',$wkcontent);
+			$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
+		}
+		return $wkcontent;
+	}
+	
+	/**
+     * format the post thumbnail
+     * 
+	 * This routine will parse the content at the more tag and return the short version
+	 *
+     * @param object $post
+     * @return char  $wkcontent
+     */
+	function fmt_post_thumbnail($post) {
+		$t_content='';
+		$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
+		if ($t_content != null) {
+			if (method_exists($this,'format_thumbnail')) {
+				$t_content = $this->format_thumbnail($t_content);
+			}
+			//$wkcontent = $t_content.$wkcontent;
+		}
+		return $t_content;	
 	}
 	
 	/**
@@ -584,6 +658,12 @@ class tpg_gp_process {
 			$this->show_excerpt = true;
 		} else {
 			$this->show_excerpt = false;
+		}
+		
+		if ($this->r['mag_layout'] == "true") {
+			$this->mag_layout = true;
+		} else {
+			$this->mag_layout = false;
 		}
 		
 		// set flag to shorten text in title

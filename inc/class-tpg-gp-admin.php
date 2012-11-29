@@ -147,7 +147,11 @@ class tpg_gp_admin {
 		//replace tokens in text
 		$page_content = str_replace("{settings}",$this->tpg_gp_bld_setting(),$page_content);
 		$page_content = str_replace("{icon}",screen_icon(),$page_content);
-		$page_content = str_replace("{donate}",$this->pp_btn,$page_content);
+		if ($this->gp_opts['valid-lic']) {
+			$page_content = str_replace("{donate}",'',$page_content);
+		} else {
+			$page_content = str_replace("{donate}",$this->pp_btn,$page_content);
+		}
 		
 		echo $page_content;
 	

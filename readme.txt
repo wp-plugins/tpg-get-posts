@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 2.00.02
+Stable tag: 2.01.00
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -18,7 +18,7 @@ but it will accept any of the options provided by the [get_posts template tag]( 
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
-	[tpg-get-posts]
+	[tpg_get_posts]
 
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
@@ -34,20 +34,20 @@ See the usage section in 'Other Notes' for a list of parms and more examples of 
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
-	[tpg-get-posts]
+	[tpg_get_posts]
 	
 	this is equivalent to:
 	
-	[tpg-get-posts show_meta="true" show_entire="false" fields="post_title, post_content" 
+	[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
 	fields_classes ="p-title-class, p-content-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 
 A common usage is to show post on a page that have a common tag or category:
 	
-		[tpg-get-posts tag="tag1, tag2,tag3"]
+		[tpg_get_posts tag="tag1, tag2,tag3"]
 	or 
-		[tpg-get-posts category_name="catname1, catname2, catname3"]
+		[tpg_get_posts category_name="catname1, catname2, catname3"]
 
 See Settings in plugin for full list of parameters
 
@@ -55,22 +55,22 @@ A couple of examples:
 
 Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.
 
-	[tpg-get-posts tag="tag1,tag2" numberposts=5 orderby="title]
+	[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]
 
 Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
-	[tpg-get-posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
+	[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
 
 Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
-	[tpg-get-posts tag="tag5" fields="post_title" ul_class="p-ul-class"]
+	[tpg_get_posts tag="tag5" fields="post_title" ul_class="p-ul-class"]
 
 
 == Installation ==
 
 1. Upload the plugin to the `/wp-content/plugins/` directory and unzip it.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
-1. Place `[tpg-get-posts]` in your pages. 
+1. Place `[tpg_get_posts]` in your pages. 
 
 == Frequently Asked Questions ==
 
@@ -106,6 +106,13 @@ Yes.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.1.0 =
+* Correct display of thumbnails only image size
+* Wrap the thumbnail and title in division
+* Modify update notice in premium version
+* Add a layout to show heading and content next to thumbnail
+* Doc update 
+
 = 2.0.2 =
 * Add the premium version functionality which allow selection: category_and, category_in and category_not_in.
 * Add ability to format the byline & metadata line.
@@ -115,7 +122,7 @@ Yes.  See the doc on using category__and.
 = 1.3.8 =
 * Correct html which was failing the validator.  Removed empty id='' and invalid slash.
 * Removed span around entire post which conflicted with heading formatting.
-* Changed div id tpg-get-posts-post, tpg-post-content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
+* Changed div id tpg_get_posts-post, tpg-post-content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
 
 = 1.3.7 =
 * Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire  

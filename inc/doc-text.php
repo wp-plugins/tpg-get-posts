@@ -69,11 +69,13 @@
 		
 			<dt>show_byline</dt><dd>This option show_byline="false" will suppress the display of the by-line. Default is "true".</dd>
 			
-			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  Note:  the thumbnail requires an extra database call before fetching the image from the media gallery, so from a performance standpoint, it is best to insert the images in your post.</dd>
+			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  </dd>
 			
 			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false".<br />** This is experimental and is subject to change. **</dd>
 			
 			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
+			
+			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image.</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display whenthe more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 		
@@ -103,11 +105,13 @@
 		<p><em><b>By saving your custom user defined style sheet in the theme folder it will not be deleted with an upgrade to the plugin.  This is a change from version 1.x</b></em></p>
 		<p>There are two ways to alter the styling: 
 		<ol>
-		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg_get_posts-style.css and modify them as needed.
-		<dt>tpg-title-class</dt><dd>class of the post title</dd>
+		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg_get_posts-style.css and modify them as needed. **Note: With release 2, the naming conventions for classes changed.  Please use the ones listed below as the older class names will be removed in a future release. 
+		<dt class="tpg-prem">tpg-title-class</dt><dd>class of the post title division</dd>
 		<dt>tpg-byline-class</dt><dd>class of the post byline</dd>
 		<dt>tpg-content-class</dt><dd>class for the body of the post</dd>
 		<dt>tpg-metadata-class</dt><dd>class for the metadata</dd>
+		<dt>tpg-excerpt-class</dt><dd>class for the excerpt</dd>
+		<dt class="tpg-prem">tpg-thumbnail-class</dt><dd>class for the thumbnail division</dd>
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
 			<p>The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
