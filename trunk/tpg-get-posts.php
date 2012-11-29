@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag to display posts on static page.
-Version: 2.00.02
+Version: 2.01.00
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 License: This software is licensed under <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</a> version 2.0 or later.
@@ -14,11 +14,8 @@ Description:  TPG Get Postsadds a shortcode tag 'tpg-get-posts' to display posts
 /**
  * @todo ... Description
  * 
- * 1) verify exclude code works
- * 2) pagination 
+ * 1) pagination 
  */
-
-//error_reporting(E_ALL);
 
 /*
  * Main controller for tpg-get-posts
@@ -35,7 +32,7 @@ Description:  TPG Get Postsadds a shortcode tag 'tpg-get-posts' to display posts
  *
  */
 
-error_reporting(E_ALL ^ E_NOTICE);
+//error_reporting(E_ALL ^ E_NOTICE);
 //error_reporting(E_ALL);
 
 // get base class

@@ -21,9 +21,10 @@
 .tpg-get-post-li-hr {display:none}
 /* class for content*/
 .tpg-get-posts-thumbnail{clear:both;}
-.tpg-posts-content{}
+.tpg-title-class{}
 .tpg-content-class{}
-#tpg-get-posts-excerpt{clear:both;}
+.tpg-thumbnail-class{}
+.tpg--excerpt-class{clear:both;}
 /* class for metadata*/
 .tpg-metadata-class {
 	margin-left:2em;
