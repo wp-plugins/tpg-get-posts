@@ -536,7 +536,7 @@ class tpg_gp_process {
 		if (isset($this->classes_arr["post_byline"])) {
 			$_byline .= ' class="'.$this->classes_arr["post_byline"].'"';
 		}	
-		$_byline .= '>By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date).'</p>';
+		$_byline .= '>By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date);
 
 		$_byline .= '</p>';
 		return $_byline;
