@@ -46,9 +46,20 @@ class tpg_resp_obj {
 	 * @var		strig	errmsg
 	 * @access public
 	 */
-	public $err_msg=array();
-
+	public $err_msgs=array();
 	
+	/**
+	 * Error msg text associative array
+	 * 
+	 * This array provides more explanation for an error message
+	 *
+	 * @since 0.1.0
+	 * @var		string	errcode
+	 * @var		strig	errmsg explanation
+	 * @access public
+	 */
+	public $err_txt=array();
+
 	
 	/**
 	 * Constrtor for lic validation
@@ -159,7 +170,6 @@ class tpg_resp_obj {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return bool True, if resp success. False, if not success.
 	 */
 	function add_data($_key,$_val) {
 		$this->data[$_key]=$_val;
@@ -172,12 +182,22 @@ class tpg_resp_obj {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return bool True, if resp success. False, if not success.
 	 */
 	function add_errmsg($_ec,$_em) {
 		$this->err_msgs[$_ec]=$_em;
 	}
 
+    /**
+	 * Add error messge explanation.
+	 *
+	 * add an error code and explanation to code.
+	 *
+	 * @since 0.1.0
+	 *
+	 */
+	function add_errtxt($_ec,$_em) {
+		$this->err_txt[$_ec]=$_em;
+	}
     
     /**
 	 * Check if return is sucess.
