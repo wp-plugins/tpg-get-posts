@@ -23,9 +23,7 @@
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="title ,byline,content,metadata" 
-		 field_classes ="post_title=p-title-class, post_content=p-content-class, 
-		 post_metadata=p-metadata-class, post_byline=p-byline-class" numberposts=5 ]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="title ,byline,content,metadata" field_classes ="post_title=tpg-title-class, post_content=tpg-content-class,  post_metadata=tpg-metadata-class, post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote>
 		
 		<p>This default usage will return the last 5 posts in reverse chronological order. It will display the post similarly to a standard post, honoring the tag to produce a teaser. Meta data showing post date, author, modified date, comments, categories and tags is also displayed.</p>
 		
@@ -50,6 +48,7 @@
 		
 		<dl>
 		<h4>Some common parameters are:</h4>
+		<p class="tpg-prem">Premium options are in green.</p>
 			<dt>tag</dt><dd>This allows for the selection of posts by tag.</dd>
 		
 			<dt>category_name</dt><dd>This allows for the selection of posts by category_name.</dd>
@@ -91,11 +90,17 @@
 		
 			<dt>ul-class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
 		
-			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields-"title".</dd>
+			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields="title".</dd>
 		
 			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 
-			<dt class="tpg-prem">cf</dt><dd>Invoke the user Custom Functions by passing cf='true'. The model function php file is provided in the include files folder and instructions are in the comments.</dd>
+			<dt class="tpg-prem">cf</dt><dd>Invoke the user Custom Functions by passing the codes for each exit to be invoked, ie cf='ppre,ppst,pre,pst,t,b,c,m'. The model function php file is provided in the /ext files folder and instructions are in the comments.
+			ppre => before the invoking of the plugin
+			ppst => upon completion of plugin, just before returning results
+			pre  => before each post
+			pst  => after each post
+			t,b,c,m => after title,byline,content,metadata -- this allows final editing
+			</dd>
 			<dt class="tpg-prem">cfp</dt><dd>Custom functions parameters.  This is an optional string that is passed to the custom functions routine.  It must be parsed by the custom function and is defined by the user.</dd>	
 		</dl>
 		
@@ -154,7 +159,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 	<div id="gp-examples">
 		<h3>Examples:</h3>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title"]</pre></blockquote>
 		
 		<p>Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.</p>
 		
@@ -162,9 +167,9 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		
 		<p>Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.</p>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag5" fields="post_title" ul_class="tpg-ul-class"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag5" fields="title"  ul_class="tpg-ul-class"]</pre></blockquote>
 		
-		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "class1", the date with a of class "tpg_ul_class". The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
+		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "tpg-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
 		
 		<blockquote><pre>[tpg_get_posts category="15,-4" ]</pre></blockquote>
 		
@@ -178,7 +183,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		<h3>How to Use:</h3>{donate}
 		<p>If you wish to have a subset of posts appear on a specific page.  The simplest approach is to specify a unique category and select it for the post you want to appear.  You can have multiple categories for a post, so this will not alter your existing website structure.</p>
 		
-		<p> For instance, suppose you want to show 2 posts on your home page, but not everything you post, only certain dealing with high profile events. The following steps should do this:</p>
+		<p> For instance, suppose you want to show 2 posts on your home page, but not everything you post, only those dealing with high profile events. The following steps should do this:</p>
 		<ol>
 			<li>Create a new category "homepage"</li>
 			<li>For each post that is to appear on the home page, select the category "homepage"</li>
@@ -193,29 +198,19 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		
 		<p>After purchasing a licences, an email will be sent to you with the Lic Key.</p>
 		
-		<ol>Option 1:
-		<li>Click the download link in the email</li>
-		<li>Save the plugin on your pc</li>
-		<li>See WP Plugin instructions below.</li>
+		<ol>To activate:
 		<li>Add the Lic Key and Lic Email on the TPG Get Posts Settings tab</li>
 		<li>Select the Keep Options on uninstall checkbox</li>
-		<li>Click the Update Options to save the options and then Validate to register and receive new update notices</li>
+		<li>Click the Update Options to save the options </li>
+		<li>Click the Validate Lic to register and receive new update notices</li>
 		<br />
 		</ol>
-		<ol>Option 2:
-		<li>Enter the License Key and Email used for purchase</li>
-		<li>Select the Keep Options on uninstall checkbox</li>
-		<li>Click the Update Options</li>
-		<li>Next, click the Validate options - this queries the repository to see if you license is valid</li>
-		<li>Once a valid license is entered, a download link will display which will download your file</li>
-		<li>See WP Plugin instructions below.</li>
+		<ol>To manually load the extension:
+		<li>Click the download link in the email</li>
+		<li>FTP the contents of the /ext folder to your site</li>
+		<li>Activate by following instructions above </li>
 		</ol>
-		<ul>WP Plugin install:
-		<li>Go to WP Plugins section on your Dashboard.</li>
-		<li>Disable and Delete the TPG Get Posts Plugin</li>
-		<li>Select Add New and upload and install the new Plugin</li>
-		<li>Activate the plugin</li>
-		</ul>
+		
 	
 	</div>
   </div>
