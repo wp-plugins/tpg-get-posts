@@ -292,11 +292,19 @@ class tpg_gp_admin {
 		$_p['tmp_path']=WP_CONTENT_DIR.'/upgrade/'.$this->module_data['module'].'.tmp/';
 		$_p['dl_url']=$_POST['dl-url'];
 		$_p['module-name']= $this->module_data['module'].'.zip';
-		$_p['upg_ext_path']= $_p['tmp_path'].$this->module_data['module'].'/inc';
+		$_p['upg_ext_path']= $_p['tmp_path'].$this->module_data['module'].'/ext';
 
 		$_resp=$this->vl->update_source($_p);
 		if ($_resp->success) {
 			echo '<div id="message" class="updated fade"><p><strong>' . __('The premium plugin has been updated.') . '</strong></p></div>';
+		} else {
+			$_keys=array_keys($_resp->err_msgs) ;
+			if (array_key_exists($_keys[0],$_resp->err_txt)) {
+				$errtxt=$_resp->err_txt[$_keys[0]];
+			} else {
+				$errtxt='';
+			}
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The update failed with a '.$_keys[0].' error. '.$errtxt) . '</strong></p></div>';
 		}
 	}					
 	

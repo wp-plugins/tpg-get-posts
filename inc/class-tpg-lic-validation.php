@@ -105,10 +105,14 @@ class tpg_lic_validation {
 		
 		if (is_wp_error($_tmpflnm)) {
 			$_keys=array_keys($_tmpflnm->errors) ;
-			print_r($_keys);
-			show_message('download failed '.$_tmpflnm->errors[$_keys[0]][0]);
+			//print_r($_keys);
+			//show_message('download failed '.$_tmpflnm->errors[$_keys[0]][0]);
+			$_msg='Either the connection failed or you have reached your donwload limit. Load download link directly in browser for addtion information. <br>Download link: '.$_p['dl_url'];
+			//show_message($_msg);
+			$this->ro->add_errtxt($_tmpflnm->get_error_code(),$_msg);
 			$this->ro->add_errmsg($_tmpflnm->get_error_code(),$_tmpflnm->get_error_message());
 			$this->ro->error();
+			return $this->ro;
 		}
 
 		//if download was success
