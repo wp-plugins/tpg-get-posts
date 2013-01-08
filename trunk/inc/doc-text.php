@@ -23,7 +23,7 @@
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
+		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="title ,byline,content,metadata" 
 		 field_classes ="post_title=p-title-class, post_content=p-content-class, 
 		 post_metadata=p-metadata-class, post_byline=p-byline-class" numberposts=5 ]</pre></blockquote>
 		
@@ -91,9 +91,12 @@
 		
 			<dt>ul-class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
 		
-			<dt>fields</dt><dd>This is a comma separated list of fields to show, taken right from the <a href="http://codex.wordpress.org/Database_Description#Table:_wp_posts" target="_blank">wp_posts database</a> table fields. The default is "post_title, post_content".  If only a list of titles is desired, remove the post_content parm from the list and no content will be returned.  At this time only post_title and post_content are selectable.</dd>
+			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields-"title".</dd>
 		
 			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
+
+			<dt class="tpg-prem">cf</dt><dd>Invoke the user Custom Functions by passing cf='true'. The model function php file is provided in the include files folder and instructions are in the comments.</dd>
+			<dt class="tpg-prem">cfp</dt><dd>Custom functions parameters.  This is an optional string that is passed to the custom functions routine.  It must be parsed by the custom function and is defined by the user.</dd>	
 		</dl>
 		
 		<p>To exclude posts, see examples.</p>

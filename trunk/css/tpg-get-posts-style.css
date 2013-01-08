@@ -17,11 +17,9 @@
 	margin-left:1em;
 	font-size:small;
 }
-/*class for <hr> after list */
-.tpg-get-post-li-hr {display:none}
+
 /* class for content*/
 .tpg-get-posts-thumbnail{clear:both;}
-.tpg-title-class{}
 .tpg-content-class{}
 .tpg-thumbnail-class{}
 .tpg--excerpt-class{clear:both;}
@@ -31,3 +29,5 @@
 	font-size:x-small;
 }
 .tpg-ul-class {}
+/*class for <hr> after list */
+.tpg-get-post-li-hr {display:none}

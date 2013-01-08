@@ -29,10 +29,10 @@
 		//var_dump($_paths);
 		$_opts['valid-lic']=true;              //test 
 		
-		if ($_opts['valid-lic'] && file_exists($_paths['dir']."inc/class-tpg-gp-process-ext.php")){
+		if ($_opts['valid-lic'] && file_exists($_paths['dir']."ext/class-tpg-gp-process-ext.php")){
 		//if (file_exists($_paths['dir']."inc/class-tpg-gp-process-ext.php")){
 			require_once("class-tpg-gp-process.php");
-			require_once("class-tpg-gp-process-ext.php");
+			require_once($_paths['ext']."class-tpg-gp-process-ext.php");
 			$obj = new tpg_gp_process_ext($_opts,$_paths);
 		}else {
 			require_once("class-tpg-gp-process.php");
@@ -74,9 +74,9 @@
 	 * @param    array    $gp_paths  paths array
 	 * @return   class 	  $obj		 class
 	 */
-	function create_lic_validation($_opts,$_paths,$module) {
+	function create_lic_validation($_opts,$_paths,$module_data) {
 		require_once("class-tpg-lic-validation.php");
-		$obj = new tpg_lic_validation($_opts,$_paths,$module);
+		$obj = new tpg_lic_validation($_opts,$_paths,$module_data);
 		return $obj;
 	}
 	
@@ -93,7 +93,7 @@
 	 * @return   class 	  $obj		 class
 	 */
 	function create_show_ids() {
-		require_once("class-tpg-show-ids.php");
+		require_once($_paths['ext']."class-tpg-show-ids.php");
 		$obj = new tpg_show_ids();
 		return $obj;
 	}
@@ -115,4 +115,43 @@
 		$obj = new tpg_pp_donate_button();
 		return $obj;
 	}
+	
+	/**
+	 * create resp object
+	 *
+	 *  
+	 *
+	 * @package WordPress
+	 * @subpackage tpg_get_posts
+	 * @since 2.0
+	 *
+	 * @param    void
+	 * @return   class 	  $obj		 class
+	 */
+	function create_resp_obj() {
+		require_once("class-tpg-resp-obj.php");
+		$obj = new tpg_resp_obj();
+		return $obj;
+	}
+	
+	/**
+	 * create WP upgrader object
+	 *
+	 *  
+	 *
+	 * @package WordPress
+	 * @subpackage tpg_get_posts
+	 * @since 2.0
+	 *
+	 * @param    void
+	 * @return   class 	  $obj		 class
+	 */
+	function create_wp_updater() {
+		if (!class_exists ('WP_Upgrader')) {
+			require_once(ABSPATH ."/wp-admin/includes/class-wp-upgrader.php");
+		}
+		$obj = new WP_Upgrader();
+		return $obj;
+	}
+
  }

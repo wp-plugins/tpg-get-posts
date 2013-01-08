@@ -12,26 +12,41 @@ class tpg_lic_validation {
 	
 	private	$api_url="http://api.tpginc.net/tpg-api-listener.php";
 	
-	private $bnt_func="";
-	private $btn_text="";                       //description on button
-	private $btn_desc_b4="";						//text above button
-	private $btn_desc_af="";						//text after button
-	private $btn_hidden="";						//hidden text <input type=hidden name=cmd value=_s-xclick>
+	private $opts=array();
+	private $paths=array();
+	private $module_data= array( 
+				'updt_sys'=>'',
+				"module"=>'',
+				);
 	
+	private $bnt_func="";
+	private $btn_text="";		//description on button
+	private $btn_desc_b4="";	//text above button
+	private $btn_desc_af="";	//text after button
+	private $btn_hidden="";		//hidden text <input type=hidden name=cmd value=_s-xclick>
 	private $data=array();
+	
+	public $plugin_data=array();
+	public $plugin_ext_data=array();
+	
 	
 	/**
 	 * Constrtor for lic validation
 	 *
 	 * @param	array	$gp_opts	options array
  	 * @param	array	$gp_paths	paths array
- 	 * @param	string	$module		name of module to be validated
+ 	 * @param	array	$module		module data array
 	 */
 	
 	function __construct($_opts,$_paths,$_module) {
 		$this->opts=$_opts;
 		$this->paths=$_paths;
-		$this->module=$_module;	
+		$this->module_data=$_module;
+		$this->ro = tpg_gp_factory::create_resp_obj();
+		
+		if ($this->module_data['updt-sys'] == 'wp') {
+			$this->wpu = tpg_gp_factory::create_wp_updater();
+		}
 	}
 	
 	/**
@@ -60,12 +75,12 @@ class tpg_lic_validation {
 	 * desc
 	 *
      * @param 	void
-	 * @return	void 
+	 * @return	array	response from request 
      */
 	function validate_lic(){
 		date_default_timezone_set('UTC');
 		$this->data['hash']=time();
-		$this->data['module']=$this->module;
+		$this->data['module']=$this->module_data['module'];
 		$this->data['func']='validate';
 		$this->data['lic-key']=$this->opts['lic-key'];
 		$this->data['lic-email']=$this->opts['lic-email'];
@@ -76,28 +91,108 @@ class tpg_lic_validation {
 	}
 	
 	/**
+     * Update source from store
+     * 
+	 * this routine will update the source
+	 *
+     * @param 	array	an array of parms
+	 *                   dest_path,tmp_path,dl_url,module name, skip_list array
+	 * @return	object   response 
+     */
+	function update_source(array $_p){
+		
+		$_tmpflnm = download_url($_p['dl_url']);
+		
+		if (is_wp_error($_tmpflnm)) {
+			$_keys=array_keys($_tmpflnm->errors) ;
+			print_r($_keys);
+			show_message('download failed '.$_tmpflnm->errors[$_keys[0]][0]);
+			$this->ro->add_errmsg($_tmpflnm->get_error_code(),$_tmpflnm->get_error_message());
+			$this->ro->error();
+		}
+
+		//if download was success
+		if ($this->ro->is_success()) {
+			$_resp=$this->wpu->fs_connect();
+			if (is_wp_error($_resp)) {
+				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
+				$this->ro->error();
+			} else {
+				$this->ro->add_msg("opened fs connection successful");
+			}
+		}
+		global $wp_filesystem;
+
+		//if file system connect success
+		if ($this->ro->is_success()) {
+			// Clean up working directory before unpack new data
+			if ( $wp_filesystem->is_dir($_p['tmp_path']) ) {
+				$wp_filesystem->delete($_p['tmp_path'], true);
+			}
+			$_resp = unzip_file($_tmpflnm, $_p['tmp_path']);
+			if (is_wp_error($_resp)) {
+				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
+				$this->ro->error();
+			} else {
+				$this->ro->add_msg("unzip $_tmpflnm to ".$_p['tmp_path']." successful");
+			}
+		}
+		
+		//if unzip was success
+		if ($this->ro->is_success()) {
+			$_from=$_p['upg_ext_path'];
+			$_to=$_p['dest_path'];
+			if (array_key_exists('skip_list',$_p)) {
+				$_skip = $_p['skip_list'];
+			} else {
+				$_skip=array();
+			}
+			$_resp = copy_dir($_from,$_to,$_skip);
+			if (is_wp_error($_resp)) {
+				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
+				$this->ro->error();
+			} else {
+				$this->ro->add_msg("copy from ".$_from." to ".$_to." successful");
+			}
+		}
+
+		$this->ro->add_msg("updated source");
+		unlink($_tmpflnm);
+		// Clean up working directory
+		if ( $wp_filesystem->is_dir($_p['tmp_path']) ) {
+			$wp_filesystem->delete($_p['tmp_path'], true);
+		}
+		return $this->ro;
+	}
+	
+	/**
      * get the version from the repository
      * 
 	 * Get the version of the premium plugin from the tpg repository
 	 *
      * @param 	void
-	 * @return	void 
+	 * @return	mixed	false or array if sucessful 
      */
 	function get_version(){
 		date_default_timezone_set('UTC');
 		$this->data['hash']=time();
-		$this->data['module']=$this->module;
+		$this->data['module']=$this->module_data['module'];
 		$this->data['func']='get-version';
 		$this->data['lic-key']=$this->opts['lic-key'];
 		$this->data['lic-email']=$this->opts['lic-email'];
 
-    	$_resp = $this->curl_json_req( $this->data);
-		
-		if ($_resp['success']) {
-			return $_resp['metadata']['version'];
+    	$_resp = $this->curl_json_req($this->data);
+
+		$this->ro->reset();
+		if ($_resp->success) {
+			$this->ro->add_msg("store version successful");
+			$this->ro->add_data("version",$_resp->metadata->version);
 		} else {
-			return false;
+			$this->ro->success=false;
+			$this->ro->add_errmsg("get-version-err",$_resp->errors[0]);
+			$this->ro->add_data("version",'0.0.0');
 		}
+		return $this->ro;
 	}
 	
 	/**
@@ -111,19 +206,15 @@ class tpg_lic_validation {
 	function get_update_link(){
 		date_default_timezone_set('UTC');
 		$this->data['hash']=time();
-		$this->data['module']=$this->module;
+		$this->data['module']=$this->module_data['module'];
 		$this->data['func']='get-update-link';
 		
 		$this->data['order']=$this->opts['lic-key'];
 		$this->data['email']=$this->opts['lic-email'];
 		
     	$_resp = $this->curl_json_req( $this->data);
-		
-		if ($_resp['success']) {
-			return $_resp['dl-url'];
-		} else {
-			return $_resp;
-		}
+    	return $_resp;
+
 	}
 	
 	/**
@@ -139,6 +230,7 @@ class tpg_lic_validation {
 		if ($url=='') {
 			$url=$this->api_url; 
 		}
+		 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json' ));
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -152,17 +244,19 @@ class tpg_lic_validation {
 		
 		//res false error, res true chk for json fmt
 		if ($_res){
-			$_r = json_decode($_res,true);
-			if (is_null($_r)) {$_r = $_res;}
+			$_r = json_decode($_res);
+			//if (is_null($_r)) {$_r = $_res;}
 		} else {
 			//get curl error
-			$_r = curl_errno($ch);
+			$_r = tpg_gp_factory::create_resp_obj();
+			$_r->success = false;
+			$_r->add_errmsg(curl_errno($ch),curl_error($ch));
 		} 
 
 		curl_close($ch);
 		return $_r;
 
-}
+	}
 
 	 
 	/**
@@ -178,13 +272,13 @@ class tpg_lic_validation {
 		$this->btn_text="update";     
 		$this->btn_desc_b4="";	
 		$this->btn_desc_af="";	
-		$this->btn_hidden="";						//hidden text <input type=hidden name=cmd value=_s-xclick>
+		$this->btn_hidden="";		//hidden text <input type=hidden name=cmd value=_s-xclick>
 		$_button = gen_button();
 		return $_button;
 	}
 	
 	/**
-     * generate button
+     * generate lic validate button
 	 * 
 	 * desc
 	 *
@@ -196,7 +290,7 @@ class tpg_lic_validation {
 		$this->btn_text="validate";     
 		$this->btn_desc_b4="";	
 		$this->btn_desc_af="";	
-		$this->btn_hidden="";						//hidden text <input type=hidden name=cmd value=_s-xclick>
+		$this->btn_hidden="";		//hidden text <input type=hidden name=cmd value=_s-xclick>
 		$_button = gen_button();
 		return $_button;
 	}
@@ -217,7 +311,7 @@ class tpg_lic_validation {
 		$button_code .= '<div id="'.$this->btn_func.'-button"><form action="'.$this->api_url.'" method=post>';
 		$button_code .= $this->btn_hiden;
 		if ($this->btn_text != '') {
-			$button_code .= '<input type=hidden name="funct_desc" value="'.$this->btn_text.'">';
+			$button_code .= '<input type=hidden name="funct_desc" value="'.$this->btn_func.'">';
 		}
 		if ($this->desc_af != '') {
 			$button_code .= '<div id="'.$this->btn_func.'-desc-after">'.$this->btn_desc_af.'</div>';
@@ -225,6 +319,26 @@ class tpg_lic_validation {
 		$button_code .= '</form></div>	</div>';
 		return $button_code;
 	}
+	
+	/**
+	 * Returns current plugin version and extension data.
+	 * 
+	 * @return string Plugin version
+	 */
+	public function get_plugin_info($_ext='') {
+		if ( ! function_exists( 'get_plugin_data' ) )
+			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$plugin_name=$this->paths['name'].'.php';
+		$this->plugin_data = get_plugin_data( $this->paths['dir'].$plugin_name );
+		if ($_ext != '' && file_exists($this->paths['ext'].$_ext)) {	
+			$this->plugin_ext_data = get_plugin_data( $this->paths['ext'].$_ext );
+		} else {	
+			$this->plugin_ext_data = array('Version'=>'0.0.0','Description'=>'Ext file not found');
+		}
+
+		return; 
+	}
+	
 	
 	/**
      * normalize version
