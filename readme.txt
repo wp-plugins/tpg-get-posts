@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 2.01.00
+Stable tag: 2.01.01
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -63,7 +63,7 @@ Shows 2 posts with the category name of "Events" or "News" ordered by title. Dis
 
 Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
-	[tpg_get_posts tag="tag5" fields="post_title" ul_class="p-ul-class"]
+	[tpg_get_posts tag="tag5" fields="title" ul_class="p-ul-class"]
 
 
 == Installation ==
@@ -106,6 +106,14 @@ Yes.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.2.0 =
+* added ability to alter order of post items - title,byline,content,meta
+* added ability to activate plugin in widgets
+* resolved problem with related posts bug (I think)
+
+= 2.1.1 =
+* remove empty <p> after byline
+
 = 2.1.0 =
 * Correct display of thumbnails only image size
 * Wrap the thumbnail and title in division

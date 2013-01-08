@@ -1,38 +1,33 @@
 /*
- *  Styling for the tpg_get_post plugin
- * all items prefaced with tgp (for tpg_get_posts)
+ *  Styling for the tpg-get-post plugin
+ * all items prefaced with tgp (for tpg-get-posts)
 */
+/* styling for posts*/
+/* wrapper for all posts pulled by shortcode */
+#tpg-get-posts{clear:both;}
 
-#tgp {
-	background: transparent;
-	border: 0;
-	margin: 0 0 0 2em;
-	padding: 0;
-	vertical-align: baseline;
-	width:80%;
+/* wrapper for individual post */
+.tpg-get-posts-post{clear:both;}
+/* class for title*/
+.tpg-title-class{
+	margin-top:1em !important; 
 }
-
-.tgp_head {
-	text-align:left;
-	font-size:large;
-}
-
-.tgp_warn {
-	margin:1em 0 1em 1em;
-	color:#990000;
-	font-weight:bold;
-}
-#donate_button_div {
-	margin: 0 .5em 0 1em;
-	width: 40%;
-	border:#FFCC00 2px;
- 	float: right;
-}
-#donate_desc {
+/* class of by-line*/
+.tpg-byline-class {
+	margin-left:1em;
 	font-size:small;
-	border:thin;
-	padding: .5em .5em .5em .5em;
 }
-#donate_button {
-	text-align:center
+
+/* class for content*/
+.tpg-get-posts-thumbnail{clear:both;}
+.tpg-content-class{}
+.tpg-thumbnail-class{}
+.tpg--excerpt-class{clear:both;}
+/* class for metadata*/
+.tpg-metadata-class {
+	margin-left:2em;
+	font-size:x-small;
 }
+.tpg-ul-class {}
+/*class for <hr> after list */
+.tpg-get-post-li-hr {display:none}
