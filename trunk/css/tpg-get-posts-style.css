@@ -1,0 +1,38 @@
+/*
+ *  Styling for the tpg_get_post plugin
+ * all items prefaced with tgp (for tpg_get_posts)
+*/
+
+#tgp {
+	background: transparent;
+	border: 0;
+	margin: 0 0 0 2em;
+	padding: 0;
+	vertical-align: baseline;
+	width:80%;
+}
+
+.tgp_head {
+	text-align:left;
+	font-size:large;
+}
+
+.tgp_warn {
+	margin:1em 0 1em 1em;
+	color:#990000;
+	font-weight:bold;
+}
+#donate_button_div {
+	margin: 0 .5em 0 1em;
+	width: 40%;
+	border:#FFCC00 2px;
+ 	float: right;
+}
+#donate_desc {
+	font-size:small;
+	border:thin;
+	padding: .5em .5em .5em .5em;
+}
+#donate_button {
+	text-align:center
+}
