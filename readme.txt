@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.4
-Stable tag: 2.01.00
+Stable tag: 2.02.00
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
