@@ -5,23 +5,45 @@
 //class tpg_gp_settings extends tpg_get_posts {
 class tpg_gp_admin {
 	
+	//sec since last update 30x24x60= 43200 sec in 30 day month
+	private $update_time=0;
+	
 	private $pp_btn='';
 	private $resp_data=array(
 					'dl-url'=>'',
 					'dl-link'=>'',
 					);
+	private $ext_name='class-tpg-gp-process-ext.php';
+	
+	//versions
+	private $v_store = '';
+	private $v_store_norm = 0.0;
+	private $v_plugin = '';
+	private $v_plugin_norm = 0.0;
+	private $v_plugin_ext = '';
+	private $v_plugin_ext_norm = 0.0;
+					
+	protected $vl=object;
 					
 	//variables set by constructor				
 	public $gp_opts=array();
 	public $gp_paths=array();
-	public $module='';
+	public $module_data=array();
 	public $plugin_data=array();
+	public $plugin_ext_data=array();
 	
 	function __construct($opts,$paths) {
 		$this->gp_opts=$opts;
 		$this->gp_paths=$paths;
-		$this->module='tpg-get-posts';
-		$this->plugin_data = get_plugin_data($this->gp_paths['dir'].$this->gp_paths['name'].'.php');
+		$this->module_data= array( 
+				'updt-sys'=>'wp',
+				"module"=>'tpg-get-posts',
+				);
+		
+		$this->vl = tpg_gp_factory::create_lic_validation($this->gp_opts,$this->gp_paths,$this->module_data);
+		$this->vl->get_plugin_info($this->ext_name);
+		$this->plugin_data = $this->vl->plugin_data;
+		$this->plugin_ext_data = $this->vl->plugin_ext_data;
 		
 		// Register link to the pluging list
 		add_filter('plugin_action_links', array(&$this, 'tpg_get_posts_settings_link'), 10, 2);
@@ -53,19 +75,19 @@ class tpg_gp_admin {
 		printf('%1$s by %2$s<br />', $this->plugin_data['Title'].'  Version: '.$this->plugin_data['Version'], $this->plugin_data['Author']);
 	}
 
-//	/**
-//	 *	add link to plugin text 
-//	 * @package WordPress
-//	 * @subpackage tpg_get_posts
-//	 * @since 1.3
-//	 *
-//	 * add the settings link in the plugin description area
-//	 * 
-//	 * @param	array	$links
-//	 * @param 	 		$file
-//	 * @return	array	$links
-//	 *
-//	 */
+	/*
+	 *	add link to plugin doc & settings 
+	 * @package WordPress
+	 * @subpackage tpg_get_posts
+	 * @since 1.3
+	 *
+	 * add the settings link in the plugin description area
+	 * 
+	 * @param	array	$links
+	 * @param 	 		$file
+	 * @return	array	$links
+	 */
+	 
 	function tpg_get_posts_settings_link($links, $file) {
 		static $this_plugin;
 		if (!$this_plugin) $this_plugin = plugin_basename($this->gp_paths['base']);
@@ -125,17 +147,18 @@ class tpg_gp_admin {
 		//if options have been set, process them & update array
 		if( isset($_POST['gp_opts']) ) {
 			$new_opts = $_POST['gp_opts'];
-			//var_dump($this->gp_opts);echo '<br>';var_dump($new_opts);
-			$_func=trim($new_opts['func']);
-			unset($new_opts['func']);
+
+			$_func = $_POST['func'];
 			
-			//echo "<br>func: *",$_func,"*";			
 			switch ($_func) {
-				case 'Update Options':
+				case 'updt_opts':
 					$this->update_options($new_opts);
 					break;
-				case 'Validate Lic':
+				case 'val_lic':
 					$this->validate_lic();
+					break;
+				case 'updt_plugin':
+					$this->update_plugin_ext();
 					break;
 			}
 			//refresh options
@@ -164,13 +187,18 @@ class tpg_gp_admin {
 		//replace tokens in text
 		$form_output = str_replace("{action-link}",$action_link,$form_output);
 		//check for update & show cur ver 
-		$new_ver=$this->check_for_update();
-		$v_store = $this->normalize_ver($new_ver);
-		$v_plugin= $this->normalize_ver($this->plugin_data['Version']);
-		if ($v_store > $v_plugin) {
-			$ver_txt = $this->plugin_data['Version'].'&nbsp;&nbsp;Newer version exists '.$new_ver;
+		$this->check_for_update();
+
+		//if update available
+		if ($this->v_store_norm > $this->v_plugin_ext_norm) {
+			//$ver_txt = $this->plugin_ext_data['Version'].'&nbsp;&nbsp;Newer version exists '.$new_ver;
+			$ver_txt = $this->v_plugin_ext.'&nbsp;&nbsp;Newer version exists '.$this->v_store;
+			//build update button
+			$btn_updt_plugin_txt = __('Update Plugin', 'gp_updt_plugin_opts' ) ;
+			$upd_button= '<button type="submit" class="button-primary tpg-settings-btn" name="func" value="updt_plugin" />'.$btn_updt_plugin_txt.'</button><input type="hidden" name="dl-url" value="{download-url}" />';
 		} else {
-			$ver_txt = $this->plugin_data['Version'];
+			$ver_txt = $this->v_plugin_ext;
+			$upd_button='';
 		}
 		//message for valid lic
 		if ($this->gp_opts['valid-lic']) {
@@ -182,7 +210,9 @@ class tpg_gp_admin {
 		//set tokens in form
 		$form_output = str_replace("{cur-ver}",$ver_txt,$form_output);
 		$form_output = str_replace("{valid-lic-msg}",$valid_txt,$form_output);
-		$form_output = str_replace("{download-link}",$this->resp_data['dl-link'],$form_output);
+		$form_output = str_replace("{update-button}",$upd_button,$form_output);
+		//$form_output = str_replace("{download-link}",$this->resp_data['dl-link'],$form_output);
+		$form_output = str_replace("{download-url}",$this->resp_data['dl-url'],$form_output);
 
 		return $form_output;	
 	}
@@ -213,6 +243,12 @@ class tpg_gp_admin {
 			$new_opts['keep-opts'] = true;
 		}
 		
+		if (!array_key_exists("active-in-widgets",$new_opts)) {
+			$new_opts['active-in-widgets'] = false;
+		} else {
+			$new_opts['active-in-widgets'] = true;
+		}
+		
 		//apply new values to gp_opts 
 		foreach($new_opts as $key => $value) {
 			$this->gp_opts[$key] = $value;
@@ -220,7 +256,7 @@ class tpg_gp_admin {
 		
 		//update with new values
 		update_option( 'tpg_gp_opts', $this->gp_opts);
-		//$this->set_options();
+		
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 	}
 	
@@ -232,14 +268,37 @@ class tpg_gp_admin {
 	 * @return   null
 	 */
 	function validate_lic(){
-		$vl = tpg_gp_factory::create_lic_validation($this->gp_opts,$this->gp_paths,$this->module);
-		$_resp=$vl->validate_lic();
-		$this->gp_opts['valid-lic']=$_resp['valid-lic'];
-		//update with new values
-		update_option( 'tpg_gp_opts', $this->gp_opts);
-		//refresh options
-		$this->gp_opts=tpg_get_posts::get_options();
+		$_resp=$this->vl->validate_lic();
+		if ($_resp->success) {
+			$this->gp_opts['valid-lic']=$_resp->{'valid-lic'};
+			//update with new values
+			update_option( 'tpg_gp_opts', $this->gp_opts);
+			//refresh options
+			$this->gp_opts=tpg_get_posts::get_options();
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The license has been validated.') . '</strong></p></div>';
+		}
 	}
+	
+	/*
+	 *	update plugin ext
+	 *  update the premium plugin
+	 *
+	 * @param    null
+	 * @return   null
+	 */
+	function update_plugin_ext(){
+
+		$_p['dest_path']=$this->gp_paths['dir'].'ext';
+		$_p['tmp_path']=WP_CONTENT_DIR.'/upgrade/'.$this->module_data['module'].'.tmp/';
+		$_p['dl_url']=$_POST['dl-url'];
+		$_p['module-name']= $this->module_data['module'].'.zip';
+		$_p['upg_ext_path']= $_p['tmp_path'].$this->module_data['module'].'/inc';
+
+		$_resp=$this->vl->update_source($_p);
+		if ($_resp->success) {
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The premium plugin has been updated.') . '</strong></p></div>';
+		}
+	}					
 	
 	/*
 	 * check_for_update
@@ -254,31 +313,38 @@ class tpg_gp_admin {
 	 * @return   null
 	 */
 	function check_for_update(){
-		$_ver='0.0';
 		if ($this->gp_opts['valid-lic']) {
-			//sec since last update 30x24x60= 43200 sec in 30 day month
 			if (!array_key_exists('last-updt',$this->gp_opts) || 	
-				($this->gp_opts['last-updt']+ 0) < time() ) {
-					$vl = tpg_gp_factory::create_lic_validation($this->gp_opts,$this->gp_paths,$this->module);
-					$_ver=$vl->get_version();
-					$v_store = $this->normalize_ver($_ver);
-					$v_plugin= $this->normalize_ver($this->plugin_data['Version']);
-					if (($_ver && $v_store > $v_plugin) || (!file_exists($this->gp_paths['dir']."inc/class-tpg-gp-process-ext.php")) ){
-						echo '<div id="message" class="updated"><p><strong>' . __('An update to ver '.$_ver.' is available.') . '</strong></p></div>';
-						$_resp=$vl->get_update_link();
-						if ($_resp['success']) {
-							$this->resp_data['dl-url']=$_resp;
+				($this->gp_opts['last-updt']+ $this->update_time) < time() ) {
+					$_resp=$this->vl->get_version();         //get store version
+					if ($_resp->success) {
+						$this->v_store_norm = $this->normalize_ver($_resp->data['version']);
+						$this->v_store = $_resp->data['version'];
+					} else {
+						$this->v_store = '0.0.0';
+						$this->v_store_norm = $this->normalize_ver('0.0.0');
+					}
+					$this->v_plugin= $this->plugin_data['Version'];
+					$this->v_plugin_norm= $this->normalize_ver($this->plugin_data['Version']);
+					$this->v_plugin_ext=$this->plugin_ext_data['Version'];
+					$this->v_plugin_ext_norm=$this->normalize_ver($this->plugin_ext_data['Version']);
+					if (($_resp->success && $this->v_store_norm > $this->v_plugin_ext_norm) || (!file_exists($this->gp_paths['ext'].$this->ext_name)) ){
+						echo '<div id="message" class="updated"><p><strong>' . __('An update to ver '.$this->v_store.' is available.') . '</strong></p></div>';
+						$_resp=$this->vl->get_update_link();
+						if ($_resp->success) {
+							$this->resp_data['dl-url']=$_resp->{'dl-url'};
 							$this->resp_data['dl-link']='<a href="'.$this->resp_data['dl-url'].'">Download new version</a>';
 						} else {
 							$this->resp_data['success']=false;
-							foreach ($_resp['errors'] as $err) {
+							foreach ($_resp->errors as $err) {
 								$this->resp_data['errors'][]=$err;
 							}
 						}
 					}
 			}
 		} 
-		return $_ver;
+
+		return;
 	}
 	
 	/**
@@ -356,8 +422,10 @@ class tpg_gp_admin {
 		//test the check boxes to see if the value should be checked
 		$ck_show_ids = ($this->gp_opts['show-ids'])? 'checked=checked' : '';
 		$ck_keep_opts = ($this->gp_opts['keep-opts'])? 'checked=checked' : '';
-		$btn_txt = __('Update Options', 'gp_udate_opts' ) ;
-		
+		$ck_widgets_opts = ($this->gp_opts['active-in-widgets'])? 'checked=checked' : '';
+		$btn_updt_opts_txt = __('Update Options', 'gp_update_opts' ) ;
+		$btn_val_lic_txt = __('Validate Lic', 'gp_val_lic_opts' ) ;
+
 		//create output form
 		$output = <<<EOT
 		<div class="wrap">		
@@ -378,22 +446,24 @@ class tpg_gp_admin {
 							<tr>
 							<td>License email: </td><td><input type="text" name="gp_opts[lic-email]" value="{$this->gp_opts['lic-email']}" size="50"> </td><td>(the email used when purchasing the license)</td>
 							</tr>
-							<tr><td></td><td>{valid-lic-msg}</td>
+							<tr><td></td><td><span style="color:maroon;">{valid-lic-msg}</span></td>
 							</tr>
 							<tr>
 							<td>Keep Options on uninstall:  </td><td><input type="checkbox" name="gp_opts[keep-opts]" id="id_keep_opts" value="false" $ck_keep_opts /></td><td>If checked, options will not be deleted on uninstall.  Useful when upgrading.  Uncheck to completely remove premium version.</td>				
-							</tr>
+							</tr><tr>
 							<td>Show Ids:  </td><td><input type="checkbox" name="gp_opts[show-ids]" id="id_show_id" value="true" $ck_show_ids /></td><td>This option applies modifications to the show cat (and other admin pages) to show the id of the entires.  This number is needed for the some of the premium selection options and for the category selector. </td>				
 							</tr>
 							<tr>
+							<td>Activate in Widgets:  </td><td><input type="checkbox" name="gp_opts[active-in-widgets]" id="id_widgets" value="true" $ck_widgets_opts /></td><td>If you want this plugin active in text widgets, check this box to activate the shortcodes for widgets.</td>				
+							</tr>
 			</table>
 							<!--//values are used in switch to determine processing-->
 							<p class="submit">
-							<input type="submit" class="button-primary tpg-settings-btn" name="gp_opts[func]" value=" $btn_txt" />
+							<button type="submit" class="button-primary tpg-settings-btn" name="func" value="updt_opts" />$btn_updt_opts_txt</button>
 							&nbsp;&nbsp;
-							<input type="submit" class="button-primary tpg-settings-btn" name="gp_opts[func]" value=" Validate Lic" />
-							
-							&nbsp;&nbsp;&nbsp;&nbsp; {download-link}
+							<button type="submit" class="button-primary tpg-settings-btn" name="func" value="val_lic" />$btn_val_lic_txt</button>
+							&nbsp;&nbsp;
+							{update-button}
 							</p>
 								
 						

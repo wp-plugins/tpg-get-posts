@@ -18,6 +18,7 @@ class tpg_get_posts {
 			"js" => '',
 			"js_url" => '',
 			"inc" => '',
+			"ext" => '',
 			"base" => '',
 			"name" => '',
 			"theme_dir" => '',
@@ -29,13 +30,13 @@ class tpg_get_posts {
 			"show-ids"=>false,
 			"keep-opts"=>false,
 			"last-updt"=>0,
+			"active-in-widgets"=>false,
 			);
 
  	// define constants for the plugin
  	public function __construct($url,$dir,$base) {
 		$this->set_paths($url,$dir,$base);
-		$this->gp_opts = $this->get_options();
-		$this->gp_opts['cur-version']=$this->plugin_get_version();
+		$this->gp_opts = array_merge($this->gp_opts,$this->get_options());
 	}
 	
 	/**
@@ -77,26 +78,15 @@ class tpg_get_posts {
 		$this->gp_paths['js'] =	$dir."js/";
 		$this->gp_paths['js_url'] =  $url."js/";
 		$this->gp_paths['inc'] =  $dir."inc/";
+		$this->gp_paths['ext'] =  $dir."ext/";
 		$this->gp_paths['base'] = $base;
 		$_arr= preg_split("#[/.]#",$base);
 		$this->gp_paths['name'] = $_arr[1];
-		$this->gp_paths["theme"] = get_theme_root().'/'.get_template().'/';
-		$this->gp_paths["theme_url"] = get_bloginfo("template_url").'/';
+		$this->gp_paths['theme'] = get_stylesheet_directory().'/';
+		$this->gp_paths['theme_url'] = get_stylesheet_directory_uri().'/';
+
 	}
 	
-	/**
-	 * Returns current plugin version.
-	 * 
-	 * @return string Plugin version
-	 */
-	function plugin_get_version() {
-		if ( ! function_exists( 'get_plugin_data' ) )
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugin_name=$this->gp_paths['name'].'.php';
-		$plugin_data = get_plugin_data( $this->gp_paths['dir'].$plugin_name );
-		return $plugin_data['Version'];
-	}
-
 }
 
 

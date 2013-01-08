@@ -28,10 +28,9 @@ class tpg_gp_process {
 		  'show_excerpt'     => 'false',
 		  'mag_layout'       => 'false',
 		  'more_link_text'   => '(read more...)',
-		  'fields'           => 'post_title, post_content',
+		  'fields'           => 'title, byline, content, metadata',
 		  'field_classes'    => '',
 		  );
-		  //'field_classes'    => 'post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class');
 		  
 	private $model_field_class = array('post_title'=>'tpg-title-class',
 								 	'post_content'=>'tpg-content-class', 
@@ -39,6 +38,7 @@ class tpg_gp_process {
 								 	'post_byline'=>'tpg-byline-class',
 									'post_thumbnail'=>'tpg-thumbnail-class',
 									'post_excerpt'=>'tpg-excerpt-class',
+									'mag_content'=>'tpg-mag-class',
 									'ul_class'=>'tpg-ul-class',
 								 );
 								 
@@ -63,6 +63,12 @@ class tpg_gp_process {
 		add_shortcode('tpg_get_posts', array(&$this, 'tpg_get_posts_gen'));
 		add_action( 'wp_enqueue_scripts', array($this,'gp_load_inc') );
 		
+		/*
+		 * Function to execute shortcodes in text widget
+		 */		
+		if ($this->gp_opts['valid-lic'] && $this->gp_opts['active-in-widgets']) {
+			add_filter('widget_text', 'do_shortcode', 11);
+		}
 	}
 	
 	/*
@@ -251,23 +257,22 @@ class tpg_gp_process {
 		
 		//now apply any options passed to the default array
 		$this->r = shortcode_atts($this->default_attr,$args );
-		//echo "<br>get_post r:";print_r($this->r);echo "<br>";
 		
 		//if category_names passed, convert to cat_id
 		if ($this->r['category_name'] != '') {
 			$_list=$this->cat_name_to_id($this->r['category_name']);
 			$this->r['category'] = $_list;
-			//$this->r['category'] = substr_replace($this->r['category'],"",-1);
 			$this->r['category_name'] = "";
 		}
-		//echo "<br>get_post r:";print_r($this->r);echo "<br>";	
+		
 		if (method_exists($this,'ext_args')) {
 			$this->ext_args();
-		} 
-		//echo "<br>get_post r:";print_r($this->r);echo "<br>";	
+		} 	
+		
 		//set up output fields
 		$this->fields_list = explode(",", $this->r['fields']);
-		
+		//edit for legacy code in plugin & show meta & byline
+		$this->edit_fields_list();
 
 		//initial class array with defaults from model
 		$this->classes_arr = $this->model_field_class;
@@ -294,12 +299,13 @@ class tpg_gp_process {
 			}
 		}
 		
-		
 		//format args & defaults in $r
 		$this->format_args();
 		
 		//open div and begin post process
-		$content = '<div id="tpg-get-posts" >';
+		$content = '';
+		$content = $this->filter_pre_plugin($content);
+		$content .= '<div id="tpg-get-posts" >';
 		if ($this->show_as_list) {
 			$content .="<ul class=\"".$this->r['ul_class']."\">\n";
 		}
@@ -313,7 +319,8 @@ class tpg_gp_process {
 		foreach( $posts as $post ) {
 			setup_postdata($post);
 			$id=$post->ID;
-			//echo "<pre>";print_r($post);echo "</pre><br>";
+			
+			$content = $this->filter_pre_post($content);
 			
 			if ($this->thumbnail_only) {
 				$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
@@ -322,7 +329,8 @@ class tpg_gp_process {
 				} else {
 					$wkcontent = '<div class="tpg-get-posts-thumbnail"><p>thumbnail missing for '.$post->post_title.'</p></div>';
 				}
-				$content .=$wkcontent;	
+				$content .=$wkcontent;
+				$content = $this->filter_pst_post($content);	
 				continue;
 			}	
 						
@@ -339,11 +347,6 @@ class tpg_gp_process {
 			} else {
 				$content .= $this->post_layout($post,$id);
 			}
-			
-			// print post metadata
-			if ($this->show_meta) {
-				$content .= $this->format_metadata($post);
-			}
 	
 			if ($this->show_as_list) {
 				$content .= '</li> <hr class="tpg-get-post-li-hr" >';
@@ -351,11 +354,13 @@ class tpg_gp_process {
 			} else {
 				$content .= '</div>';
 			}
+			$content = $this->filter_pst_post($content);
 		}	
 		
 		if ($this->show_as_list)
 			$content .= '</ul>';
 		$content .= '</div><!-- #tpg-get-posts -->';
+		$content = $this->filter_pst_plugin($content);
 		
 		$post = $tmp_post;            //restore current page/post settings
 		return $content;
@@ -363,26 +368,29 @@ class tpg_gp_process {
 	}
 	
 	/**
-     * Get the post content
+     * Post Layout
      * 
-	 * This routine will parse the content at the more tag and return the short version
+	 * This routine processes each post
 	 *
-     * @param object $wkcontent
-     * @return char  $wkcontent
+     * @param object $post, $id
+     * @return char  $content
      */
 	function post_layout($post,$id) {
-		$content='';
+		$content = '';
+		
 		foreach ( $this->fields_list as $field ) {
-
-			$field = trim($field);	
-				
+			$field = trim($field);
 			switch ($field) {
-				case "post_title":
+				case "title":
 					$wkcontent = $this->fmt_post_title($post);
+					$wkcontent = $this->filter_post_title($wkcontent);
 					break;
-				case "post_content":
-					$wkcontent = $this->fmt_post_content($post,$id);				
-					
+				case "byline":
+					$wkcontent = $this->fmt_post_byline($post);
+					$wkcontent = $this->filter_post_byline($wkcontent);
+					break;
+				case "content":
+					$wkcontent = $this->fmt_post_content($post,$id);
 					// add thumbnail to content
 					if ($this->show_thumbnail ){	
 						$wkcontent = $this->fmt_post_thumbnail($post).$wkcontent;
@@ -390,10 +398,14 @@ class tpg_gp_process {
 					//wrap content in div tag
 					$wkcontent = $this->filter_post_content($wkcontent);
 					break;
+				case "metadata":
+					$wkcontent = $this->fmt_post_metadata($post);
+					$wkcontent = $this->filter_post_metadata($wkcontent);	
+					break;
 			}
-			
 			$content .= $wkcontent;
 		}
+
 		return $content;
 	}
 	/**
@@ -413,12 +425,10 @@ class tpg_gp_process {
 		} else {
 			$wkcontent = $this->t_tag_beg.$wkcontent.$this->t_tag_end;
 		}
-		if ($this->show_byline) {
-			$wkcontent .= $this->format_byline($post);
-		}
+
 		if (method_exists($this,'format_title')) {
-				$wkcontent = $this->format_title($wkcontent);
-			}
+			$wkcontent = $this->format_title($wkcontent);
+		}
 		return $wkcontent;	
 	}
 	/**
@@ -447,25 +457,7 @@ class tpg_gp_process {
 		}
 		return $wkcontent;	
 	}
-	
-	/**
-     * format the post content
-     * 
-	 * This routine will parse the content at the more tag and return the short version
-	 *
-     * @param object $post
-     * @return char  $wkcontent
-     */
-	function filter_post_content($wkcontent) {
-		if (strlen($wkcontent) > 0) {					
-			$wkcontent = '<div class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
-			#apply filters for all content
-			$wkcontent = apply_filters('the_content',$wkcontent);
-			$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
-		}
-		return $wkcontent;
-	}
-	
+		
 	/**
      * format the post thumbnail
      * 
@@ -481,7 +473,6 @@ class tpg_gp_process {
 			if (method_exists($this,'format_thumbnail')) {
 				$t_content = $this->format_thumbnail($t_content);
 			}
-			//$wkcontent = $t_content.$wkcontent;
 		}
 		return $t_content;	
 	}
@@ -531,13 +522,13 @@ class tpg_gp_process {
      * @param	object $post
      * @return	string $_byline
      */
-	function format_byline($post){
-		$_byline = '<p ';
+	function fmt_post_byline($post){
+		$_byline = '';
+		$_byline .= '<p ';
 		if (isset($this->classes_arr["post_byline"])) {
 			$_byline .= ' class="'.$this->classes_arr["post_byline"].'"';
 		}	
 		$_byline .= '>By '.get_the_author().' on '.mysql2date('F j, Y', $post->post_date);
-
 		$_byline .= '</p>';
 		return $_byline;
 	}
@@ -548,8 +539,9 @@ class tpg_gp_process {
      * @param	object $post
      * @return	string $_metadata
      */
-	function format_metadata($post){
-		$_metadata = '<p ';
+	function fmt_post_metadata($post){
+		$_metadata = ''; 
+		$_metadata .= '<p ';
 		if (isset($this->classes_arr["post_metadata"])) {
 			$_metadata .= 'class="'.$this->classes_arr["post_metadata"].'"';
 		}	
@@ -558,9 +550,145 @@ class tpg_gp_process {
 		comments_popup_link(' No Comments &#187;', ' 1 Comment &#187;', ' % Comments &#187;');
 		$_metadata .= ob_get_clean();
 		$_metadata .= " | <b>Filed under:</b> ".$this->get_my_cats($post->ID)."&nbsp;&nbsp;|&nbsp;&nbsp;<b>Tags:</b> ".$this->get_my_tags($post->ID);
-		//$content .= " | <b>Filed under:</b> ".$this->get_my_cats($post->ID)."&nbsp;&nbsp;|&nbsp;&nbsp;<b>Tags:</b> ".$this->get_my_tags($post->ID);
 		$_metadata .= '</p>';
 		return $_metadata;
+	}
+	
+	/**
+     * filter the title content
+     * 
+	 * This routine calls any custom functions defined for title
+	 * and passes the title thru the custom routine
+	 *
+     * @param 	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_post_title($wkcontent) {
+		//apply custom filter
+		if (method_exists($this,'pst_title_filter') && $this->cf_t ) {
+			$wkcontent = $this->pst_title_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+	
+	/**
+     * filter the byline content
+     * 
+	 * This routine calls any custom functions defined for title
+	 * and passes the title thru the custom routine
+	 *
+     * @param 	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_post_byline($wkcontent) {
+		//apply custom filter
+		if (method_exists($this,'pst_byline_filter') && $this->cf_b ) {
+			$wkcontent = $this->pst_byline_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+
+	/**
+     * filter the post content
+     * 
+	 * This routine calls any custom functions defined for content
+	 * and passes the content thru the_content filter
+	 *
+     * @param	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_post_content($wkcontent) {
+		if (strlen($wkcontent) > 0) {					
+			$wkcontent = '<div id="tpg-gp-content-div" class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
+			//apply filters for all content
+			$wkcontent = apply_filters('the_content',$wkcontent);
+			$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
+		}
+		//apply custom filter
+		if (method_exists($this,'pst_content_filter') && $this->cf_c ) {
+			$wkcontent = $this->pst_content_filter($wkcontent,$this->cfp);
+		} 
+		return $wkcontent;
+	}
+	/**
+     * filter the meta content
+     * 
+	 * This routine calls any custom functions defined for title
+	 * and passes the title thru the custom routine
+	 *
+     * @param 	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_post_metadata($wkcontent) {
+		//apply custom filter
+		if (method_exists($this,'pst_metadata_filter') && $this->cf_m ) {
+			$wkcontent = $this->pst_metadata_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+	
+	/**
+     * Pre post filter
+     * 
+	 * This routine calls any custom functions defined before the post is processed
+	 *
+     * @param 	string	$wkcontent or null
+     * @return	string	$wkcontent
+     */
+	function filter_pre_post($wkcontent=null) {
+		//apply custom filter
+		if (method_exists($this,'pre_post_filter') && $this->cf_pre ) {
+			$wkcontent = $this->pre_post_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+	
+	/**
+     * Pst post filter
+     * 
+	 * This routine calls any custom functions defined after the post is processed
+	 *
+     * @param 	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_pst_post($wkcontent) {
+		//apply custom filter
+		if (method_exists($this,'pst_post_filter') && $this->cf_pst ) {
+			$wkcontent = $this->pst_post_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+	
+	/**
+     * Pre plugin filter
+     * 
+	 * This routine calls any custom functions defined before the plugin is processed
+	 *
+     * @param 	string	$wkcontent or null
+     * @return	string	$wkcontent
+     */
+	function filter_pre_plugin($wkcontent=null) {
+		//apply custom filter
+		if (method_exists($this,'pre_plugin_filter') && $this->cf_ppre ) {
+			$wkcontent = $this->pre_plugin_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
+	}
+	
+	/**
+     * Pst plugin filter
+     * 
+	 * This routine calls any custom functions defined after the plugin is processed
+	 *
+     * @param 	string	$wkcontent
+     * @return	string	$wkcontent
+     */
+	function filter_pst_plugin($wkcontent) {
+		//apply custom filter
+		if (method_exists($this,'pst_plugin_filter') && $this->cf_ppst ) {
+			$wkcontent = $this->pst_plugin_filter($wkcontent,$this->cfp);
+		} 	
+		return $wkcontent;
 	}
 
 	/**
@@ -613,18 +741,6 @@ class tpg_gp_process {
 			$this->show_entire = false;
 		}
 		
-		if ($this->r['show_meta'] == "true") {
-			$this->show_meta = true;
-		} else {
-			$this->show_meta = false;
-		}
-		
-		if ($this->r['show_byline'] == "true") {
-			$this->show_byline = true;
-		} else {
-			$this->show_byline = false;
-		}
-		
 		if ($this->r['title_link'] == "true") {
 			$this->title_link = true;
 		} else {
@@ -666,6 +782,9 @@ class tpg_gp_process {
 			$this->mag_layout = false;
 		}
 		
+		//setup cust funct type & parm
+		$this->edit_cust_func();
+		
 		// set flag to shorten text in title
 		$this->ellip = $this->r['text_ellipsis'];
 		if ($this->r['shorten_title'] == "") {
@@ -696,6 +815,98 @@ class tpg_gp_process {
 			$this->t_tag_beg .= '>';
 			$this->t_tag_end = "</".$this->r['title_tag'].">";
 		}	
+	}
+	
+	/**
+     * setup custom func types & parms
+     * 
+     * @param 	void
+	 * @return	void
+     * 
+     */
+    function edit_cust_func() {
+		//init fields
+		$this->cf_ppre = false;             //plugin
+		$this->cf_ppst = false;
+		$this->cf_pre = false;				//pst
+		$this->cf_pst = false;
+		
+		$this->cf_t = false;
+		$this->cf_b = false;
+		$this->cf_c = false;
+		$this->cf_m = false;
+		$this->cfp = '';
+		
+		
+		//check for args
+		if (array_key_exists('cf',$this->r)) {
+			$_cf_type = explode(',',$this->r['cf']);
+			foreach ($_cf_type as $t) {
+				switch ($t){
+					case 'ppre':
+						$this->cf_ppre = true;
+						break;
+					case 'ppst':
+						$this->cf_ppst = true;
+						break;
+					case 'pre':
+						$this->cf_pre = true;
+						break;
+					case 'pst':
+						$this->cf_pst = true;
+						break;
+					case 't':
+						$this->cf_t = true;
+						break;
+					case 'b':
+						$this->cf_b = true;
+						break;
+					case 'c':
+						$this->cf_c = true;
+						break;
+					case 'm':
+						$this->cf_m = true;
+						break;
+				}
+			}
+		}
+		//check for user parms
+		if (array_key_exists('cfp',$this->r)) {
+			$this->cfp = $this->r['cfp']; 
+		}
+	}
+	
+	/**
+     * edit field list
+     * 
+     * @param 	void
+	 * @return	void
+     * 
+     */
+    function edit_fields_list() {
+		//edit for legacy code in plugin
+		$_legacy_flds = array('post_title'=>'title','post_content'=>'content');
+		foreach ($_legacy_flds as $lk=>$lv) {
+			$_fnd = array_search($lk,$this->fields_list);
+			if ($_fnd !== false) {
+				$this->fields_list[$_fnd] = $lv;
+			}
+		}
+
+		if ($this->r['show_meta'] != "true") {
+			$_fnd = array_search('metadata',$this->fields_list);
+			if ($_fnd !== false) {
+				unset($this->fields_list[$_fnd]);
+			}
+		}
+		
+		if ($this->r['show_byline'] != "true") {
+			$_fnd = array_search('byline',$this->fields_list);
+			if ($_fnd !== false) {
+				unset($this->fields_list[$_fnd]);
+			}
+		} 
+		
 	}
 	
 }//end class
