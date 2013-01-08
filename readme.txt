@@ -14,7 +14,7 @@ Please review the Changelog for release change notices and save any custom styli
 This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values, suchs as tags, category, category_name or any other option supported by the WP get_posts function, to show only items relevant for the page.
 
 By default it will show the 5 most recent posts ordered in reverse date order,
-but it will accept any of the options provided by the [get_posts template tag]( href=http://codex.wordpress.org/Template_Tags/get_posts ).
+but it will accept most of the options provided by the [get_posts template tag]( href=http://codex.wordpress.org/Template_Tags/get_posts ). If the value of the paramter is an array, it must be parsed by the plugin and not all parms have been implemented.
 
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
@@ -38,8 +38,8 @@ To use it, just put the following into the HTML of any page or post, use as many
 	
 	this is equivalent to:
 	
-	[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content" 
-	fields_classes ="p-title-class, p-content-class" numberposts=5 ]
+	[tpg_get_posts show_meta="true" show_entire="false" fields="title,byline,content,metadata" 
+	fields_classes ="post_title=tpg-title-class, post_content=tpg-content-class,post_byline=tpg-byline-class,post_metadata=tpg-metadata-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 
@@ -53,15 +53,15 @@ See Settings in plugin for full list of parameters
 
 A couple of examples:
 
-Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.
+Show 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.
 
 	[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title]
 
-Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
+Show 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
 	[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
 
-Shows a bullet list of post titles. The title will be wrapped in a <span> tag with a class of "class1", the date with a <span> of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
+Show a bullet list of post titles. The title will be wrapped in a of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
 	[tpg_get_posts tag="tag5" fields="title" ul_class="p-ul-class"]
 
@@ -96,7 +96,7 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 
 = Can I select categories with 'and' logic? =
 
-Yes.  See the doc on using category__and. 
+Yes, in premium version.  See the doc on using category__and. 
 
 == Screenshots ==
 
@@ -110,6 +110,7 @@ Yes.  See the doc on using category__and.
 * added ability to alter order of post items - title,byline,content,meta
 * added ability to activate plugin in widgets
 * resolved problem with related posts bug (I think)
+* modified premium upgrade to not require a reinstall of plugin
 
 = 2.1.1 =
 * remove empty <p> after byline
