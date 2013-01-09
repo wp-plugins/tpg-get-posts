@@ -195,7 +195,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 	<div id="gp-settings">{settings}
 	
 		<h3>Instructions for Upgrading to the Premium Version:</h3>
-		
+		<p>Purchase a Lic at <a href="http://www.tpginc.net/store/product-category/software/wordpress-software/" target="_blank">http://www.tpginc.net/store/product-category/software/wordpress-software/</p>
 		<p>After purchasing a licences, an email will be sent to you with the Lic Key.</p>
 		
 		<ol>To activate:
