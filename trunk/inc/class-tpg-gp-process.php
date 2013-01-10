@@ -270,7 +270,7 @@ class tpg_gp_process {
 		} 	
 		
 		//set up output fields
-		$this->fields_list = explode(",", $this->r['fields']);
+		$this->fields_list = array_map('trim',explode(",", $this->r['fields']));
 		//edit for legacy code in plugin & show meta & byline
 		$this->edit_fields_list();
 
