@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.5
-Stable tag: 2.02.00
+Stable tag: 2.02.01
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -106,6 +106,9 @@ Yes, in premium version.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.2.1 =
+* correct show_byline & show_meta test - strip spaces from list items
+
 = 2.2.0 =
 * added ability to alter order of post items - title,byline,content,meta
 * added ability to activate plugin in widgets
