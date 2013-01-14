@@ -106,7 +106,7 @@ Yes, in premium version.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
-= 2.2.1 =
+= 2.2.2 =
 * correct thumbnail_only when used to show in list.  The thumbnail only did not wrap the post in a <li> tag.  This change replaces the div with an li to make it behave like a regular post.
 * NOTE:  This change may alter the way styling is done for thumbnail only implementations.  Test before installing on your live site.
 
