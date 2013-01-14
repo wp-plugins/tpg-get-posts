@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.5
-Stable tag: 2.02.01
+Stable tag: 2.02.02
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -106,6 +106,10 @@ Yes, in premium version.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.2.1 =
+* correct thumbnail_only when used to show in list.  The thumbnail only did not wrap the post in a <li> tag.  This change replaces the div with an li to make it behave like a regular post.
+* NOTE:  This change may alter the way styling is done for thumbnail only implementations.  Test before installing on your live site.
+
 = 2.2.1 =
 * correct show_byline & show_meta test - strip spaces from list items
 

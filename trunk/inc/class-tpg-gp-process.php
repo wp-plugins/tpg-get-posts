@@ -323,11 +323,24 @@ class tpg_gp_process {
 			$content = $this->filter_pre_post($content);
 			
 			if ($this->thumbnail_only) {
+				// if list wrap each post in list; if not list wrap in div
+				if ($this->show_as_list) {
+					$wkcontent = "<li>";
+				} else {
+					$wkcontent = '<div class="tpg-get-posts-thumbnail" >';
+				}
+				//get the thumbnail
 				$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
 				if ($t_content != null) {
-					$wkcontent = '<div class="tpg-get-posts-thumbnail"><a href="' . get_permalink() .'">'.$t_content.'</a></div>';
+					$wkcontent .= '<a href="' . get_permalink() .'">'.$t_content.'</a>';
 				} else {
-					$wkcontent = '<div class="tpg-get-posts-thumbnail"><p>thumbnail missing for '.$post->post_title.'</p></div>';
+					$wkcontent .= '<p>thumbnail missing for '.$post->post_title.'</p>';
+				}
+				//close li item or div
+				if ($this->show_as_list) {
+					$wkcontent .= '</li> ';
+				} else {
+					$wkcontent .= '</div>';
 				}
 				$content .=$wkcontent;
 				$content = $this->filter_pst_post($content);	
