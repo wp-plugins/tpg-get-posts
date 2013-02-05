@@ -47,8 +47,9 @@
 		<p>Based on the <a href="http://codex.wordpress.org/Template_Tags/get_posts" target="_blank">get_posts</a> template tag, all of the possible parameters associated with this plugin are documented in the WP_Query class to which fetches posts. See the <a href="http://codex.wordpress.org/Class_Reference/WP_Query#Parameters" target="_blank">parameters section</a> of the WP_Query documentation for a list of parameters that this function accepts. </p>
 		
 		<dl>
-		<h4>Some common parameters are:</h4>
 		<p class="tpg-prem">Premium options are in green.</p>
+		<h4>Selection parameters are:</h4>
+		
 			<dt>tag</dt><dd>This allows for the selection of posts by tag.</dd>
 		
 			<dt>category_name</dt><dd>This allows for the selection of posts by category_name.</dd>
@@ -61,7 +62,7 @@
 			<dt class="tpg-prem">category__in </dt><dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are in the list and child categories are not selected.  Category or category_name may be used.</dd>
 			<dt class="tpg-prem">'category__not_in</dt> <dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are not in the list.  Category or category_name may be used.</dd>
 		
-		<h4>Along with all the parameters provided by the WordPress get_posts template tag, this plugin will also accept a few additional parameters:</h4>
+		<h4>Layout/format control parameters:</h4>
 			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser. Default is "false".</dd>
 		
 			<dt>show_meta</dt><dd>This option show_meta="false" will suppress the display of metadata. Default is "true".</dd>
@@ -195,7 +196,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 	<div id="gp-settings">{settings}
 	
 		<h3>Instructions for Upgrading to the Premium Version:</h3>
-		<p>Purchase a license at <a href="http://www.tpginc.net/product/tpg-get-posts/" target="_blank">http://www.tpginc.net/product/tpg-get-posts/</p>
+		<p>Purchase a license at <a href="http://www.tpginc.net/product/tpg-get-posts/" target="_blank">http://www.tpginc.net/product/tpg-get-posts/</a></p>
 		<p>After purchasing a licences, an email will be sent to you with the Lic Key.</p>
 		
 		<ol>To activate:
