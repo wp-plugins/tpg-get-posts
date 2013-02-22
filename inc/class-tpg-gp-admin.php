@@ -51,8 +51,8 @@ class tpg_gp_admin {
 		add_action('admin_menu', array(&$this,'tpg_get_posts_admin'));	
 
 		if ($opts['show-ids']) {
-			if ($opts['valid-lic'] && file_exists($paths['dir']."inc/class-tpg-show-ids.php")) {
-				$ssid = tpg_gp_factory::create_show_ids();
+			if ($opts['valid-lic'] && file_exists($paths['dir']."ext/class-tpg-show-ids.php")) {
+				$ssid = tpg_gp_factory::create_show_ids($this->gp_opts,$this->gp_paths);
 			}
 		}
 	}

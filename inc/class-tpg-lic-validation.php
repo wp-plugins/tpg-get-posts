@@ -44,9 +44,6 @@ class tpg_lic_validation {
 		$this->module_data=$_module;
 		$this->ro = tpg_gp_factory::create_resp_obj();
 		
-		if ($this->module_data['updt-sys'] == 'wp') {
-			$this->wpu = tpg_gp_factory::create_wp_updater();
-		}
 	}
 	
 	/**
@@ -100,6 +97,12 @@ class tpg_lic_validation {
 	 * @return	object   response 
      */
 	function update_source(array $_p){
+		
+		//instanitate updater only when needed to avoid conflict with wp core upgrader function
+		if ($this->module_data['updt-sys'] == 'wp') {
+			$this->wpu = tpg_gp_factory::create_wp_upgrader();
+		}
+
 		
 		$_tmpflnm = download_url($_p['dl_url']);
 		

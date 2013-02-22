@@ -9,6 +9,7 @@ class tpg_gp_process {
 	private $model_attr = array(
 		  'numberposts'      => '5',
 		  'offset'           => '',
+		  'cat'				 => '',
 		  'category'         => '',
 		  'category_name'    => '',
 		  'tag'              => '',
@@ -129,7 +130,7 @@ class tpg_gp_process {
 	}
 	
 	/**
-	 * format routine for tag selection
+	 * format routine for tag metadata selection
 	 *
 	 * @package WordPress
 	 * @subpackage tpg_get_posts
@@ -203,6 +204,15 @@ class tpg_gp_process {
 		return $text;
 	}
 	
+	/**
+	 * cat name to id
+	 *
+	 * convert cat names to ids to allow mutltiple selections 
+	 * 
+	 * @param    string   $_list   	list of comma separated cat names 
+	 * @return   string   $_ids     list of comma separated cat ids
+	 *
+	 */
 	function cat_name_to_id($_list){
 	//if category_names passed, convert to cat_id
 		$_sep=",";
@@ -258,11 +268,23 @@ class tpg_gp_process {
 		//now apply any options passed to the default array
 		$this->r = shortcode_atts($this->default_attr,$args );
 		
-		//if category_names passed, convert to cat_id
+		//if cat replaces category & category_name
+		if ($this->r['cat'] != '') {
+			$_list=$this->cat_name_to_id($this->r['cat']);
+			$this->r['cat'] = $_list;
+		}
+		
+		//**legacy if category_names passed, convert to cat_id
 		if ($this->r['category_name'] != '') {
 			$_list=$this->cat_name_to_id($this->r['category_name']);
-			$this->r['category'] = $_list;
+			$this->r['cat'] = $_list;
 			$this->r['category_name'] = "";
+		}
+		//** legacy if category_names passed, convert to cat_id
+		if ($this->r['category'] != '') {
+			$_list=$this->cat_name_to_id($this->r['category']);
+			$this->r['cat'] = $_list;
+			$this->r['category'] = "";
 		}
 		
 		if (method_exists($this,'ext_args')) {
@@ -278,10 +300,10 @@ class tpg_gp_process {
 		$this->classes_arr = $this->model_field_class;
 		//override defaults if passed
 		if ($this->r['field_classes'] != '') {
-			$field_classes_list = explode(",", $this->r['field_classes']);
+			$field_classes_list = array_map('trim',explode(",", $this->r['field_classes']));
 			//echo "for each fld class loop<br>";
 			foreach ($field_classes_list as $fcl_items) {
-				$fcl_item = explode('=',$fcl_items);
+				$fcl_item = array_map('trim',explode('=',$fcl_items));
 				$this->classes_arr[trim($fcl_item[0])] = trim($fcl_item[1]);
 			}
 		}
