@@ -23,11 +23,11 @@
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="title ,byline,content,metadata" field_classes ="post_title=tpg-title-class, post_content=tpg-content-class,  post_metadata=tpg-metadata-class, post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts fields="title ,byline,content,metadata" field_classes ="post_title=tpg-title-class, post_content=tpg-content-class,  post_metadata=tpg-metadata-class, post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote>
 		
-		<p>This default usage will return the last 5 posts in reverse chronological order. It will display the post similarly to a standard post, honoring the tag to produce a teaser. Meta data showing post date, author, modified date, comments, categories and tags is also displayed.</p>
+		<p>This default usage will return the last 5 posts in reverse chronological order. It will display the post similarly to a standard post, honoring the more tag to produce a teaser. Meta data showing post date, author, modified date, comments, categories and tags is also displayed.</p>
 		
-		<p>If the post was created with a more tag inserted, the teaser is shown with a link to 'read more'.   See the option show entire if the entire post is to be shown.  At this time, the excerpt is not recognized.</p>
+		<p>If the post was created with a more tag inserted, the teaser is shown with a link to 'read more'.   See the option show entire if the entire post is to be shown.  The excerpt is can be shown with the show_excerpt option.</p>
 		
 		<p>A common usage is to show post on a page that have a common tag(s):</p>
 		
@@ -39,61 +39,86 @@
 		<ol>
 		<li>add pagination</li>
 		<li>add template tag...until then to incorporate TPG Get Posts into a template try using 
-&lt;?php echo do_shortcode('[tpg_shortcode]'); ?&gt;   </li>
+&lt;?php echo do_shortcode('[tpg_get_posts]'); ?&gt;   </li>
 		</ol>
 	</div>
 	<div id="gp-options">	
 		<h3>Options</h3>
-		<p>Based on the <a href="http://codex.wordpress.org/Template_Tags/get_posts" target="_blank">get_posts</a> template tag, all of the possible parameters associated with this plugin are documented in the WP_Query class to which fetches posts. See the <a href="http://codex.wordpress.org/Class_Reference/WP_Query#Parameters" target="_blank">parameters section</a> of the WP_Query documentation for a list of parameters that this function accepts. </p>
+		<p>Based on the <a href="http://codex.wordpress.org/Template_Tags/get_posts" target="_blank">get_posts</a> template tag, all of the possible parameters associated with this plugin are documented in the WP_Query class to which fetches posts. See the <a href="http://codex.wordpress.org/Class_Reference/WP_Query#Parameters" target="_blank">parameters section</a> of the WP_Query documentation for a list of parameters that this function accepts. </p><p>Note that if the parameter expects an array, then it must be handled explicitly in the parameter interface.  If that is not listed here, then it is not accepted.</p>
 		
 		<dl>
 		<p class="tpg-prem">Premium options are in green.</p>
 		<h4>Selection parameters are:</h4>
-		
-			<dt>tag</dt><dd>This allows for the selection of posts by tag.</dd>
-		
-			<dt>category_name</dt><dd>This allows for the selection of posts by category_name.</dd>
-		
-			<dt>category</dt><dd>This allows for the selection of posts by category number.</dd>
-			<dt>numberposts</dt>
-			<dd>Specify the maximum number of posts to select.  The default is 5.</dd>
 			
-			<dt class="tpg-prem">category__and</dt> <dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected with and logic.  Category or category_name may be used.</dd> 
-			<dt class="tpg-prem">category__in </dt><dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are in the list and child categories are not selected.  Category or category_name may be used.</dd>
-			<dt class="tpg-prem">'category__not_in</dt> <dd>Boolean which defaults to false.  if set to true, then the selcted categories are selected which are not in the list.  Category or category_name may be used.</dd>
+			<dt>tag</dt><dd>This allows for the selection of posts by tag (slug).</dd>
+			<dt>tag_id</dt><dd>This allows for the selection of posts by tag id.</dd>
+			<dt>cat</dt><dd>A comma separated list of cateory names or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events' cat='news'</dd>
+		
+			<dt><span style="text-decoration:line-through">category_name</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category_name.</span> Deprecated, use cat tag.</dd>
+		
+			<dt><span style="text-decoration:line-through">category</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category number.</span> Deprecated, use cat tag.</dd>
+
+			<dt>numberposts</dt><dd>Specify the maximum number of posts to select.  The default is 5.</dd>
+			
+			<dt>post_type</dt><dd>This allows for the selection custom post types.</dd>
+			<dt>post_status</dt><dd>This allows for the selection by post status.</dd>
+			
+			<dt class="tpg-prem">category__and</dt> <dd> A comma separated list of either categories or category_names may be used in this paramter.  The values passed here will replace any value in the cat_name or cat tag. Posts must have be in all the categories (AND logic).</dd> 
+			<dt class="tpg-prem">category__in </dt><dd>A comma separated list of either categories or category_names may be used in this paramter.  The values passed here will replace any value in the cat_name or cat tag. Post may be in any of the categories (OR logic) and child posts are not pulled.</dd>
+			<dt class="tpg-prem">'category__not_in</dt> <dd>A comma separated list of either categories or category_names may be used in this paramter.  The values passed here will replace any value in the cat_name or cat tag.  Excludes posts in the listed categories.</dd>
+			
+			<dt class="tpg-prem">tag__and</dt> <dd>A comma separated list of tag_ids may be used in this paramter. Posts must have be in all the tag_ids (AND logic).</dd> 
+			<dt class="tpg-prem">tag__in </dt><dd>A comma separated list of tag_ids may be used in this paramter. Posts may be in any of the tag_ids (OR logic).</dd>
+			<dt class="tpg-prem">'tag__not_in</dt> <dd>A comma separated list of tag_ids may be used in this paramter. Excludes posts with the listed tag_ids.</dd>
+			
+			<dt class="tpg-prem">tag_slug__and</dt> <dd>A comma separated list of slugs may be used in this paramter. Posts must have be in all the slugs (AND logic).</dd> 
+			<dt class="tpg-prem">'tag_slug__in</dt> <dd>A comma separated list of slugs may be used in this paramter. Posts may be in any of the slugs (OR logic).</dd>
+			
+			<p>At this time, the following two commands have had limited testing.</p>
+			<dt class="tpg-prem">tax_query</dt> <dd>Used to pass the custom taxonomy selection to the plugin.  Because the tax_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format: <br> 
+tax_query='{"relation":"AND","0":{"taxonomy":"movie_genre","field":"slug","terms":("action","comedy")},"1":{"taxonomy":"actor","field":"id","terms":(103,115,206),"operator":"NOT IN"}}' <br><br>**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value.  Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.</dd> 
+			<dt class="tpg-prem">meta_query </dt><dd>Because the meta_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format: <br> 
+meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price","value":(20,100),"type":"numeric","compare":"BETWEEN"})' <br><br>**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value. Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.</dd>
+			
 		
 		<h4>Layout/format control parameters:</h4>
-			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser. Default is "false".</dd>
 		
-			<dt>show_meta</dt><dd>This option show_meta="false" will suppress the display of metadata. Default is "true".</dd>
+			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields="title".</dd>
 		
-			<dt>show_byline</dt><dd>This option show_byline="false" will suppress the display of the by-line. Default is "true".</dd>
+			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
+			
+			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image.</dd>
+			
+			<dt>more_link_text</dt><dd>This option changes the text to display whenthe more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
+			
+			
+			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
+		
+			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.</dd>
+		
+		
+			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser.It ignores the more tag in the post content.  Default is "false".</dd>
+			
+			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
+		
+			
+			<dt><span style="text-decoration:line-through">show_meta</span></dt><dd><span style="text-decoration:line-through">This option show_meta="false" will suppress the display of metadata. Default is "true".</span> Deprecated, use fields tag.</dd>
+		
+			<dt><span style="text-decoration:line-through">show_byline</span></dt><dd><span style="text-decoration:line-through">This option show_byline="false" will suppress the display of the by-line. Default is "true".</span> Deprecated, use fields tag.</dd>
+			
+			
+			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 			
 			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  </dd>
 			
 			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false".<br />** This is experimental and is subject to change. **</dd>
 			
-			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
-			
-			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image.</dd>
-			
-			<dt>more_link_text</dt><dd>This option changes the text to display whenthe more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
-		
-			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
-		
-			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.</dd>
-		
-			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 		
 			<dt>title_tag</dt><dd>This parameter controls the formatting of the title line. The default is to make post titles h2, which is consistent with the regular post markup. title_tag="p" will apply the paragraph markup to the title instead of the h2 markup. Note: do not include the <>.</dd>
 			
 			<dt>title_link</dt><dd>Setting this option to title_link="false" will suppress the wrapping of the title with the hyperlink tag and the title will not be a link. Default is "true".</dd>
 		
 			<dt>ul-class</dt><dd>This is the class assigned to the bullet list. When this class is provided, the output is returned as an unordered list.</dd>
-		
-			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields="title".</dd>
-		
-			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 
 			<dt class="tpg-prem">cf</dt><dd>Invoke the user Custom Functions by passing the codes for each exit to be invoked, ie cf='ppre,ppst,pre,pst,t,b,c,m'. The model function php file is provided in the /ext files folder and instructions are in the comments.
 			ppre => before the invoking of the plugin
@@ -164,7 +189,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		
 		<p>Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.</p>
 		
-		<blockquote><pre>[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts cat="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
 		
 		<p>Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.</p>
 		
@@ -172,7 +197,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		
 		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "tpg-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
 		
-		<blockquote><pre>[tpg_get_posts category="15,-4" ]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts cat="15,-4" ]</pre></blockquote>
 		
 		<p>To exclude a category within a selected category, you must use the category id for the selection.  The minus sign in front of the cateory id tells the query to exlude a category.  So this shortcode will select all the posts in category 15 and then eliminate all the post that are also in category 4.</p>
 		
@@ -189,7 +214,7 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 			<li>Create a new category "homepage"</li>
 			<li>For each post that is to appear on the home page, select the category "homepage"</li>
 			<li>On your home page, enter the following shortcode where you want the posts inserted:
-			<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote></li>
+			<blockquote><pre>[tpg_get_posts cat="homepage" numberposts=2]</pre></blockquote></li>
 		</ol> 
 		<p>That should do it!</p>
 	</div>

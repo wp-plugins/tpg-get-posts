@@ -26,8 +26,6 @@
 	 * @return   class    $obj		 class
 	 */
 	function create_process($_opts,$_paths) {
-		//var_dump($_paths);
-		$_opts['valid-lic']=true;              //test 
 		
 		if ($_opts['valid-lic'] && file_exists($_paths['dir']."ext/class-tpg-gp-process-ext.php")){
 		//if (file_exists($_paths['dir']."inc/class-tpg-gp-process-ext.php")){
@@ -92,7 +90,7 @@
 	 * @param    void
 	 * @return   class 	  $obj		 class
 	 */
-	function create_show_ids() {
+	function create_show_ids($_opts,$_paths) {
 		require_once($_paths['ext']."class-tpg-show-ids.php");
 		$obj = new tpg_show_ids();
 		return $obj;
@@ -146,11 +144,13 @@
 	 * @param    void
 	 * @return   class 	  $obj		 class
 	 */
-	function create_wp_updater() {
-		if (!class_exists ('WP_Upgrader')) {
-			require_once(ABSPATH ."/wp-admin/includes/class-wp-upgrader.php");
-		}
-		$obj = new WP_Upgrader();
+	function create_wp_upgrader() {
+//		if (!class_exists ('WP_Upgrader')) {
+//			require_once(ABSPATH ."/wp-admin/includes/class-wp-upgrader.php");
+//		}
+//		$obj = new WP_Upgrader();
+		require_once("class-tpg-upgrader.php");
+		$obj = new tpg_upgrader();
 		return $obj;
 	}
 

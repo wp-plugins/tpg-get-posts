@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.5
-Stable tag: 2.02.02
+Stable tag: 2.03.00
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -25,7 +25,7 @@ This default usage will return the last 5 posts in reverse chronological order. 
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
 
-**Recent Change**
+**NOTE**
 	The 2.0 release may not format like the 1.x version.  Be sure to test befor upgrading.
 	
 == Usage ==
@@ -38,7 +38,7 @@ To use it, just put the following into the HTML of any page or post, use as many
 	
 	this is equivalent to:
 	
-	[tpg_get_posts show_meta="true" show_entire="false" fields="title,byline,content,metadata" 
+	[tpg_get_posts fields="title,byline,content,metadata" 
 	fields_classes ="post_title=tpg-title-class, post_content=tpg-content-class,post_byline=tpg-byline-class,post_metadata=tpg-metadata-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
@@ -47,7 +47,7 @@ A common usage is to show post on a page that have a common tag or category:
 	
 		[tpg_get_posts tag="tag1, tag2,tag3"]
 	or 
-		[tpg_get_posts category_name="catname1, catname2, catname3"]
+		[tpg_get_posts cat="catname1, catname2, catname3"]
 
 See Settings in plugin for full list of parameters
 
@@ -59,7 +59,7 @@ Show 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post ti
 
 Show 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
-	[tpg_get_posts category_name="Events,News" numberposts=2 orderby="title show_entire="true"]
+	[tpg_get_posts cat="Events,News" numberposts=2 orderby="title show_entire="true"]
 
 Show a bullet list of post titles. The title will be wrapped in a of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
@@ -96,7 +96,11 @@ Yes, but listing both category and tag as selection criteria forms 'and' logic n
 
 = Can I select categories with 'and' logic? =
 
-Yes, in premium version.  See the doc on using category__and. 
+Yes, in premium version.  See the doc on using category__and.
+
+= Will the plugin pull custom posts? =
+
+Yes, see doc in plugin for selecting by post_type. 
 
 == Screenshots ==
 
@@ -106,6 +110,14 @@ Yes, in premium version.  See the doc on using category__and.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.3.0 =
+* add cat option to replace category & category_name
+* update doc to show how to select custom post type
+* remove spaces in listed items while converting to array
+* fix conflict with core updater
+* added tag__and, tag__in,tag__not_in,tag_slug__and, tag_slug__in, tax_query & meta_query to premium version
+* correct path in show-ids in prem version
+
 = 2.2.2 =
 * correct thumbnail_only when used to show in list.  The thumbnail only did not wrap the post in a <li> tag.  This change replaces the div with an li to make it behave like a regular post.
 * NOTE:  This change may alter the way styling is done for thumbnail only implementations.  Test before installing on your live site.
