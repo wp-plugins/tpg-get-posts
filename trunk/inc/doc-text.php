@@ -52,7 +52,7 @@
 			
 			<dt>tag</dt><dd>This allows for the selection of posts by tag (slug).</dd>
 			<dt>tag_id</dt><dd>This allows for the selection of posts by tag id.</dd>
-			<dt>cat</dt><dd>A comma separated list of cateory names or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events' cat='news'</dd>
+			<dt>cat</dt><dd>A comma separated list of cateory names or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events' cat='news'.  The category name is the name and not the slug.</dd>
 		
 			<dt><span style="text-decoration:line-through">category_name</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category_name.</span> Deprecated, use cat tag.</dd>
 		
@@ -89,12 +89,12 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 			
 			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image.</dd>
 			
-			<dt>more_link_text</dt><dd>This option changes the text to display whenthe more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
+			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 			
 			
 			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
 		
-			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.</dd>
+			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.  <br />Also note that this command does not check for embedded tags.  It trims the content when the limit is reached and is not aware of html tags. Thus tags can be broken. It should only be be used when control over content is very controlled. Using the read-more tag is safer.</dd>
 		
 		
 			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser.It ignores the more tag in the post content.  Default is "false".</dd>
