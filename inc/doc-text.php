@@ -87,7 +87,7 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		
 			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 			
-			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image.</dd>
+			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the show_thumbnail="true" thumbnail_size="thumbnail" options places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail.</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 			
