@@ -205,9 +205,10 @@ class tpg_gp_process {
 	}
 	
 	/**
-	 * cat name to id
+	 * cat name or slug to id
 	 *
-	 * convert cat names to ids to allow mutltiple selections 
+	 * convert cat names or slugs to ids to allow mutltiple selections 
+	 * check for id, then slug and finally name as name in not unique and
 	 * 
 	 * @param    string   $_list   	list of comma separated cat names 
 	 * @return   string   $_ids     list of comma separated cat ids
@@ -221,11 +222,22 @@ class tpg_gp_process {
 		//loop to get cat id and replace cat_names with cat ids
 		foreach ($cat_nam_list as $value) {
 			//added to allow for names in ext functions
+			// if numeric, assume it is an id
 			if (is_numeric($value )) {
 				$_ids .= $value.$_sep;
 			} else {
-				$_ids .= get_cat_ID($value).$_sep;
-			}
+				//see if slug works
+				$_id_val = get_term_by( 'slug', $value, 'category' );
+				if ($_id_val) {
+					$_ids .= $_id_val->term_id.$_sep;									
+				} else {
+					// test for category name
+					$_id_val = get_cat_ID($value);
+					if ($_id_val ) {
+						$_ids .= $_id_val.$_sep;
+					}
+				}
+			}	
 		}
 		return trim($_ids,$_sep);
 	}

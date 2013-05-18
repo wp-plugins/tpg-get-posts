@@ -33,7 +33,7 @@
 		
 		<blockquote><pre>[tpg_get_posts tag="tag1, tag2,tag3"]</pre></blockquote>
 		<p>or to show specific posts on the home page:</p>
-		<blockquote><pre>[tpg_get_posts category_name="homepage" numberposts=2]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts cat="homepage" numberposts=2]</pre></blockquote>
 		{donate}
 		<h3>To Do:</h3>
 		<ol>
@@ -41,6 +41,12 @@
 		<li>add template tag...until then to incorporate TPG Get Posts into a template try using 
 &lt;?php echo do_shortcode('[tpg_get_posts]'); ?&gt;   </li>
 		</ol>
+		<h3>Premium Options</h3>
+		<li>magazine layout option which displays the post header and text next to the post thumbnail</li>
+		<li>the short code can be added to a text widget</li>
+		<li>extended cat__and, cat__not_in and cat__in and other taxonmy</li>
+		<li>extensive formating of the by line and meta-data line</li>
+
 	</div>
 	<div id="gp-options">	
 		<h3>Options</h3>
@@ -52,11 +58,13 @@
 			
 			<dt>tag</dt><dd>This allows for the selection of posts by tag (slug).</dd>
 			<dt>tag_id</dt><dd>This allows for the selection of posts by tag id.</dd>
-			<dt>cat</dt><dd>A comma separated list of cateory names or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events' cat='news'.  The category name is the name and not the slug.</dd>
+			<dt>cat</dt><dd>A comma separated list of cateory names,slugs or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events,5' cat='news'.  The category name is the name and not the slug. The coversion routine will look for id, slug and then category.  To accomodate complex taxonomonies and where a category name is repeated as a sub category use either slug or id.  Slugs and id''s are unique where a category name can be repeated.</dd>
 		
+			<!-- 
 			<dt><span style="text-decoration:line-through">category_name</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category_name.</span> Deprecated, use cat tag.</dd>
 		
-			<dt><span style="text-decoration:line-through">category</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category number.</span> Deprecated, use cat tag.</dd>
+			<dt><span style="text-decoration:line-through">category</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category number.</span> Deprecated, use cat tag.</dd> 
+			-->
 
 			<dt>numberposts</dt><dd>Specify the maximum number of posts to select.  The default is 5.</dd>
 			
@@ -87,7 +95,7 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		
 			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 			
-			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the show_thumbnail="true" thumbnail_size="thumbnail" options places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail.</dd>
+			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the thumbnail_size="thumbnail" option places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail.</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 			
@@ -101,11 +109,11 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 			
 			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
 		
-			
+			<!--
 			<dt><span style="text-decoration:line-through">show_meta</span></dt><dd><span style="text-decoration:line-through">This option show_meta="false" will suppress the display of metadata. Default is "true".</span> Deprecated, use fields tag.</dd>
 		
 			<dt><span style="text-decoration:line-through">show_byline</span></dt><dd><span style="text-decoration:line-through">This option show_byline="false" will suppress the display of the by-line. Default is "true".</span> Deprecated, use fields tag.</dd>
-			
+			-->
 			
 			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 			
@@ -204,6 +212,10 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		<blockquote><pre>[tpg_get_posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
 		
 		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
+		
+		<blockquote><pre>[tpg_get_posts cat="25" fields="title, byline"  numberposts=1 mag_layout="true" thumbnail_size="thumbnail"]</pre></blockquote>
+		
+		<p class="tpg-prem">The magazine layout is available in the premium version.  The layout will float the thumbnail to the left and position the title and byline to the right.  The fields parm controls which elements to show.</p>
 		
 		
 		<h3>How to Use:</h3>{donate}

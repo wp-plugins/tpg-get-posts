@@ -4,14 +4,14 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.5
-Stable tag: 2.03.00
+Stable tag: 2.04.00
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
 == Description ==
 Please review the Changelog for release change notices and save any custom styling before applying any upgrade.
 
-This plugin adds the ability to put a shortcode tag in a page or post and have it display a list of posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values, suchs as tags, category, category_name or any other option supported by the WP get_posts function, to show only items relevant for the page.
+This plugin adds the ability to put a shortcode tag in a page or post and have it display posts formatted similarly to the standard blog.  The posts can be selected by one or more tag values, suchs as tags, category or any other option supported by the WP get_posts function, to show only items relevant for the page.  It will also support displaying the post titles as a list.
 
 By default it will show the 5 most recent posts ordered in reverse date order,
 but it will accept most of the options provided by the [get_posts template tag]( href=http://codex.wordpress.org/Template_Tags/get_posts ). If the value of the paramter is an array, it must be parsed by the plugin and not all parms have been implemented.
@@ -24,6 +24,12 @@ To use it, just put the following into the HTML of any page or post, use as many
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
+
+The premium version will supports
+	* extended cat__and, cat__not_in and cat__in and other taxonmy
+	* the short code to be added to a text widget.  
+	* extensive formating of the by line and meta-data line
+	* a magazine layout option which displays the post header and text next to the post thumbnail
 
 **NOTE**
 	The 2.0 release may not format like the 1.x version.  Be sure to test befor upgrading.
@@ -47,7 +53,7 @@ A common usage is to show post on a page that have a common tag or category:
 	
 		[tpg_get_posts tag="tag1, tag2,tag3"]
 	or 
-		[tpg_get_posts cat="catname1, catname2, catname3"]
+		[tpg_get_posts cat="catname1, catname2, catname3,catid,slug"]
 
 See Settings in plugin for full list of parameters
 
@@ -82,13 +88,13 @@ Set the format in your css
 * byline - .tpg-byline-class
 * content - .tpg-content-class
 * metadata - .tpg-metadata-class
-* ul - tpg-ul-class,
+* ul - .tpg-ul-class
 
 With release 1.3.1, a custom stylesheet is supported so changes made in the custom style sheet are not lost with an upgrade
 
 = Can this plugin select by category? =
 
-Yes, multiple category_name(s) can be submitted.  The base WordPress function get-posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the category_name parameter is blanked out and the post is requested by multiple ids.
+Yes, multiple category_name(s) can be submitted.  The base WordPress function get-posts accepts only a single category, but multiple category ids.  So in the plugin, the category name is converted to the category id and the cat parameter is blanked out and the post is requested by multiple ids.
 
 = Can I combine categories and tags? =
 
@@ -110,6 +116,12 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.4.0 =
+* allow slugs to be used in the cat option 
+* correct typo in tpg-get-post-style css 
+* update doc for new feature and correct small typos
+
+
 = 2.3.0 =
 * add cat option to replace category & category_name
 * update doc to show how to select custom post type
