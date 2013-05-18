@@ -25,7 +25,7 @@ This default usage will return the last 5 posts in reverse chronological order. 
 	
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
 
-The premium version will supports:
+The premium version supports:
 
 * extended cat__and, cat__not_in and cat__in and other taxonmy
 * the short code to be added to a text widget
