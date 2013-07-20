@@ -279,7 +279,7 @@ class tpg_gp_admin {
 	 * @return   object
 	 */
 	function tpg_gp_freeze($value) {
-		unset($value->response[ plugin_basename(__FILE__) ]);
+		unset($value->response[ $this->gp_paths['base'] ]);
 		return $value;
 		}
 	
@@ -469,14 +469,13 @@ class tpg_gp_admin {
 				<div class="inside"  style="padding:10px;">
 					<form name="getposts_options" method="post" action="{action-link}">
 					
-						<h4>Base Plugin Options </h4>
+						<h4>Base Options </h4>
 						<table class="form-table">	
-							<th>Options for base version</th>
 							<tr>		
 							<td>Freeze Updates:  </td><td><input type="checkbox" name="gp_opts[freeze]" id="id_freeze" value="true" $ck_freeze /></td><td>This option prevents the update notice from being displayed.  Use this if you wish to stop any future updates to the plugin.</td>				
 							</tr>
 						</table>
-					
+							<hr width=80% />
 						<h4>Premium Options - Current version {cur-ver}</h4>
 						<table class="form-table">	
 							<tr>		
