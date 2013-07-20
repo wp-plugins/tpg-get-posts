@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.5
-Stable tag: 2.04.00
+Stable tag: 2.5.0
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -117,6 +117,9 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 2.5.0 =
+* add option to stop update notice to plugin - see plugin settings->setting tab.  This is an udpate to prepare for release of version 3.0.0 which will have changes that may break formatting.  You can freeze the plugin at rel 2.5 if needed.
+
 = 2.4.0 =
 * allow slugs to be used in the cat option 
 * correct typo in tpg-get-post-style css 

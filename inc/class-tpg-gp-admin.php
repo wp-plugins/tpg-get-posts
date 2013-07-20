@@ -55,6 +55,11 @@ class tpg_gp_admin {
 				$ssid = tpg_gp_factory::create_show_ids($this->gp_opts,$this->gp_paths);
 			}
 		}
+		
+		//check for stopping of updates
+		if ($opts['freeze']) {
+			add_filter('site_transient_update_plugins', array(&$this, 'tpg_gp_freeze'));
+		}
 	}
 	
 	/**
@@ -249,6 +254,12 @@ class tpg_gp_admin {
 			$new_opts['active-in-widgets'] = true;
 		}
 		
+		if (!array_key_exists("freeze",$new_opts)) {
+			$new_opts['freeze'] = false;
+		} else {
+			$new_opts['freeze'] = true;
+		}
+		
 		//apply new values to gp_opts 
 		foreach($new_opts as $key => $value) {
 			$this->gp_opts[$key] = $value;
@@ -259,6 +270,18 @@ class tpg_gp_admin {
 		
 		echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
 	}
+	
+	/*
+	 *	tpg gp freeze
+	 *  stop the update of the plugin to freeze it at a level
+	 *
+	 * @param    object
+	 * @return   object
+	 */
+	function tpg_gp_freeze($value) {
+		unset($value->response[ plugin_basename(__FILE__) ]);
+		return $value;
+		}
 	
 	/*
 	 *	validate lic
@@ -404,8 +427,6 @@ class tpg_gp_admin {
 		}
 		
 		//generate pp donate button
-		//include_once("class-tpg-pp-donate-button.php");
-		//$ppb = new tpg_pp_donate_button;
 		$ppb = tpg_gp_factory::create_paypal_button();
 		$ask="<p>If this plugin helps you build a website, please consider a small donation of $5 or $10 to continue the support of open source software.  Taking one hour&lsquo;s fee and spreading it across multiple plugins is an investment that generates amazing returns.</p><p>Thank you for supporting open source software.</p>";
 		$ppb->set_var("for_text","wordpress plugin tpg-get-posts");
@@ -431,6 +452,7 @@ class tpg_gp_admin {
 		$ck_show_ids = ($this->gp_opts['show-ids'])? 'checked=checked' : '';
 		$ck_keep_opts = ($this->gp_opts['keep-opts'])? 'checked=checked' : '';
 		$ck_widgets_opts = ($this->gp_opts['active-in-widgets'])? 'checked=checked' : '';
+		$ck_freeze = ($this->gp_opts['freeze'])? 'checked=checked' : '';
 		$btn_updt_opts_txt = __('Update Options', 'gp_update_opts' ) ;
 		$btn_val_lic_txt = __('Validate Lic', 'gp_val_lic_opts' ) ;
 
@@ -446,6 +468,15 @@ class tpg_gp_admin {
 				
 				<div class="inside"  style="padding:10px;">
 					<form name="getposts_options" method="post" action="{action-link}">
+					
+						<h4>Base Plugin Options </h4>
+						<table class="form-table">	
+							<th>Options for base version</th>
+							<tr>		
+							<td>Freeze Updates:  </td><td><input type="checkbox" name="gp_opts[freeze]" id="id_freeze" value="true" $ck_freeze /></td><td>This option prevents the update notice from being displayed.  Use this if you wish to stop any future updates to the plugin.</td>				
+							</tr>
+						</table>
+					
 						<h4>Premium Options - Current version {cur-ver}</h4>
 						<table class="form-table">	
 							<tr>		
@@ -464,7 +495,8 @@ class tpg_gp_admin {
 							<tr>
 							<td>Activate in Widgets:  </td><td><input type="checkbox" name="gp_opts[active-in-widgets]" id="id_widgets" value="true" $ck_widgets_opts /></td><td>If you want this plugin active in text widgets, check this box to activate the shortcodes for widgets.</td>				
 							</tr>
-			</table>
+						</table>
+					
 							<!--//values are used in switch to determine processing-->
 							<p class="submit">
 							<button type="submit" class="button-primary tpg-settings-btn" name="func" value="updt_opts" />$btn_updt_opts_txt</button>
