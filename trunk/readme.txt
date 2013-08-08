@@ -31,9 +31,11 @@ The premium version supports:
 * the short code to be added to a text widget
 * extensive formating of the by line and meta-data line
 * a magazine layout option which displays the post header and text next to the post thumbnail
+* a featured image layout option
+* pagination
 
 **NOTE**
-	The 2.0 release may not format like the 1.x version.  Be sure to test befor upgrading.
+	The 3.0 release alters the default for thumbnails.  If this upgrade breaks your site, download tag 2.5.0 and set the option to freeze the release.  Be sure to test befor upgrading.
 	
 == Usage ==
 
