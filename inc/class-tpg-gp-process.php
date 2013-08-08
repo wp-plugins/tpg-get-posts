@@ -16,18 +16,19 @@ class tpg_gp_process {
 		  'orderby'          => 'date',
 		  'end-of-parms'     => '---------',
 		  'show_entire'      => 'false',
-		  'show_meta'        => 'true',
-		  'show_byline'		 => 'true',
+		  'show_excerpt'     => 'false',
 		  'shorten_title'    => '',
 		  'shorten_content'  => '',
 		  'text_ellipsis'    => ' ...',
 		  'ul_class'         => '',
 		  'title_tag'        => 'h2',
 		  'title_link'       => 'true',
-		  'thumbnail_size'	 => '',
+		  'thumbnail_size'	 => 'thumbnail',
 		  'thumbnail_only'	 => 'false',
-		  'show_excerpt'     => 'false',
+		  'thumbnail_link'	 => 'true',
 		  'mag_layout'       => 'false',
+		  'fi_layout'        => 'false',
+		  'show_fi_error'    => 'false',
 		  'more_link_text'   => '(read more...)',
 		  'fields'           => 'title, byline, content, metadata',
 		  'field_classes'    => '',
@@ -38,9 +39,12 @@ class tpg_gp_process {
 								 	'post_metadata'=>'tpg-metadata-class', 
 								 	'post_byline'=>'tpg-byline-class',
 									'post_thumbnail'=>'tpg-thumbnail-class',
+									'thumbnail_align'=>'alignleft',
 									'post_excerpt'=>'tpg-excerpt-class',
 									'mag_content'=>'tpg-mag-class',
+									'fi_content'=>'tpg-fi-class',
 									'ul_class'=>'tpg-ul-class',
+									'pagination'=>'tpg-pagination-class',
 								 );
 								 
 	//initialized from model each time processed	  
@@ -53,7 +57,8 @@ class tpg_gp_process {
 	private $ellip='';	
 	
 	// values for thumbnail size
-	public $thumbnail_sizes = array('thumbnail', 'medium', 'large', 'full');
+	public $thumbnail_sizes = array('none','thumbnail', 'medium', 'large', 'full');
+	public $thumbnail_size = 'thumbnail';
 	
 	// constructor
 	function __construct($opts,$paths) {
@@ -205,39 +210,41 @@ class tpg_gp_process {
 	}
 	
 	/**
-	 * cat name or slug to id
+	 * name or slug to id
 	 *
 	 * convert cat names or slugs to ids to allow mutltiple selections 
 	 * check for id, then slug and finally name as name in not unique and
 	 * 
 	 * @param    string   $_list   	list of comma separated cat names 
+	 * @param    stirng   $_type	valid taxomony (category,post_tag,link_category or custom)
 	 * @return   string   $_ids     list of comma separated cat ids
 	 *
 	 */
-	function cat_name_to_id($_list){
+	function name_to_id($_list,$_tax='category'){
 	//if category_names passed, convert to cat_id
 		$_sep=",";
 		$_ids='';
-		$cat_nam_list = explode(",", $_list);
+		$_nam_list = explode(",", $_list);
+		
 		//loop to get cat id and replace cat_names with cat ids
-		foreach ($cat_nam_list as $value) {
+		foreach ($_nam_list as $value) {
 			//added to allow for names in ext functions
 			// if numeric, assume it is an id
 			if (is_numeric($value )) {
 				$_ids .= $value.$_sep;
 			} else {
 				//see if slug works
-				$_id_val = get_term_by( 'slug', $value, 'category' );
+				$_id_val = get_term_by( 'slug', $value, $_tax );
 				if ($_id_val) {
-					$_ids .= $_id_val->term_id.$_sep;									
+				$_ids .= $_id_val->term_id.$_sep;		
 				} else {
 					// test for category name
-					$_id_val = get_cat_ID($value);
+					$_id_val = get_term_by( 'name', $value, $_tax );
 					if ($_id_val ) {
 						$_ids .= $_id_val.$_sep;
 					}
 				}
-			}	
+			}
 		}
 		return trim($_ids,$_sep);
 	}
@@ -282,44 +289,35 @@ class tpg_gp_process {
 		
 		//if cat replaces category & category_name
 		if ($this->r['cat'] != '') {
-			$_list=$this->cat_name_to_id($this->r['cat']);
+			$_list=$this->name_to_id($this->r['cat']);
 			$this->r['cat'] = $_list;
 		}
 		
-		//**legacy if category_names passed, convert to cat_id
-		if ($this->r['category_name'] != '') {
-			$_list=$this->cat_name_to_id($this->r['category_name']);
-			$this->r['cat'] = $_list;
-			$this->r['category_name'] = "";
-		}
-		//** legacy if category_names passed, convert to cat_id
-		if ($this->r['category'] != '') {
-			$_list=$this->cat_name_to_id($this->r['category']);
-			$this->r['cat'] = $_list;
-			$this->r['category'] = "";
-		}
-		
+		//edit for legacy codes
+		$this->edit_legacy_codes();
+
+		//format args & defaults in $r
+		$this->format_args(); 	
 		if (method_exists($this,'ext_args')) {
 			$this->ext_args();
-		} 	
+		}
 		
 		//set up output fields
 		$this->fields_list = array_map('trim',explode(",", $this->r['fields']));
 		//edit for legacy code in plugin & show meta & byline
-		$this->edit_fields_list();
+		$this->edit_legacy_fields();
 
 		//initial class array with defaults from model
 		$this->classes_arr = $this->model_field_class;
 		//override defaults if passed
 		if ($this->r['field_classes'] != '') {
 			$field_classes_list = array_map('trim',explode(",", $this->r['field_classes']));
-			//echo "for each fld class loop<br>";
 			foreach ($field_classes_list as $fcl_items) {
 				$fcl_item = array_map('trim',explode('=',$fcl_items));
 				$this->classes_arr[trim($fcl_item[0])] = trim($fcl_item[1]);
 			}
 		}
-				
+
 		//setup parms for query
 		$this->q_args = array();
 		reset ($this->r);
@@ -328,18 +326,15 @@ class tpg_gp_process {
 				end ($this->r);
 				break;
 			} 
-			if ($value != ''){
+			if ($value !== ''){
 				$this->q_args[$key] = $value; 
 			}
 		}
-		
-		//format args & defaults in $r
-		$this->format_args();
-		
+
 		//open div and begin post process
 		$content = '';
 		$content = $this->filter_pre_plugin($content);
-		$content .= '<div id="tpg-get-posts" >';
+		$content .= '<div class="tpg-get-posts" >';
 		if ($this->show_as_list) {
 			$content .="<ul class=\"".$this->r['ul_class']."\">\n";
 		}
@@ -349,7 +344,14 @@ class tpg_gp_process {
 		
 		//echo "<br>get_post a_args:";print_r($this->q_args);echo "<br>";
 		
-		$posts = get_posts($this->q_args);
+		//if ext query function defined else use base get_posts
+		if (method_exists($this,'ext_query')) {
+			$posts = $this->ext_query();
+		} else {
+			unset($this->r['posts_per_page']);	
+			$posts = get_posts($this->q_args);
+		}
+		
 		foreach( $posts as $post ) {
 			setup_postdata($post);
 			$id=$post->ID;
@@ -364,11 +366,18 @@ class tpg_gp_process {
 					$wkcontent = '<div class="tpg-get-posts-thumbnail" >';
 				}
 				//get the thumbnail
-				$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
+				$t_content = $this->fmt_post_thumbnail($post,$this->thumbnail_size);
 				if ($t_content != null) {
-					$wkcontent .= '<a href="' . get_permalink() .'">'.$t_content.'</a>';
-				} else {
-					$wkcontent .= '<p>thumbnail missing for '.$post->post_title.'</p>';
+					if ( $this->thumbnail_link) {
+						$wkcontent .= '<a href="' . get_permalink() .'">'.$t_content.'</a>';
+					} else {
+						$wkcontent .= $t_content;
+					}
+				} 
+				else {
+					if ($this->show_fi_error) {
+						$wkcontent .= '<p>thumbnail missing for '.$post->post_title.'</p>';
+					}
 				}
 				//close li item or div
 				if ($this->show_as_list) {
@@ -391,13 +400,14 @@ class tpg_gp_process {
 			// allow magazine layout for premium version
 			if (method_exists($this,'magazine_layout') && $this->mag_layout){
 				$content .= $this->magazine_layout($post,$id);
+			} elseif (method_exists($this,'feat_image_layout') && $this->fi_layout){
+				$content .= $this->feat_image_layout($post,$id);
 			} else {
 				$content .= $this->post_layout($post,$id);
 			}
 	
 			if ($this->show_as_list) {
 				$content .= '</li> <hr class="tpg-get-post-li-hr" >';
-				//$content .= '</li>' ;
 			} else {
 				$content .= '</div>';
 			}
@@ -408,6 +418,9 @@ class tpg_gp_process {
 			$content .= '</ul>';
 		$content .= '</div><!-- #tpg-get-posts -->';
 		$content = $this->filter_pst_plugin($content);
+		
+		//set the pagination nav
+		$content = $this->fmt_pagination($content);
 		
 		$post = $tmp_post;            //restore current page/post settings
 		return $content;
@@ -515,10 +528,10 @@ class tpg_gp_process {
      */
 	function fmt_post_thumbnail($post) {
 		$t_content='';
-		$t_content = $this->get_thumbnail($post,$this->thumbnail_size);
+		$t_content = $this->get_thumbnail($post,$this->thumbnail_size,$this->classes_arr['thumbnail_align']);
 		if ($t_content != null) {
-			if (method_exists($this,'format_thumbnail')) {
-				$t_content = $this->format_thumbnail($t_content);
+			if ( $this->thumbnail_link) {
+				$t_content = '<div class="'.$this->classes_arr['post_thumbnail'].'">'.$t_content.'</div>';
 			}
 		}
 		return $t_content;	
@@ -602,6 +615,37 @@ class tpg_gp_process {
 	}
 	
 	/**
+     * format the pagination line
+     * 
+	 * This routine will format the pagination line
+	 *
+     * @param 	chat	$content
+     * @return	char	$content
+     */
+	function fmt_pagination($content) {
+		if (array_key_exists('posts_per_page',$this->r)) {
+
+			$pg_cnt = $this->tpg_query->max_num_pages;
+		
+			$link_text= paginate_links( array(
+											'base' => get_pagenum_link(1).'%_%',
+											'format' => '?paged=%#%',
+											'current' => max( 1, get_query_var('paged') ),
+											'total' => $pg_cnt,
+											'prev_next' => true,
+											'prev_text'    => __('« Previous'),
+    										'next_text'    => __('Next »'),
+											'type' => 'plain',
+										) );
+			
+			$content .=	'<div class="'.$this->classes_arr['pagination'].'">'.$link_text.'</div>';					
+		}
+
+		return $content;
+	}
+
+	
+	/**
      * filter the title content
      * 
 	 * This routine calls any custom functions defined for title
@@ -646,7 +690,7 @@ class tpg_gp_process {
      */
 	function filter_post_content($wkcontent) {
 		if (strlen($wkcontent) > 0) {					
-			$wkcontent = '<div id="tpg-gp-content-div" class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
+			$wkcontent = '<div class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
 			//apply filters for all content
 			$wkcontent = apply_filters('the_content',$wkcontent);
 			$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
@@ -800,14 +844,10 @@ class tpg_gp_process {
 			$this->show_as_list = true;
 		}
 		
-		if ($this->r['thumbnail_size'] == "") {
+		if ($this->r['thumbnail_size'] == "" || $this->r['thumbnail_size'] == "none" ) {
 			$this->show_thumbnail = false;
 		} else {
-			if (in_array($this->r['thumbnail_size'], $this->thumbnail_sizes)) {
-				$this->thumbnail_size = $this->r['thumbnail_size'];
-			} else {
-				$this->thumbnail_size = 'thumbnail';
-			}
+			$this->thumbnail_size = $this->r['thumbnail_size'];
 			$this->show_thumbnail = true;
 		}
 
@@ -815,6 +855,12 @@ class tpg_gp_process {
 			$this->thumbnail_only = true;
 		} else {
 			$this->thumbnail_only = false;
+		}
+		
+		if ($this->r['thumbnail_link'] == "true") {
+			$this->thumbnail_link = true;
+		} else {
+			$this->thumbnail_link = false;
 		}
 		
 		if ($this->r['show_excerpt'] == "true") {
@@ -828,12 +874,25 @@ class tpg_gp_process {
 		} else {
 			$this->mag_layout = false;
 		}
+
+		if ($this->r['fi_layout'] == "true") {
+			$this->fi_layout = true;
+		} else {
+			$this->fi_layout = false;
+		}
+		
+		if ($this->r['show_fi_error'] == "true") {
+			$this->show_fi_error = true;
+		} else {
+			$this->show_fi_error = false;
+		}
 		
 		//setup cust funct type & parm
 		$this->edit_cust_func();
 		
 		// set flag to shorten text in title
 		$this->ellip = $this->r['text_ellipsis'];
+		
 		if ($this->r['shorten_title'] == "") {
 			$this->short_title = false;
 		} else {
@@ -930,8 +989,8 @@ class tpg_gp_process {
 	 * @return	void
      * 
      */
-    function edit_fields_list() {
-		//edit for legacy code in plugin
+    function edit_legacy_fields() {
+		//edit for legacy code in fields
 		$_legacy_flds = array('post_title'=>'title','post_content'=>'content');
 		foreach ($_legacy_flds as $lk=>$lv) {
 			$_fnd = array_search($lk,$this->fields_list);
@@ -939,21 +998,49 @@ class tpg_gp_process {
 				$this->fields_list[$_fnd] = $lv;
 			}
 		}
-
-		if ($this->r['show_meta'] != "true") {
-			$_fnd = array_search('metadata',$this->fields_list);
-			if ($_fnd !== false) {
-				unset($this->fields_list[$_fnd]);
+		
+		if (array_key_exists('show_meta',$this->r)) {
+			if ($this->r['show_meta'] != "true") {
+				$_fnd = array_search('metadata',$this->fields_list);
+				if ($_fnd !== false) {
+					unset($this->fields_list[$_fnd]);
+				}
 			}
+			unset($this->r['show_meta']);
 		}
 		
-		if ($this->r['show_byline'] != "true") {
-			$_fnd = array_search('byline',$this->fields_list);
-			if ($_fnd !== false) {
-				unset($this->fields_list[$_fnd]);
+		if (array_key_exists('show_byline',$this->r)) {
+			if ($this->r['show_byline'] != "true") {
+				$_fnd = array_search('byline',$this->fields_list);
+				if ($_fnd !== false) {
+					unset($this->fields_list[$_fnd]);
+				}
 			}
-		} 
+			unset($this->r['show_byline']); 
+		}
 		
+	}
+	
+	/**
+     * check for legacy codes
+     * 
+     * @param 	void
+	 * @return	void
+     * 
+     */
+    function edit_legacy_codes() {
+		//**legacy if category_names passed, convert to cat_id
+		if ($this->r['category_name'] != '') {
+			$_list=$this->name_to_id($this->r['category_name']);
+			$this->r['cat'] = $_list;
+			$this->r['category_name'] = "";
+		}
+		//** legacy if category_names passed, convert to cat_id
+		if ($this->r['category'] != '') {
+			$_list=$this->name_to_id($this->r['category']);
+			$this->r['cat'] = $_list;
+			$this->r['category'] = "";
+		}
 	}
 	
 }//end class

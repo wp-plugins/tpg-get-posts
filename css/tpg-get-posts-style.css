@@ -4,13 +4,13 @@
 */
 /* styling for posts*/
 /* wrapper for all posts pulled by shortcode */
-#tpg-get-posts{clear:both;}
+.tpg-get-posts{clear:both;}
 
 /* wrapper for individual post */
 .tpg-get-posts-post{clear:both;}
 /* class for title*/
 .tpg-title-class{
-	margin-top:1em !important; 
+	margin-top:1em; 
 }
 /* class of by-line*/
 .tpg-byline-class {
@@ -31,3 +31,22 @@
 .tpg-ul-class {}
 /*class for <hr> after list */
 .tpg-get-post-li-hr {display:none}
+
+/* mag layout */
+.tpg-mag-class {
+	float:left;
+	width: 70%;
+	#margin: 1em 0 0 0;
+}
+
+.tpg-mag-class .tpg-title-class {
+	margin: 0 0 0 0;
+} 
+/* fi layout */
+.tpg-fi-class {
+	float:left;
+	width: 70%;
+	margin: 10px 0 0 0;
+}
+
+

@@ -23,7 +23,8 @@
 		<blockquote><pre>[tpg_get_posts]</pre></blockquote>
 		<p>this is equivalent to:</p>
 		
-		<blockquote><pre>[tpg_get_posts fields="title ,byline,content,metadata" field_classes ="post_title=tpg-title-class, post_content=tpg-content-class,  post_metadata=tpg-metadata-class, post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts fields="title ,byline,content,metadata" numberposts=5 
+field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_metadata=tpg-metadata-class, post_byline=tpg-byline-class" ]</pre></blockquote>
 		
 		<p>This default usage will return the last 5 posts in reverse chronological order. It will display the post similarly to a standard post, honoring the more tag to produce a teaser. Meta data showing post date, author, modified date, comments, categories and tags is also displayed.</p>
 		
@@ -37,7 +38,6 @@
 		{donate}
 		<h3>To Do:</h3>
 		<ol>
-		<li>add pagination</li>
 		<li>add template tag...until then to incorporate TPG Get Posts into a template try using 
 &lt;?php echo do_shortcode('[tpg_get_posts]'); ?&gt;   </li>
 		</ol>
@@ -45,7 +45,9 @@
 		<li>magazine layout option which displays the post header and text next to the post thumbnail</li>
 		<li>the short code can be added to a text widget</li>
 		<li>extended cat__and, cat__not_in and cat__in and other taxonmy</li>
-		<li>extensive formating of the by line and meta-data line</li>
+		<li>extensive formatting of the by line and meta-data line</li>
+		<li>allow pagination </li>
+		<li>sticky post support</li>
 
 	</div>
 	<div id="gp-options">	
@@ -68,8 +70,12 @@
 
 			<dt>numberposts</dt><dd>Specify the maximum number of posts to select.  The default is 5.</dd>
 			
+			<dt class="tpg-prem">posts_per_page</dt><dd>Specify the number of posts to show on page.  The numberposts option is ignored when this is specified. .</dd>
+			
 			<dt>post_type</dt><dd>This allows for the selection custom post types.</dd>
 			<dt>post_status</dt><dd>This allows for the selection by post status.</dd>
+			
+			<dt class="tpg-prem">ignore_sticky_posts</dt><dd>Set to false, ignore_sticky_posts='false', to show sticky posts in selection.  By default the sticky posts only show on the home page.  By setting the option, the plugin will show sticky posts on any page.  The sticky posts are added to the beginning of the post list.  If you have requested 4 posts and you have 2 sticky, then 6 posts will be shown on the first page.</dd>
 			
 			<dt class="tpg-prem">category__and</dt> <dd> A comma separated list of either categories or category_names may be used in this paramter.  The values passed here will replace any value in the cat_name or cat tag. Posts must have be in all the categories (AND logic).</dd> 
 			<dt class="tpg-prem">category__in </dt><dd>A comma separated list of either categories or category_names may be used in this paramter.  The values passed here will replace any value in the cat_name or cat tag. Post may be in any of the categories (OR logic) and child posts are not pulled.</dd>
@@ -95,14 +101,15 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		
 			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
 			
-			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the thumbnail_size="thumbnail" option places the thumbnail at the begining of the post items so it can float left and have the title and content beside the image.  The 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail.</dd>
+			<dt class="tpg-prem">fi_layout</dt><dd>This option fi_layout="true" in conjunction with the thumbnail_size="medium" option display the post in a 'featured image' format where the featured image is placed above the title.  The fields option can control what text to display.<br> The thumbnail_size is required when displaying the thumbnail/featured image.</dd>
+			
+			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the thumbnail_size="thumbnail" option places the thumbnail at the beginning of the post items so it can float left and have the title and content beside the image.  The standard 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail/featured image.</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 			
-			
 			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
 		
-			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.  <br />Also note that this command does not check for embedded tags.  It trims the content when the limit is reached and is not aware of html tags. Thus tags can be broken. It should only be be used when control over content is very controlled. Using the read-more tag is safer.</dd>
+			<dt>shorten_content</dt><dd>Using the more tag is generally a better option, but is is provided for consistency. This option shorten_content="c150" or shorten_content="w150" specifies that the content will be shortened to 150 characters, excluding the "read more..." text. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 150 characters are included. The 'read more' tag is processed first, then this process is applied, so a read more tag can cause the text to be shorter than the specified length if placed in the post before the first x characters.  <br />Also note that this command does not check for embedded tags.  It trims the content when the limit is reached and is not aware of html tags. Thus tags can be broken. It should only be be used with content that is very controlled. Using the read-more tag is safer.</dd>
 		
 		
 			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser.It ignores the more tag in the post content.  Default is "false".</dd>
@@ -117,10 +124,11 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 			
 			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 			
-			<dt>thumbnail_size</dt><dd>Enter "thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "", ignore thumbnail.  </dd>
+			<dt>thumbnail_size</dt><dd>Enter "none", thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "thumbnail".  Your theme may provide additional options for thumbnail sizes.</dd>
 			
-			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false".<br />** This is experimental and is subject to change. **</dd>
+			<dt>thumbnail_only</dt><dd>This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false"</dd>
 			
+			<dt>thumbnail_link</dt><dd>This option thumbnail_link="true" is the default and will wrap a thumbnail with the link to the post.  Setting to false will prevent the link on the image.</dd>
 		
 			<dt>title_tag</dt><dd>This parameter controls the formatting of the title line. The default is to make post titles h2, which is consistent with the regular post markup. title_tag="p" will apply the paragraph markup to the title instead of the h2 markup. Note: do not include the <>.</dd>
 			
@@ -157,26 +165,27 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
 			<p>The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
-		<blockquote><pre>[tpg_get_posts show_meta="true" show_entire="false" fields="post_title, post_content"
-field_classes ="post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class,
-post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
+		<blockquote><pre>[tpg_get_posts show_entire="false" fields="title, content, metadata" numberposts=5
+field_classes="post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class,post_byline=tpg-byline-class"  ]</pre></blockquote></p></li>
 		 </ol></p>
 		 <ul>
 		  <dt class="tpg-prem">Premium Formatting Control Template</dt><dd>The Premium plugin allows for the formatting of the by line and the meta line.  For example, you can change the byline from showing the default of author, post date to just author or author, last maint date, last maint time.   <br /><br />Within each line, there are several post tags which can be displayed and each tag can be formatted.</dd>
-		
-		<dt class="tpg-prem">byline_fmt</dt><dd>default byline_fmt=" ,auth,dp" sep,meta_tag,meta_tag....</dd>
-		<dt class="tpg-prem">metaline_fmt</dt><dd>default byline_fmt="&nbsp;&nbsp;|&nbsp;&nbsp;,cmt,cat,tag"</dd>	 
+		<dt class="tpg-prem">Format Line Parms</dt><dd>The format line is a comma separated string with the first value being the separator for the formatted string and then a list of the tags or tokens. The general format is: sep,meta_tag,meta_tag....</dd>
+		<dt class="tpg-prem">Valid tags:</dt><dd>
+		<li>auth - author name</li> 
+		<li>cat  - list of categories assigned to post</li>
+		<li>cmt  - comment, with format control for no, 1 or many comments</li>
+		<li>dp   - date posted</li>
+		<li>dm   - date of last maintenance</li>
+		<li>tag  - list of tags assigned to post</li>
+		<li>tm   - time of last maintenance</li>
+		<li>tp   - time of posting</li>
+		</dd>
+		<dt class="tpg-prem">byline_fmt</dt><dd>default byline_fmt=" ,auth,dp" </dd>
+		<dt class="tpg-prem">metaline_fmt</dt><dd>default metaline_fmt="&nbsp;&nbsp;|&nbsp;&nbsp;,cmt,cat,tag"</dd>	 
 		 
-		<dt>tags for use in line</dt><dd> Valid tags for use in byline and meta data line are: <br />
-		<li>auth_fmt - author name</li> 
-		<li>cat_fmt - list of categories assigned to post</li>
-		<li>cmt_fmt - comment, with format control for no, 1 or many comments</li>
-		<li>dp_fmt - date posted</li>
-		<li>dm_fmt - date of last maintenance</li>
-		<li>tag_fmt - list of tags assigned to post</li>
-		<li>tm_fmt - time of last maintenance</li>
-		<li>tp_fmt - time of posting</li>
-		<p><b>Note</b>:  if you wish to use a comma in the the formatting, use the code <code>&amp;#44;</code>  The parsing routine uses commas to parse the format options, so the html code must be used to circumvent the parser. </p></li>
+		<p>The following format options allow customization of the individual fields in the byline or metaline.</p>
+		<p><b>Note</b>:  if you wish to use a comma in the the formatting, use the code <code>&amp;#44;</code>  The parsing routine uses commas to parse the format options, so the html code must be used to circumvent the parser. </p>
 		
 		<dt class="tpg-prem">auth_fmt</dt><dd>default: auth_fmt=",By ,"   (separator,b4 text,after text)</dd>
 		<dt class="tpg-prem">cat_fmt</dt><dd>default: cat_fmt="&amp;#44; ,Filed under: ,"   (separator,b4 text,after text)</dd>
@@ -187,35 +196,39 @@ post_byline=tpg-byline-class" numberposts=5 ]</pre></blockquote></p></li>
 		<dt class="tpg-prem">tm_fmt</dt><dd>default: tm_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
 		<dt class="tpg-prem">tp_fmt</dt><dd>default: tp_fmt="H:m:s, ,"    (time format,b4 text,after text)</dd>
 		 </ul>
-		 <p>To alter the entire post, use method one and modify the #tpg_get_posts-post style.  This is a wrapper div for the entire post.</p>
+		 
 		 
 	</div>	
 	<div id="gp-examples">
 		<h3>Examples:</h3>
 		
-		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title"]</pre></blockquote>
-		
 		<p>Shows 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post title and content teaser.</p>
 		
-		<blockquote><pre>[tpg_get_posts cat="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts tag="tag1,tag2" numberposts=5 orderby="title"]</pre></blockquote>
 		
 		<p>Shows 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.</p>
 		
+		<blockquote><pre>[tpg_get_posts cat="Events,News" numberposts=2 orderby="title" show_entire="true"]</pre></blockquote>
+		
+		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "tpg-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .tpg-ul-class h2 {}.</p>
+		
 		<blockquote><pre>[tpg_get_posts tag="tag5" fields="title"  ul_class="tpg-ul-class"]</pre></blockquote>
-		
-		<p>Shows a bullet list of post titles. The title will be wrapped in a tag with a class of "tpg-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .tpg_ul_class h2 {}.</p>
-		
-		<blockquote><pre>[tpg_get_posts cat="15,-4" ]</pre></blockquote>
 		
 		<p>To exclude a category within a selected category, you must use the category id for the selection.  The minus sign in front of the cateory id tells the query to exlude a category.  So this shortcode will select all the posts in category 15 and then eliminate all the post that are also in category 4.</p>
 		
-		<blockquote><pre>[tpg_get_posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
-		
-		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
-		
-		<blockquote><pre>[tpg_get_posts cat="25" fields="title, byline"  numberposts=1 mag_layout="true" thumbnail_size="thumbnail"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts cat="15,-4" ]</pre></blockquote>
 		
 		<p class="tpg-prem">The magazine layout is available in the premium version.  The layout will float the thumbnail to the left and position the title and byline to the right.  The fields parm controls which elements to show.</p>
+		
+		<blockquote><pre>[tpg_get_posts cat="25" fields="title, byline"  numberposts=1 mag_layout="true" thumbnail_size="thumbnail"]</pre></blockquote>
+				
+		<p class="tpg-prem">Pagination.  Show 5 posts per page with the pagination index at the end of the posts. </p>
+		
+		<blockquote><pre>[tpg_get_posts cat="cat1" posts_per_page=5 field_classes="pagination=my-theme-pagination-class"]</pre></blockquote>
+
+		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
+		
+		<blockquote><pre>[tpg_get_posts category__in="Events" byline_fmt"auth,dm,tm", dm_fmt="F j&amp;#44; Y, last changed on: ,"]</pre></blockquote>
 		
 		
 		<h3>How to Use:</h3>{donate}
