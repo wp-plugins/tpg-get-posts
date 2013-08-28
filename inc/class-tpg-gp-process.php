@@ -241,7 +241,7 @@ class tpg_gp_process {
 					// test for category name
 					$_id_val = get_term_by( 'name', $value, $_tax );
 					if ($_id_val ) {
-						$_ids .= $_id_val.$_sep;
+						$_ids .= $_id_val->term_id.$_sep;
 					}
 				}
 			}
@@ -366,18 +366,13 @@ class tpg_gp_process {
 					$wkcontent = '<div class="tpg-get-posts-thumbnail" >';
 				}
 				//get the thumbnail
-				$t_content = $this->fmt_post_thumbnail($post,$this->thumbnail_size);
-				if ($t_content != null) {
-					if ( $this->thumbnail_link) {
-						$wkcontent .= '<a href="' . get_permalink() .'">'.$t_content.'</a>';
-					} else {
-						$wkcontent .= $t_content;
-					}
-				} 
-				else {
+				$t_content = $this->fmt_post_thumbnail($post);
+				if ($t_content == null) {
 					if ($this->show_fi_error) {
 						$wkcontent .= '<p>thumbnail missing for '.$post->post_title.'</p>';
 					}
+				} else {
+					$wkcontent .= $t_content;
 				}
 				//close li item or div
 				if ($this->show_as_list) {
@@ -471,7 +466,7 @@ class tpg_gp_process {
 	/**
      * format the post title
      * 
-	 * This routine will format the title & byline
+	 * This routine will format the title 
 	 *
      * @param object $post
      * @return char  $wkcontent
@@ -486,11 +481,11 @@ class tpg_gp_process {
 			$wkcontent = $this->t_tag_beg.$wkcontent.$this->t_tag_end;
 		}
 
-		if (method_exists($this,'format_title')) {
-			$wkcontent = $this->format_title($wkcontent);
-		}
+		$wkcontent = '<div class="'.$this->classes_arr['post_title'].'">'.$wkcontent.'</div>';
+
 		return $wkcontent;	
 	}
+	
 	/**
      * format the post content
      * 
@@ -521,7 +516,7 @@ class tpg_gp_process {
 	/**
      * format the post thumbnail
      * 
-	 * This routine will parse the content at the more tag and return the short version
+	 * format the thumbnail for a post
 	 *
      * @param object $post
      * @return char  $wkcontent
@@ -529,10 +524,11 @@ class tpg_gp_process {
 	function fmt_post_thumbnail($post) {
 		$t_content='';
 		$t_content = $this->get_thumbnail($post,$this->thumbnail_size,$this->classes_arr['thumbnail_align']);
+		$t_content = '<div class="'.$this->classes_arr['post_thumbnail'].'">'.$t_content.'</div>';
 		if ($t_content != null) {
 			if ( $this->thumbnail_link) {
-				$t_content = '<div class="'.$this->classes_arr['post_thumbnail'].'">'.$t_content.'</div>';
-			}
+				$t_content = '<a href="' . get_permalink() .'">'.$t_content.'</a>';
+			} 
 		}
 		return $t_content;	
 	}
@@ -690,7 +686,7 @@ class tpg_gp_process {
      */
 	function filter_post_content($wkcontent) {
 		if (strlen($wkcontent) > 0) {					
-			$wkcontent = '<div class="'.$this->classes_arr['post_content'].' tpg-post-content">'.$wkcontent.'</div>';
+			$wkcontent = '<div class="'.$this->classes_arr['post_content'].'">'.$wkcontent.'</div>';
 			//apply filters for all content
 			$wkcontent = apply_filters('the_content',$wkcontent);
 			$wkcontent = str_replace(']]>', ']]&gt;', $wkcontent);
@@ -914,11 +910,7 @@ class tpg_gp_process {
 			$this->t_tag_beg = '';
 			$this->t_tag_end = '';
 		} else {
-			$this->t_tag_beg = '<'.$this->r['title_tag'];
-			if (isset($this->classes_arr["post_title"])) {
-				$this->t_tag_beg .= ' class="'.$this->classes_arr["post_title"].'"';
-			}	
-			$this->t_tag_beg .= '>';
+			$this->t_tag_beg = '<'.$this->r['title_tag'].'>';
 			$this->t_tag_end = "</".$this->r['title_tag'].">";
 		}	
 	}

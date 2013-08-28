@@ -32,6 +32,7 @@ class tpg_get_posts {
 			"last-updt"=>0,
 			"active-in-widgets"=>false,
 			"freeze"=>false,
+			"active-in-backend"=>false,
 			);
 
  	// define constants for the plugin

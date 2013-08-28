@@ -23,9 +23,9 @@ To use it, just put the following into the HTML of any page or post, use as many
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 	
-See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full doc on the plugin setting page.
+See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full documentation is on the plugin settings page.
 
-The premium version supports:
+The premium extension supports:
 
 * extended cat__and, cat__not_in and cat__in and other taxonmy
 * the short code to be added to a text widget
@@ -119,6 +119,11 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 3.1.0=
+* correct the assignment of class to post title
+* correct error with select by category name
+* add function to process shortcode in admin area, premium extension feature
+
 = 3.0.0 =
 * remove id from div - the repeating of a div caused validation routines to throw errors with duplicate div id.  This change may break formatting. see option to stop updates
 * set default thumbnail size to thumbnail instead of none.
