@@ -260,6 +260,12 @@ class tpg_gp_admin {
 			$new_opts['freeze'] = true;
 		}
 		
+		if (!array_key_exists("active-in-backend",$new_opts)) {
+			$new_opts['active-in-backend'] = false;
+		} else {
+			$new_opts['active-in-backend'] = true;
+		}
+		
 		//apply new values to gp_opts 
 		foreach($new_opts as $key => $value) {
 			$this->gp_opts[$key] = $value;
@@ -453,6 +459,7 @@ class tpg_gp_admin {
 		$ck_keep_opts = ($this->gp_opts['keep-opts'])? 'checked=checked' : '';
 		$ck_widgets_opts = ($this->gp_opts['active-in-widgets'])? 'checked=checked' : '';
 		$ck_freeze = ($this->gp_opts['freeze'])? 'checked=checked' : '';
+		$ck_backend = ($this->gp_opts['active-in-backend'])? 'checked=checked' : '';
 		$btn_updt_opts_txt = __('Update Options', 'gp_update_opts' ) ;
 		$btn_val_lic_txt = __('Validate Lic', 'gp_val_lic_opts' ) ;
 
@@ -493,6 +500,9 @@ class tpg_gp_admin {
 							</tr>
 							<tr>
 							<td>Activate in Widgets:  </td><td><input type="checkbox" name="gp_opts[active-in-widgets]" id="id_widgets" value="true" $ck_widgets_opts /></td><td>If you want this plugin active in text widgets, check this box to activate the shortcodes for widgets.</td>				
+							</tr>
+							<tr>
+							<td>Activate in Backend:  </td><td><input type="checkbox" name="gp_opts[active-in-backend]" id="id_backend" value="true" $ck_backend /></td><td>If you want this plugin active in the administrative (backend) section, check this box.  This adds extra processing to admin side, but is required from some plugins to work correctly, such as WPMU_eNewsletter.</td>				
 							</tr>
 						</table>
 					

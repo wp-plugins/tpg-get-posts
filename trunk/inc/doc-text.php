@@ -155,13 +155,15 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		<p><em><b>By saving your custom user defined style sheet in the theme folder it will not be deleted with an upgrade to the plugin.  This is a change from version 1.x</b></em></p>
 		<p>There are two ways to alter the styling: 
 		<ol>
-		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg_get_posts-style.css and modify them as needed. **Note: With release 2, the naming conventions for classes changed.  Please use the ones listed below as the older class names will be removed in a future release. 
-		<dt class="tpg-prem">tpg-title-class</dt><dd>class of the post title division</dd>
+		<li>In the user stylesheet, redefine the styles which are listed below.  The simplest approach is to copy the styles from tpg_get_posts-style.css and modify them as needed. 
+		<p>
+		<dt>tpg-title-class</dt><dd>class of the post title division</dd>
 		<dt>tpg-byline-class</dt><dd>class of the post byline</dd>
 		<dt>tpg-content-class</dt><dd>class for the body of the post</dd>
 		<dt>tpg-metadata-class</dt><dd>class for the metadata</dd>
 		<dt>tpg-excerpt-class</dt><dd>class for the excerpt</dd>
-		<dt class="tpg-prem">tpg-thumbnail-class</dt><dd>class for the thumbnail division</dd>
+		<dt>tpg-thumbnail-class</dt><dd>class for the thumbnail division</dd>
+		</p>
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:
 			<p>The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
