@@ -29,6 +29,8 @@
 	font-size:x-small;
 }
 .tpg-ul-class {}
+/* class for pagination*/
+.tpg-pagination-class{clear:both;}
 /*class for <hr> after list */
 .tpg-get-post-li-hr {display:none}
 
@@ -36,7 +38,6 @@
 .tpg-mag-class {
 	float:left;
 	width: 70%;
-	#margin: 1em 0 0 0;
 }
 
 .tpg-mag-class .tpg-title-class {
