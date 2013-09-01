@@ -226,7 +226,7 @@ field_classes="post_title=tpg-title-class, post_content=tpg-content-class, post_
 				
 		<p class="tpg-prem">Pagination.  Show 5 posts per page with the pagination index at the end of the posts. </p>
 		
-		<blockquote><pre>[tpg_get_posts cat="cat1" posts_per_page=5 field_classes="pagination=my-theme-pagination-class"]</pre></blockquote>
+		<blockquote><pre>[tpg_get_posts cat="cat1" posts_per_page=5 field_classes="pagination=tpg-pagination-class my-theme-pagination-class"]</pre></blockquote>
 
 		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
 		
