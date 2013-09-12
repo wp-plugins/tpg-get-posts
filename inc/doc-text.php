@@ -61,16 +61,11 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<dt>tag</dt><dd>This allows for the selection of posts by tag (slug).</dd>
 			<dt>tag_id</dt><dd>This allows for the selection of posts by tag id.</dd>
 			<dt>cat</dt><dd>A comma separated list of cateory names,slugs or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events,5' cat='news'.  The category name is the name and not the slug. The coversion routine will look for id, slug and then category.  To accomodate complex taxonomonies and where a category name is repeated as a sub category use either slug or id.  Slugs and id''s are unique where a category name can be repeated.</dd>
-		
-			<!-- 
-			<dt><span style="text-decoration:line-through">category_name</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category_name.</span> Deprecated, use cat tag.</dd>
-		
-			<dt><span style="text-decoration:line-through">category</span></dt><dd><span style="text-decoration:line-through">This allows for the selection of posts by category number.</span> Deprecated, use cat tag.</dd> 
-			-->
 
 			<dt>numberposts</dt><dd>Specify the maximum number of posts to select.  The default is 5.</dd>
+			<dt>offset</dt><dd>Specify the number of posts to skip.  This is a standard option to WP_Query.  If offset=3 is entered, the post will start showing at the 4 post.  The default is 0, show all.</dd>
 			
-			<dt class="tpg-prem">posts_per_page</dt><dd>Specify the number of posts to show on page.  The numberposts option is ignored when this is specified. .</dd>
+			<dt class="tpg-prem">posts_per_page</dt><dd>Specify the number of posts to show on page and enable pagination.  The numberposts option is ignored when this is specified. See the page_next_text and page_prev_text to set the text.</dd>
 			
 			<dt>post_type</dt><dd>This allows for the selection custom post types.</dd>
 			<dt>post_status</dt><dd>This allows for the selection by post status.</dd>
@@ -99,13 +94,34 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		
 			<dt>fields</dt><dd>This is a comma separated list of fields to be displayed. The default is "title, byline, content, metadata".  If only a list of titles is desired, remove the othe parms from the list and no content will be returned, ie fields="title".</dd>
 		
-			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.</dd>	
+			<dt>field_classes</dt><dd> This is a special list which assigns a class to a post field.  It is formatted in a key=value sequence separated by a comma.  The key defines a section of the post while the value is the name of a class to which will be provided via a tag wrapped around the field. The default classes are listed below.  The class can be assigned any value and the css set up in a user defined style sheet.  The key fields cannot be changed.	  <br /><br />The following is a list of the default field classes which can be overridden:
+			<ul style="padding-left:2em"> <br />
+			<li>post_title=tpg-title-class</li>
+			<li>post_content=tpg-content-class</li> 
+			<li>post_metadata=tpg-metadata-class</li> 
+			<li>post_byline=tpg-byline-class</li>
+			<li>post_thumbnail=tpg-thumbnail-class</li>
+			<li>thumbnail_align=alignleft</li>
+			<li>post_excerpt=tpg-excerpt-class</li>
+			<li>mag_content=tpg-mag-class</li>
+			<li>fi_content=tpg-fi-class</li>
+			<li>ul_class=tpg-ul-class</li>
+			<li>pagination=tpg-pagination-class</li>
+			<li>page-next=tpg-next</li>
+			<li>page-prev=tpg-prev</li>
+			</ul>
+			
+			</dd>
 			
 			<dt class="tpg-prem">fi_layout</dt><dd>This option fi_layout="true" in conjunction with the thumbnail_size="medium" option display the post in a 'featured image' format where the featured image is placed above the title.  The fields option can control what text to display.<br> The thumbnail_size is required when displaying the thumbnail/featured image.</dd>
 			
 			<dt class="tpg-prem">mag_layout</dt><dd>This option mag_layout="true" in conjunction with the thumbnail_size="thumbnail" option places the thumbnail at the beginning of the post items so it can float left and have the title and content beside the image.  The standard 'post layout' puts the title above the image and only the content wraps around the the image. <br> The thumbnail_size is required when displaying the thumbnail/featured image.</dd>
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
+			
+			<dt class="tpg-prem">page_next</dt><dd>The option page-next='true' will show just the Previous and Next link instead of the pagination index.  The default is false.</dd>
+		    <dt class="tpg-prem">page_prev_text</dt><dd>Set the text for the previous link. Default is '&laquo; Previous'.</dd> 
+		    <dt class="tpg-prem">page_next_text</dt><dd>Set the text for the next link. Defautl is 'Next &raquo;'.</dd>
 			
 			<dt>shorten_title</dt><dd>This option shorten_title="c15" or shorten_title="w15" specifies that the title will be shortened to 15 characters. The 'c' indicates to cut at the character while the 'w' indicates that only whole words in the first 15 characters are included.</dd>
 		
@@ -115,12 +131,6 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 			<dt>show_entire</dt><dd>This option show_entire="true" will show the entire post, not just the teaser.It ignores the more tag in the post content.  Default is "false".</dd>
 			
 			<dt>show_excerpt</dt><dd>This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".</dd>
-		
-			<!--
-			<dt><span style="text-decoration:line-through">show_meta</span></dt><dd><span style="text-decoration:line-through">This option show_meta="false" will suppress the display of metadata. Default is "true".</span> Deprecated, use fields tag.</dd>
-		
-			<dt><span style="text-decoration:line-through">show_byline</span></dt><dd><span style="text-decoration:line-through">This option show_byline="false" will suppress the display of the by-line. Default is "true".</span> Deprecated, use fields tag.</dd>
-			-->
 			
 			<dt>text_ellipsis</dt><dd>This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.</dd>
 			
@@ -163,6 +173,7 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		<dt>tpg-metadata-class</dt><dd>class for the metadata</dd>
 		<dt>tpg-excerpt-class</dt><dd>class for the excerpt</dd>
 		<dt>tpg-thumbnail-class</dt><dd>class for the thumbnail division</dd>
+		
 		</p>
 		</li>
 		<li>If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:

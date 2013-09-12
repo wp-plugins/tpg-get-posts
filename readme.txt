@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
 Tested up to: 3.6
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -79,7 +79,12 @@ Show a bullet list of post titles. The title will be wrapped in a of class "p-ul
 
 1. Upload the plugin to the `/wp-content/plugins/` directory and unzip it.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
-1. Place `[tpg_get_posts]` in your pages. 
+1. Place `[tpg_get_posts]` in your pages.
+
+Activating the extension is completed on the setting page for the plugin.
+1. Enter the lic code and email address and save the options
+1. Validate the options.
+1. Select the download button to install the extension or apply updates. 
 
 == Frequently Asked Questions ==
 
@@ -119,6 +124,11 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 3.1.1=
+* update documenation
+* on pagination, ability to set labels (see page_next_text option)
+* add pagination feature to show only prev/next instead of index (see page_next option)
+
 = 3.1.0=
 * correct the assignment of class to post title
 * correct error with select by category name
