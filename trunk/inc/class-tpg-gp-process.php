@@ -26,6 +26,9 @@ class tpg_gp_process {
 		  'thumbnail_size'	 => 'thumbnail',
 		  'thumbnail_only'	 => 'false',
 		  'thumbnail_link'	 => 'true',
+		  'page_next'	     => 'false',
+		  'page_prev_text'   => '&laquo; Previous', 
+		  'page_next_text'   => 'Next &raquo;',   
 		  'mag_layout'       => 'false',
 		  'fi_layout'        => 'false',
 		  'show_fi_error'    => 'false',
@@ -45,6 +48,8 @@ class tpg_gp_process {
 									'fi_content'=>'tpg-fi-class',
 									'ul_class'=>'tpg-ul-class',
 									'pagination'=>'tpg-pagination-class',
+									'page-next'=>'tpg-next',
+									'page-prev'=>'tpg-prev',
 								 );
 								 
 	//initialized from model each time processed	  
@@ -622,19 +627,31 @@ class tpg_gp_process {
 		if (array_key_exists('posts_per_page',$this->r)) {
 
 			$pg_cnt = $this->tpg_query->max_num_pages;
-		
-			$link_text= paginate_links( array(
-											'base' => get_pagenum_link(1).'%_%',
-											'format' => '?paged=%#%',
-											'current' => max( 1, get_query_var('paged') ),
-											'total' => $pg_cnt,
-											'prev_next' => true,
-											'prev_text'    => __('« Previous'),
-    										'next_text'    => __('Next »'),
-											'type' => 'plain',
-										) );
 			
-			$content .=	'<div class="'.$this->classes_arr['pagination'].'">'.$link_text.'</div>';					
+			if ($this->page_next) {
+				$content .= '<div class="'.$this->classes_arr['pagination'].'"> ';
+    			$content .= '<span class="'.$this->classes_arr['page-prev'].'">';
+				$content .=	get_previous_posts_link($this->r['page_prev_text']);
+				$content .= '</span>';
+				$content .=	'<span class="'.$this->classes_arr['page-next'].'">';
+				$content .=	get_next_posts_link($this->r['page_next_text'],$pg_cnt);
+				$content .='</span> ';
+				$content .= '</div>';
+			} else {
+				$link_text= paginate_links( array(
+												'base' => get_pagenum_link(1).'%_%',
+												'format' => '?paged=%#%',
+												'current' => max( 1, get_query_var('paged') ),
+												'total' => $pg_cnt,
+												'prev_next' => true,
+												'prev_text'    => __($this->r['page_prev_text']),
+												'next_text'    => __($this->r['page_next_text']),
+												'type' => 'plain',
+											) );
+				
+				$content .=	'<div class="'.$this->classes_arr['pagination'].'">'.$link_text.'</div>';
+			
+			}					
 		}
 
 		return $content;
@@ -869,6 +886,12 @@ class tpg_gp_process {
 			$this->mag_layout = true;
 		} else {
 			$this->mag_layout = false;
+		}
+		
+		if ($this->r['page_next'] == "true") {
+			$this->page_next = true;
+		} else {
+			$this->page_next = false;
 		}
 
 		if ($this->r['fi_layout'] == "true") {

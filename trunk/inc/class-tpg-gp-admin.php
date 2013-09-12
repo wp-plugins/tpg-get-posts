@@ -6,7 +6,7 @@
 class tpg_gp_admin {
 	
 	//sec since last update 30x24x60= 43200 sec in 30 day month
-	private $update_time=0;
+	private $update_time=60;
 	
 	private $pp_btn='';
 	private $resp_data=array(
@@ -40,6 +40,7 @@ class tpg_gp_admin {
 				"module"=>'tpg-get-posts',
 				);
 		
+		$this->update_time = $this->gp_opts['updt-sec'];
 		$this->vl = tpg_gp_factory::create_lic_validation($this->gp_opts,$this->gp_paths,$this->module_data);
 		$this->vl->get_plugin_info($this->ext_name);
 		$this->plugin_data = $this->vl->plugin_data;
@@ -97,7 +98,7 @@ class tpg_gp_admin {
 		static $this_plugin;
 		if (!$this_plugin) $this_plugin = plugin_basename($this->gp_paths['base']);
 		if ($file == $this_plugin){
-			$settings_link = '<a href="options-general.php?page=tpg-get-posts-settings">'.__('Settings', 'tpg_get_posts').'</a>';
+			$settings_link = '<a href="options-general.php?page=tpg-get-posts-settings">'.__('Settings/Doc', 'tpg_get_posts').'</a>';
 			array_unshift($links, $settings_link);
 		}
 		return $links;
@@ -365,6 +366,12 @@ class tpg_gp_admin {
 					$this->v_plugin_norm= $this->normalize_ver($this->plugin_data['Version']);
 					$this->v_plugin_ext=$this->plugin_ext_data['Version'];
 					$this->v_plugin_ext_norm=$this->normalize_ver($this->plugin_ext_data['Version']);
+					
+					//update opt time in sec since last update
+					$_lstupd = $this->update_time = time();
+					$this->gp_opts['last-updt']=$_lstupd;
+					update_option( 'tpg_gp_opts', $this->gp_opts);
+					
 					if (($_resp->success && $this->v_store_norm > $this->v_plugin_ext_norm) || (!file_exists($this->gp_paths['ext'].$this->ext_name)) ){
 						echo '<div id="message" class="updated"><p><strong>' . __('An update to ver '.$this->v_store.' is available.') . '</strong></p></div>';
 						$_resp=$this->vl->get_update_link();
@@ -495,7 +502,11 @@ class tpg_gp_admin {
 							</tr>
 							<tr>
 							<td>Keep Options on uninstall:  </td><td><input type="checkbox" name="gp_opts[keep-opts]" id="id_keep_opts" value="false" $ck_keep_opts /></td><td>If checked, options will not be deleted on uninstall.  Useful when upgrading.  Uncheck to completely remove premium version.</td>				
-							</tr><tr>
+							</tr>
+							<tr>
+							<td>Check for Update Freq:  </td><td><input type="text" name="gp_opts[updt-sec]" id="id_updt_sec" value="{$this->gp_opts['updt-sec']}" /></td><td>Set the number of seconds between checking for updates of the extension.  To check immediately, set value to zero, save options and refresh the page.</td>				
+							</tr>
+							<tr>
 							<td>Show Ids:  </td><td><input type="checkbox" name="gp_opts[show-ids]" id="id_show_id" value="true" $ck_show_ids /></td><td>This option applies modifications to the show cat (and other admin pages) to show the id of the entires.  This number is needed for the some of the premium selection options and for the category selector. </td>				
 							</tr>
 							<tr>
