@@ -35,7 +35,7 @@ The premium extension supports:
 * pagination
 
 **NOTE**
-	The 3.0 release alters the default for thumbnails.  If this upgrade breaks your site, download tag 2.5.0 and set the option to freeze the release.  Be sure to test befor upgrading.
+	The 3.0 release alters the default for thumbnails.  If this upgrade breaks your site, download tag 2.5.0 and set the option to freeze the release.  Be sure to test before upgrading.
 	
 == Usage ==
 
@@ -82,6 +82,7 @@ Show a bullet list of post titles. The title will be wrapped in a of class "p-ul
 1. Place `[tpg_get_posts]` in your pages.
 
 Activating the extension is completed on the setting page for the plugin.
+
 1. Enter the lic code and email address and save the options
 1. Validate the options.
 1. Select the download button to install the extension or apply updates. 
