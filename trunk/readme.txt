@@ -125,17 +125,17 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
-= 3.2.0=
+= 3.2.0 =
 * add ability to set a custom style for the entire post, not just the components
-* add fppge option to correct pagination when used on static front page
+* add fp_pagination option to correct pagination when used on static front page
 * bug fix - corrected call to static function which throws warning
 
-= 3.1.1=
+= 3.1.1 =
 * update documenation
 * on pagination, ability to set labels (see page_next_text option)
 * add pagination feature to show only prev/next instead of index (see page_next option)
 
-= 3.1.0=
+= 3.1.0 =
 * correct the assignment of class to post title
 * correct error with select by category name
 * add function to process shortcode in admin area, premium extension feature
