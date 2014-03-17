@@ -26,6 +26,7 @@ class tpg_gp_process {
 		  'thumbnail_size'	 => 'thumbnail',
 		  'thumbnail_only'	 => 'false',
 		  'thumbnail_link'	 => 'true',
+		  'fp_pagination'	 => 'false',
 		  'page_next'	     => 'false',
 		  'page_prev_text'   => '&laquo; Previous', 
 		  'page_next_text'   => 'Next &raquo;',   
@@ -37,7 +38,10 @@ class tpg_gp_process {
 		  'field_classes'    => '',
 		  );
 		  
-	private $model_field_class = array('post_title'=>'tpg-title-class',
+	private $model_field_class = array(
+									'posts_wrapper'=>'tpg-get-posts',
+									'post_wrapper'=>'tpg-get-posts-post',
+									'post_title'=>'tpg-title-class',
 								 	'post_content'=>'tpg-content-class', 
 								 	'post_metadata'=>'tpg-metadata-class', 
 								 	'post_byline'=>'tpg-byline-class',
@@ -261,8 +265,12 @@ class tpg_gp_process {
 	 * @subpackage tpg_get_posts
 	 * @since 2.8
 	 *
-	 * to control formatting, sometimes it is necessary to restrict a text field to 
-	 * a specific length or the last word less than the length 
+	 * set the args, accepting args from shortcode and merging with default
+	 * accept any args for the extension 
+	 * normalize cat to cat id
+	 * look for legacy codes and convert to newer code 
+	 * set the fields 
+	 * now get the posts and format
 	 * 
 	 * @param    array    $args   		values from the shortcode passed to this routine
 	 * @return   string   $content      the selected formated posts
@@ -339,7 +347,7 @@ class tpg_gp_process {
 		//open div and begin post process
 		$content = '';
 		$content = $this->filter_pre_plugin($content);
-		$content .= '<div class="tpg-get-posts" >';
+		$content .= '<div class="'.$this->classes_arr['posts_wrapper'].'" >';
 		if ($this->show_as_list) {
 			$content .="<ul class=\"".$this->r['ul_class']."\">\n";
 		}
@@ -394,7 +402,7 @@ class tpg_gp_process {
 			if ($this->show_as_list) {
 				$content .= "  <li>";
 			} else {
-				$content .= '<div class="tpg-get-posts-post" >';
+				$content .= '<div class="'.$this->classes_arr['post_wrapper'].'" >';
 			}
 
 			// allow magazine layout for premium version
@@ -638,10 +646,15 @@ class tpg_gp_process {
 				$content .='</span> ';
 				$content .= '</div>';
 			} else {
+				if ($this->fp_pagination) {
+					$_curpage=max( 1, get_query_var('page') );
+				} else {
+					$_curpage=max( 1, get_query_var('paged') );
+				}
 				$link_text= paginate_links( array(
 												'base' => get_pagenum_link(1).'%_%',
 												'format' => '?paged=%#%',
-												'current' => max( 1, get_query_var('paged') ),
+												'current' => $_curpage,
 												'total' => $pg_cnt,
 												'prev_next' => true,
 												'prev_text'    => __($this->r['page_prev_text']),
@@ -886,6 +899,12 @@ class tpg_gp_process {
 			$this->mag_layout = true;
 		} else {
 			$this->mag_layout = false;
+		}
+		
+		if ($this->r['fp_pagination'] == "true") {
+			$this->fp_pagination = true;
+		} else {
+			$this->fp_pagination = false;
 		}
 		
 		if ($this->r['page_next'] == "true") {
