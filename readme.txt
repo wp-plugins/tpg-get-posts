@@ -1,12 +1,12 @@
 ===  TPG Get Posts ===
 Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate/
-Tags: get_posts, post, posts, formatting, list, shortcode
+Tags: get_posts, post, posts, formatting, list, thumbnails, get posts, posts on page
 Requires at least: 2.8    
 Tested up to: 3.8
 Stable tag: 3.2.0
 
-Adds a shortcode tag to display posts within a static page or another post.  
+Display posts on a page with ability to filter cat or tag.  
 
 == Description ==
 Please review the Changelog for release change notices and save any custom styling before applying any upgrade.
@@ -48,7 +48,8 @@ To use it, just put the following into the HTML of any page or post, use as many
 	this is equivalent to:
 	
 	[tpg_get_posts fields="title,byline,content,metadata" 
-	fields_classes="post_title=tpg-title-class, post_content=tpg-content-class,post_byline=tpg-byline-class,post_metadata=tpg-metadata-class" numberposts=5 ]
+	fields_classes="post_title=tpg-title-class, post_content=tpg-content-class,post_byline=tpg-byline-class,
+	post_metadata=tpg-metadata-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 
@@ -68,7 +69,8 @@ Show 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post ti
 
 Show 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
-	[tpg_get_posts cat="Events,News" numberposts=2 orderby="title show_entire="true"]
+	[tpg_get_posts cat="Events,News" numberposts=2 
+	orderby="title show_entire="true"]
 
 Show a bullet list of post titles. The title will be wrapped in a of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
 
