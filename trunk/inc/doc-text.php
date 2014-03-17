@@ -65,7 +65,9 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<dt>numberposts</dt><dd>Specify the maximum number of posts to select.  The default is 5.</dd>
 			<dt>offset</dt><dd>Specify the number of posts to skip.  This is a standard option to WP_Query.  If offset=3 is entered, the post will start showing at the 4 post.  The default is 0, show all.</dd>
 			
-			<dt class="tpg-prem">posts_per_page</dt><dd>Specify the number of posts to show on page and enable pagination.  The numberposts option is ignored when this is specified. See the page_next_text and page_prev_text to set the text.</dd>
+			<dt class="tpg-prem">posts_per_page</dt><dd>Specify the number of posts to show on page and enable pagination.  The numberposts option is ignored when this is specified. See the page_next_text and page_prev_text to set the text.  If paging on front page, see fp_pagination option.</dd>
+			
+			<dt class="tpg-prem">fp_pagination</dt><dd>This option is used in conjunction with the post_per_page option.  If the pagination is on a static front page, set fp_pagination='true'.  </dd>
 			
 			<dt>post_type</dt><dd>This allows for the selection custom post types.</dd>
 			<dt>post_status</dt><dd>This allows for the selection by post status.</dd>
@@ -238,6 +240,9 @@ field_classes="post_title=tpg-title-class, post_content=tpg-content-class, post_
 		<p class="tpg-prem">Pagination.  Show 5 posts per page with the pagination index at the end of the posts. </p>
 		
 		<blockquote><pre>[tpg_get_posts cat="cat1" posts_per_page=5 field_classes="pagination=tpg-pagination-class my-theme-pagination-class"]</pre></blockquote>
+		
+		<p>If paging on a static front page use:</p>
+		<blockquote><pre>[tpg_get_posts cat="cat1" posts_per_page=5 field_classes="pagination=tpg-pagination-class my-theme-pagination-class" fp_pagination="true"]</pre></blockquote>
 
 		<p class="tpg-prem">Formats the byline with author, date and time and the date format is defined in the dm_fmt option to produce 'last changed on: Month day, YYYY'.</p>
 		

@@ -3,8 +3,8 @@ Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate/
 Tags: get_posts, post, posts, formatting, list, shortcode
 Requires at least: 2.8    
-Tested up to: 3.6
-Stable tag: 3.1.1
+Tested up to: 3.8
+Stable tag: 3.2.0
 
 Adds a shortcode tag to display posts within a static page or another post.  
 
@@ -32,7 +32,7 @@ The premium extension supports:
 * extensive formating of the by line and meta-data line
 * a magazine layout option which displays the post header and text next to the post thumbnail
 * a featured image layout option
-* pagination
+* pagination (not supported in all themes) - This option is tested against the WP themes and a very limited set of plugins.  There are a few sites that have reported pagination not working, but the problem has not been identified.  It could be theme or plugin conflict.  Due to the challenges of implementing pagination in various site configurations, support for this option cannot be provided.
 
 **NOTE**
 	The 3.0 release alters the default for thumbnails.  If this upgrade breaks your site, download tag 2.5.0 and set the option to freeze the release.  Be sure to test before upgrading.
@@ -125,6 +125,11 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 3.2.0=
+* add ability to set a custom style for the entire post, not just the components
+* add fppge option to correct pagination when used on static front page
+* bug fix - corrected call to static function which throws warning
+
 = 3.1.1=
 * update documenation
 * on pagination, ability to set labels (see page_next_text option)
