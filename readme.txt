@@ -1,6 +1,8 @@
 ===  TPG Get Posts ===
 Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate/
+Plugin Website: http://www.tpginc.net/wordpress-plugins/
+Documentation link: http://www.tpginc.net/wordpress-plugins/plugin-tpg_get_posts/tpg-get-posts-documentation/
 Tags: get_posts, post, posts, formatting, list, thumbnails, get posts, posts on page
 Requires at least: 2.8    
 Tested up to: 3.8
