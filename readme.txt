@@ -6,7 +6,7 @@ Requires at least: 2.8
 Tested up to: 3.8
 Stable tag: 3.2.0
 
-Display posts on a page with ability to filter cat or tag.  
+Display posts on a page with ability to filter category or tag.  
 
 == Description ==
 Please review the Changelog for release change notices and save any custom styling before applying any upgrade.
