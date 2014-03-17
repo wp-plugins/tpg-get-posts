@@ -48,7 +48,8 @@ To use it, just put the following into the HTML of any page or post, use as many
 	this is equivalent to:
 	
 	[tpg_get_posts fields="title,byline,content,metadata" 
-	fields_classes="post_title=tpg-title-class, post_content=tpg-content-class,post_byline=tpg-byline-class,
+	fields_classes="post_title=tpg-title-class,
+	post_content=tpg-content-class,post_byline=tpg-byline-class,
 	post_metadata=tpg-metadata-class" numberposts=5 ]
 	
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
