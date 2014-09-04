@@ -121,7 +121,7 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 			
 			<dt>more_link_text</dt><dd>This option changes the text to display when the more tag is used to produce a teaser.  Enter as more_link_text="My Custom Text". Default is "(read more...)".</dd>
 			
-			<dt class="tpg-prem">page_next</dt><dd>The option page-next='true' will show just the Previous and Next link instead of the pagination index.  The default is false.</dd>
+			<dt class="tpg-prem">page_next</dt><dd>The option page_next='true' will show just the Previous and Next link instead of the pagination index.  The default is false.</dd>
 		    <dt class="tpg-prem">page_prev_text</dt><dd>Set the text for the previous link. Default is '&laquo; Previous'.</dd> 
 		    <dt class="tpg-prem">page_next_text</dt><dd>Set the text for the next link. Defautl is 'Next &raquo;'.</dd>
 			
