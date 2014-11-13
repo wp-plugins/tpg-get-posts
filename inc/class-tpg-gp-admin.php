@@ -98,7 +98,7 @@ class tpg_gp_admin {
 		static $this_plugin;
 		if (!$this_plugin) $this_plugin = plugin_basename($this->gp_paths['base']);
 		if ($file == $this_plugin){
-			$settings_link = '<a href="options-general.php?page=tpg-get-posts-settings">'.__('Settings/Doc', 'tpg_get_posts').'</a>';
+			$settings_link = '<a href="options-general.php?page=tpg-get-posts-settings">'.__('Settings/Doc', 'tpg-get-posts').'</a>';
 			array_unshift($links, $settings_link);
 		}
 		return $links;
@@ -171,8 +171,13 @@ class tpg_gp_admin {
 			$this->gp_opts=tpg_get_posts::get_options();
 
 		}
-
-		$page_content = file_get_contents($this->gp_paths['inc'].'doc-text.php');
+		
+		ob_start();
+		include($this->gp_paths['inc'].'doc-text.php');
+		$page_content = ob_get_contents();
+		ob_end_clean();
+		//$page_content = file_get_contents($this->gp_paths['inc'].'doc-text.php');
+		
 		//replace tokens in text
 		$page_content = str_replace("{settings}",$this->tpg_gp_bld_setting(),$page_content);
 		$page_content = str_replace("{icon}",screen_icon(),$page_content);
@@ -208,7 +213,7 @@ class tpg_gp_admin {
 		}
 		//message for valid lic
 		if ($this->gp_opts['valid-lic']) {
-			$valid_txt="The license opts have been validated - thank you.";
+			$valid_txt=__("The license opts have been validated - thank you.",'tpg-get-posts');
 		} else {
 			$valid_txt='';
 		}
@@ -275,7 +280,7 @@ class tpg_gp_admin {
 		//update with new values
 		update_option( 'tpg_gp_opts', $this->gp_opts);
 		
-		echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.') . '</strong></p></div>';
+		echo '<div id="message" class="updated fade"><p><strong>' . __('Settings saved.','tpg-get-posts') . '</strong></p></div>';
 	}
 	
 	/*
@@ -305,7 +310,7 @@ class tpg_gp_admin {
 			update_option( 'tpg_gp_opts', $this->gp_opts);
 			//refresh options
 			$this->gp_opts=tpg_get_posts::get_options();
-			echo '<div id="message" class="updated fade"><p><strong>' . __('The license has been validated.') . '</strong></p></div>';
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The license has been validated.','tpg-get-posts') . '</strong></p></div>';
 		}
 	}
 	
@@ -326,7 +331,7 @@ class tpg_gp_admin {
 
 		$_resp=$this->vl->update_source($_p);
 		if ($_resp->success) {
-			echo '<div id="message" class="updated fade"><p><strong>' . __('The premium plugin has been updated.') . '</strong></p></div>';
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The premium plugin has been updated.','tpg-get-posts') . '</strong></p></div>';
 		} else {
 			$_keys=array_keys($_resp->err_msgs) ;
 			if (array_key_exists($_keys[0],$_resp->err_txt)) {
@@ -334,7 +339,7 @@ class tpg_gp_admin {
 			} else {
 				$errtxt='';
 			}
-			echo '<div id="message" class="updated fade"><p><strong>' . __('The update failed with a '.$_keys[0].' error. '.$errtxt) . '</strong></p></div>';
+			echo '<div id="message" class="updated fade"><p><strong>' . __('The update failed with a '.$_keys[0].' error. '.$errtxt,'tpg-get-posts') . '</strong></p></div>';
 		}
 	}					
 	
@@ -373,11 +378,11 @@ class tpg_gp_admin {
 					update_option( 'tpg_gp_opts', $this->gp_opts);
 					
 					if (($_resp->success && $this->v_store_norm > $this->v_plugin_ext_norm) || (!file_exists($this->gp_paths['ext'].$this->ext_name)) ){
-						echo '<div id="message" class="updated"><p><strong>' . __('An update to ver '.$this->v_store.' is available.') . '</strong></p></div>';
+						echo '<div id="message" class="updated"><p><strong>' . __('An update to ver '.$this->v_store.' is available.','tpg-get-posts') . '</strong></p></div>';
 						$_resp=$this->vl->get_update_link();
 						if ($_resp->success) {
 							$this->resp_data['dl-url']=$_resp->{'dl-url'};
-							$this->resp_data['dl-link']='<a href="'.$this->resp_data['dl-url'].'">Download new version</a>';
+							$this->resp_data['dl-link']='<a href="'.$this->resp_data['dl-url'].'">"'.__("Download new version","tpg-get-posts").'</a>';
 						} else {
 							$this->resp_data['success']=false;
 							foreach ($_resp->errors as $err) {
@@ -441,7 +446,7 @@ class tpg_gp_admin {
 		
 		//generate pp donate button
 		$ppb = tpg_gp_factory::create_paypal_button();
-		$ask="<p>If this plugin helps you build a website, please consider a small donation of $5 or $10 to continue the support of open source software.  Taking one hour&lsquo;s fee and spreading it across multiple plugins is an investment that generates amazing returns.</p><p>Thank you for supporting open source software.</p>";
+		$ask="<p>".__('If this plugin helps you build a website, please consider a small donation of $5 or $10 to continue the support of open source software.  Taking one hour&lsquo;s fee and spreading it across multiple plugins is an investment that generates amazing returns.','tpg-get-posts')."</p><p>".__('Thank you for supporting open source software.','tpg-get-posts')."</p>";
 		$ppb->set_var("for_text","wordpress plugin tpg-get-posts");
 		$ppb->set_var("desc",$ask);
 		$this->pp_btn = $ppb->gen_donate_button();
@@ -467,9 +472,11 @@ class tpg_gp_admin {
 		$ck_widgets_opts = ($this->gp_opts['active-in-widgets'])? 'checked=checked' : '';
 		$ck_freeze = ($this->gp_opts['freeze'])? 'checked=checked' : '';
 		$ck_backend = ($this->gp_opts['active-in-backend'])? 'checked=checked' : '';
-		$btn_updt_opts_txt = __('Update Options', 'gp_update_opts' ) ;
-		$btn_val_lic_txt = __('Validate Lic', 'gp_val_lic_opts' ) ;
+		$btn_updt_opts_txt = __('Update Options', 'tpg-get-posts' ) ;
+		$btn_val_lic_txt = __('Validate Lic', 'tpg-get-posts' ) ;
 
+		//hack for translation
+		$__ = '__';
 		//create output form
 		$output = <<<EOT
 		<div class="wrap">		
@@ -478,42 +485,42 @@ class tpg_gp_admin {
 			<div id="jq_effects" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br /></div>
 
-				<h3><a class="togbox">+</a> TPG Get Posts Options</h3>
+				<h3><a class="togbox">+</a> {$__('TPG Get Posts Options','tpg-get-posts')} </h3>
 				
 				<div class="inside"  style="padding:10px;">
 					<form name="getposts_options" method="post" action="{action-link}">
 					
-						<h4>Base Options </h4>
+						<h4>{$__('Base Options','tpg-get-posts')} </h4>
 						<table class="form-table">	
 							<tr>		
-							<td>Freeze Updates:  </td><td><input type="checkbox" name="gp_opts[freeze]" id="id_freeze" value="true" $ck_freeze /></td><td>This option prevents the update notice from being displayed.  Use this if you wish to stop any future updates to the plugin.</td>				
+							<td>{$__('Freeze Updates:','tpg-get-posts')}  </td><td><input type="checkbox" name="gp_opts[freeze]" id="id_freeze" value="true" $ck_freeze /></td><td>{$__('This option prevents the update notice from being displayed.  Use this if you wish to stop any future updates to the plugin.','tpg-get-posts')}</td>				
 							</tr>
 						</table>
 							<hr width=80% />
-						<h4>Premium Options - Current version {cur-ver}</h4>
+						<h4>{$__('Premium Options - Current version','tpg-get-posts')} {cur-ver}</h4>
 						<table class="form-table">	
 							<tr>		
-							<td>License Key: </td><td><input type="text" name="gp_opts[lic-key]" value="{$this->gp_opts['lic-key']}" size="50"> </td><td>(the license key from email received after purchase of premium plugin)</td>
+							<td>{$__('License Key:','tpg-get-posts')} </td><td><input type="text" name="gp_opts[lic-key]" value="{$this->gp_opts['lic-key']}" size="50"> </td><td>{$__('(the license key from email received after purchase of premium plugin)','tpg-get-posts')}</td>
 							</tr>
 							<tr>
-							<td>License email: </td><td><input type="text" name="gp_opts[lic-email]" value="{$this->gp_opts['lic-email']}" size="50"> </td><td>(the email used when purchasing the license)</td>
+							<td>{$__('License email:','tpg-get-posts')} </td><td><input type="text" name="gp_opts[lic-email]" value="{$this->gp_opts['lic-email']}" size="50"> </td><td>{$__('(the email used when purchasing the license)','tpg-get-posts')}</td>
 							</tr>
 							<tr><td></td><td><span style="color:maroon;">{valid-lic-msg}</span></td>
 							</tr>
 							<tr>
-							<td>Keep Options on uninstall:  </td><td><input type="checkbox" name="gp_opts[keep-opts]" id="id_keep_opts" value="false" $ck_keep_opts /></td><td>If checked, options will not be deleted on uninstall.  Useful when upgrading.  Uncheck to completely remove premium version.</td>				
+							<td>{$__('Keep Options on uninstall:','tpg-get-posts')}  </td><td><input type="checkbox" name="gp_opts[keep-opts]" id="id_keep_opts" value="false" $ck_keep_opts /></td><td>{$__('If checked, options will not be deleted on uninstall.  Useful when upgrading.  Uncheck to completely remove premium version.','tpg-get-posts')}</td>				
 							</tr>
 							<tr>
-							<td>Check for Update Freq:  </td><td><input type="text" name="gp_opts[updt-sec]" id="id_updt_sec" value="{$this->gp_opts['updt-sec']}" /></td><td>Set the number of seconds between checking for updates of the extension.  To check immediately, set value to zero, save options and refresh the page.</td>				
+							<td>{$__('Check for Update Freq:','tpg-get-posts')}  </td><td><input type="text" name="gp_opts[updt-sec]" id="id_updt_sec" value="{$this->gp_opts['updt-sec']}" /></td><td>{$__('Set the number of seconds between checking for updates of the extension.  To check immediately, set value to zero, save options and refresh the page.','tpg-get-posts')}</td>				
 							</tr>
 							<tr>
-							<td>Show Ids:  </td><td><input type="checkbox" name="gp_opts[show-ids]" id="id_show_id" value="true" $ck_show_ids /></td><td>This option applies modifications to the show cat (and other admin pages) to show the id of the entires.  This number is needed for the some of the premium selection options and for the category selector. </td>				
+							<td>{$__('Show Ids:','tpg-get-posts')}  </td><td><input type="checkbox" name="gp_opts[show-ids]" id="id_show_id" value="true" $ck_show_ids /></td><td>{$__('This option applies modifications to the show cat (and other admin pages) to show the id of the entires.  This number is needed for the some of the premium selection options and for the category selector.','tpg-get-posts')} </td>				
 							</tr>
 							<tr>
-							<td>Activate in Widgets:  </td><td><input type="checkbox" name="gp_opts[active-in-widgets]" id="id_widgets" value="true" $ck_widgets_opts /></td><td>If you want this plugin active in text widgets, check this box to activate the shortcodes for widgets.</td>				
+							<td>{$__('Activate in Widgets:','tpg-get-posts')}  </td><td><input type="checkbox" name="gp_opts[active-in-widgets]" id="id_widgets" value="true" $ck_widgets_opts /></td><td>{$__('If you want this plugin active in text widgets, check this box to activate the shortcodes for widgets.','tpg-get-posts')}</td>				
 							</tr>
 							<tr>
-							<td>Activate in Backend:  </td><td><input type="checkbox" name="gp_opts[active-in-backend]" id="id_backend" value="true" $ck_backend /></td><td>If you want this plugin active in the administrative (backend) section, check this box.  This adds extra processing to admin side, but is required from some plugins to work correctly, such as WPMU_eNewsletter.</td>				
+							<td>{$__('Activate in Backend:','tpg-get-posts')}  </td><td><input type="checkbox" name="gp_opts[active-in-backend]" id="id_backend" value="true" $ck_backend /></td><td>{$__('If you want this plugin active in the administrative (backend) section, check this box.  This adds extra processing to admin side, but is required from some plugins to work correctly, such as WPMU_eNewsletter.','tpg-get-posts')}</td>				
 							</tr>
 						</table>
 					
