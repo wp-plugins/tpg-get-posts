@@ -141,7 +141,7 @@ class tpg_lic_validation {
 				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
 				$this->ro->error();
 			} else {
-				$this->ro->add_msg(__('unzip $_tmpflnm to ','tpg-get-posts').$_p['tmp_path'].__(' successful','tpg-get-posts'));
+				$this->ro->add_msg(sprintf(__('unzip %s to %s successful','tpg-get-posts'),$_tmpflnm,$_p['tmp_path']));
 			}
 		}
 		
@@ -159,7 +159,7 @@ class tpg_lic_validation {
 				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
 				$this->ro->error();
 			} else {
-				$this->ro->add_msg(__('copy from ','tpg-get-posts').$_from.__(' to ','tpg-get-posts').$_to.__(' successful','tpg-get-posts'));
+				$this->ro->add_msg(sprintf(__('copy from %s to %s successful','tpg-get-posts'),$_from,$_to));
 			}
 		}
 
