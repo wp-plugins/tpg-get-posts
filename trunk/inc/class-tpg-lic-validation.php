@@ -110,7 +110,7 @@ class tpg_lic_validation {
 			$_keys=array_keys($_tmpflnm->errors) ;
 			//print_r($_keys);
 			//show_message('download failed '.$_tmpflnm->errors[$_keys[0]][0]);
-			$_msg='Either the connection failed or you have reached your donwload limit. Load download link directly in browser for addtion information. <br>Download link: '.$_p['dl_url'];
+			$_msg=__('Either the connection failed or you have reached your donwload limit. Load download link directly in browser for addtion information.','tpg-get-posts').' <br>'.__('Download link:','tpg-get-posts').$_p['dl_url'];
 			//show_message($_msg);
 			$this->ro->add_errtxt($_tmpflnm->get_error_code(),$_msg);
 			$this->ro->add_errmsg($_tmpflnm->get_error_code(),$_tmpflnm->get_error_message());
@@ -125,7 +125,7 @@ class tpg_lic_validation {
 				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
 				$this->ro->error();
 			} else {
-				$this->ro->add_msg("opened fs connection successful");
+				$this->ro->add_msg(__("opened fs connection successful",'tpg-get-posts'));
 			}
 		}
 		global $wp_filesystem;
@@ -141,7 +141,7 @@ class tpg_lic_validation {
 				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
 				$this->ro->error();
 			} else {
-				$this->ro->add_msg("unzip $_tmpflnm to ".$_p['tmp_path']." successful");
+				$this->ro->add_msg(__('unzip $_tmpflnm to ','tpg-get-posts').$_p['tmp_path'].__(' successful','tpg-get-posts'));
 			}
 		}
 		
@@ -159,7 +159,7 @@ class tpg_lic_validation {
 				$this->ro->add_errmsg($_resp->get_error_code(),$_resp->get_error_message());
 				$this->ro->error();
 			} else {
-				$this->ro->add_msg("copy from ".$_from." to ".$_to." successful");
+				$this->ro->add_msg(__('copy from ','tpg-get-posts').$_from.__(' to ','tpg-get-posts').$_to.__(' successful','tpg-get-posts'));
 			}
 		}
 
@@ -192,12 +192,12 @@ class tpg_lic_validation {
 
 		$this->ro->reset();
 		if ($_resp->success) {
-			$this->ro->add_msg("store version successful");
-			$this->ro->add_data("version",$_resp->metadata->version);
+			$this->ro->add_msg(__('store version successful','tpg-get-posts'));
+			$this->ro->add_data(version,$_resp->metadata->version);
 		} else {
 			$this->ro->success=false;
-			$this->ro->add_errmsg("get-version-err",$_resp->errors[0]);
-			$this->ro->add_data("version",'0.0.0');
+			$this->ro->add_errmsg(__('get-version-err','tpg-get-posts'),$_resp->errors[0]);
+			$this->ro->add_data(version,'0.0.0');
 		}
 		return $this->ro;
 	}
@@ -276,7 +276,7 @@ class tpg_lic_validation {
      */
 	function gen_update_button(){
 		$this->bnt_func="update";
-		$this->btn_text="update";     
+		$this->btn_text=__("update",'tpg-get-posts');     
 		$this->btn_desc_b4="";	
 		$this->btn_desc_af="";	
 		$this->btn_hidden="";		//hidden text <input type=hidden name=cmd value=_s-xclick>
@@ -293,8 +293,8 @@ class tpg_lic_validation {
 	 * @return	string    button code
      */
 	function gen_validate_button(){
-		$this->bnt_func="validate";
-		$this->btn_text="validate";     
+		$this->bnt_func='validate';
+		$this->btn_text=__('validate','tpg-get-posts');     
 		$this->btn_desc_b4="";	
 		$this->btn_desc_af="";	
 		$this->btn_hidden="";		//hidden text <input type=hidden name=cmd value=_s-xclick>
@@ -316,7 +316,7 @@ class tpg_lic_validation {
 			$button_code .= '<div id="'.$this->btn_func.'-desc-b4">'.$this->btn_desc_b4.'</div>';
 		}
 		$button_code .= '<div id="'.$this->btn_func.'-button"><form action="'.$this->api_url.'" method=post>';
-		$button_code .= $this->btn_hiden;
+		$button_code .= $this->btn_hidden;
 		if ($this->btn_text != '') {
 			$button_code .= '<input type=hidden name="funct_desc" value="'.$this->btn_func.'">';
 		}
@@ -340,7 +340,7 @@ class tpg_lic_validation {
 		if ($_ext != '' && file_exists($this->paths['ext'].$_ext)) {	
 			$this->plugin_ext_data = get_plugin_data( $this->paths['ext'].$_ext );
 		} else {	
-			$this->plugin_ext_data = array('Version'=>'0.0.0','Description'=>'Ext file not found');
+			$this->plugin_ext_data = array('Version'=>'0.0.0','Description'=>__('Ext file not found','tpg-get-posts'));
 		}
 
 		return; 
