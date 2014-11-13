@@ -86,10 +86,10 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<dt class="tpg-prem">'tag_slug__in</dt><dd><? _e('A comma separated list of slugs may be used in this paramter. Posts may be in any of the slugs (OR logic).','tpg-get-posts')?></dd>
 			
 			<p><? _e('At this time, the following two commands have had limited testing.','tpg-get-posts')?></p>
-			<dt class="tpg-prem">tax_query</dt><dd><? _e('Used to pass the custom taxonomy selection to the plugin.  Because the tax_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format:','tpg-get-posts')?> <br> 
-tax_query='{"relation":"AND","0":{"taxonomy":"movie_genre","field":"slug","terms":("action","comedy")},"1":{"taxonomy":"actor","field":"id","terms":(103,115,206),"operator":"NOT IN"}}' <br><br><? _e('**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value.  Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.','tpg-get-posts')?></dd> 
-			<dt class="tpg-prem">meta_query </dt><dd><? _e('Because the meta_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format:','tpg-get-posts')?> <br> 
-meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price","value":(20,100),"type":"numeric","compare":"BETWEEN"})' <br><br><? _e('**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value. Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.','tpg-get-posts')?></dd>
+			<dt class="tpg-prem">tax_query</dt><dd><? printf(__('Used to pass the custom taxonomy selection to the plugin.  Because the tax_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format: <br><br>%s 
+ <br><br>**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value.  Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.','tpg-get-posts'),'tax_query=\'{"relation":"AND","0":{"taxonomy":"movie_genre","field":"slug","terms":("action","comedy")},"1":{"taxonomy":"actor","field":"id","terms":(103,115,206),"operator":"NOT IN"}}\'')?></dd> 
+			<dt class="tpg-prem">meta_query </dt><dd><? printf(__('Because the meta_query accepts nested arrays, the syntax is more complex than other parms and values are passed in json format.  An example using json format: <br><br>%s 
+ <br><br>**Note: that json requires the strings to be enclosed with double quotes, so single quotes are required to wrap the tag value. Also json uses [] to define arrays without keys, but that conflicts with the shortcode syntax.  To work around this, () are substitued in the json string and converted before decoding to an array.','tpg-get-posts'),'meta_query=\'({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price","value":(20,100),"type":"numeric","compare":"BETWEEN"})\'')?></dd>
 			
 		
 		<h4><? _e('Layout/format control parameters:','tpg-get-posts')?></h4>
@@ -179,7 +179,7 @@ meta_query='({"key":"color","value":"blue","compare":"NOT LIKE"},{"key":"price",
 		</p>
 		</li>
 		<li><? _e('If you need to pass different formatting to different pages, then the short-code must include the list of new classes.  The list must include all the default parameters, even if not altered:','tpg-get-posts')?>
-			<p><? _e('The default classes are','tpg-get-posts')?> post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class as shown in the following short-code:
+			<p><? printf( __('The default classes are %s as shown in the following short-code:','tpg-get-posts'),'post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class, post_byline=tpg-byline-class')?>
 		<blockquote><pre>[tpg_get_posts show_entire="false" fields="title, content, metadata" numberposts=5
 field_classes="post_title=tpg-title-class, post_content=tpg-content-class, post_metadata=tpg-metadata-class,post_byline=tpg-byline-class"  ]</pre></blockquote></p></li>
 		 </ol></p>
