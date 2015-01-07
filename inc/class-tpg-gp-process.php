@@ -54,6 +54,7 @@ class tpg_gp_process {
 									'pagination'=>'tpg-pagination-class',
 									'page-next'=>'tpg-next',
 									'page-prev'=>'tpg-prev',
+									'more_link'=>'more-link',
 								 );
 								 
 	//initialized from model each time processed	  
@@ -579,7 +580,7 @@ class tpg_gp_process {
 			$wkcontent = $wkarr[0];
 		}
 		if ($has_teaser) {
-			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-$id\" class=\"more-link\">$this->more_link_text</a>", $this->more_link_text );
+			$wkcontent .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-".$id.'" class="'.$this->classes_arr['more_link'].'">'.$this->more_link_text.'</a>', $this->more_link_text );
 		}
 		$wkcontent = force_balance_tags($wkcontent);
 		return $wkcontent;
