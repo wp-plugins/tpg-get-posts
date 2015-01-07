@@ -3,7 +3,7 @@ Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate
 Tags: get_posts, post, posts, formatting, list, thumbnails, get posts, posts on page
 Requires at least: 2.8    
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: 3.2.0
 License: GPLv2 or later
 
