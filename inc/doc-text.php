@@ -111,6 +111,7 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<li>pagination=tpg-pagination-class</li>
 			<li>page-next=tpg-next</li>
 			<li>page-prev=tpg-prev</li>
+			<li>more_link=more-link</li>
 			</ul>
 			
 			</dd>
@@ -138,9 +139,9 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			
 			<dt>thumbnail_size</dt><dd><? _e('Enter "none", thumbnail", "medium", "large" or"full" as the option value and if the thumbnail has been entered, it is used.  Example thumbnail_size="medium". Default is "thumbnail".  Your theme may provide additional options for thumbnail sizes.','tpg-get-posts')?></dd>
 			
-			<dt>thumbnail_only</dt><dd><? _e('This option thumbnail_only="true" will only the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false"','tpg-get-posts')?></dd>
+			<dt>thumbnail_only</dt><dd><? _e('This option thumbnail_only="true" will only show the thumbnail as a link to the post page.  Use in conjunction with the thumbnail_size to set the size of the image.   Default is "false"','tpg-get-posts')?></dd>
 			
-			<dt>thumbnail_link</dt><dd><? _e('This option thumbnail_link="true" is the default and will wrap a thumbnail with the link to the post.  Setting to false will prevent the link on the image.','tpg-get-posts')?></dd>
+			<dt>thumbnail_link</dt><dd><? _e('This option thumbnail_link="true" is the default and will wrap a thumbnail with the link to the post.  Setting to false will remove the link assigned to the image and selecting on the image will do nothing.','tpg-get-posts')?></dd>
 		
 			<dt>title_tag</dt><dd><? _e('This parameter controls the formatting of the title line. The default is to make post titles h2, which is consistent with the regular post markup. title_tag="p" will apply the paragraph markup to the title instead of the h2 markup. Note: do not include the <>.','tpg-get-posts')?></dd>
 			
