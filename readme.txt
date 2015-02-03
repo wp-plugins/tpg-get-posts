@@ -4,7 +4,7 @@ Donate link: http://www.tpginc.net/wordpress-plugins/donate
 Tags: get_posts, post, posts, formatting, list, thumbnails, get posts, posts on page
 Requires at least: 2.8    
 Tested up to: 4.1
-Stable tag: 3.2.0
+Stable tag: 3.3.0
 License: GPLv2 or later
 
 Display posts on a page with ability to filter category or tag.  
@@ -132,6 +132,10 @@ Yes, see doc in plugin for selecting by post_type.
 4. Usage page - documentation on options and styling
 
 == Changelog ==
+= 3.3.0 =
+* add ability to set a custom style more link
+* add support for localization
+
 = 3.2.0 =
 * add ability to set a custom style for the entire post, not just the components
 * add fp_pagination option to correct pagination when used on static front page
