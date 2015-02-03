@@ -144,7 +144,8 @@ class tpg_gp_admin {
 	 *
 	 */ 
 	public function tpg_gp_show_settings() {
-		//get css, js	
+		//get css, js
+		global $gp;	
 		$this->gp_admin_load_inc();
 		
 		// footer info for settings page
@@ -168,8 +169,8 @@ class tpg_gp_admin {
 					break;
 			}
 			//refresh options
-			$this->gp_opts=tpg_get_posts::get_options();
-
+			//$this->gp_opts=tpg_get_posts::get_options();
+			$this->gp_opts=$gp->get_options();
 		}
 		
 		ob_start();
@@ -303,13 +304,15 @@ class tpg_gp_admin {
 	 * @return   null
 	 */
 	function validate_lic(){
+		global $gp;
 		$_resp=$this->vl->validate_lic();
 		if ($_resp->success) {
 			$this->gp_opts['valid-lic']=$_resp->{'valid-lic'};
 			//update with new values
 			update_option( 'tpg_gp_opts', $this->gp_opts);
 			//refresh options
-			$this->gp_opts=tpg_get_posts::get_options();
+			//$this->gp_opts=tpg_get_posts::get_options();
+			$this->gp_opts=$gp->get_options();
 			echo '<div id="message" class="updated fade"><p><strong>' . __('The license has been validated.','tpg-get-posts') . '</strong></p></div>';
 		}
 	}
