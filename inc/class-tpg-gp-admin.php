@@ -381,7 +381,7 @@ class tpg_gp_admin {
 					update_option( 'tpg_gp_opts', $this->gp_opts);
 					
 					if (($_resp->success && $this->v_store_norm > $this->v_plugin_ext_norm) || (!file_exists($this->gp_paths['ext'].$this->ext_name)) ){
-						echo '<div id="message" class="updated"><p><strong>' . printf(__('An update to ver %s is available.','tpg-get-posts'),$this->v_store) . '</strong></p></div>';
+						echo '<div id="message" class="updated"><p><strong>' . sprintf(__('An update to ver %s is available.','tpg-get-posts'),$this->v_store) . '</strong></p></div>';
 						$_resp=$this->vl->get_update_link();
 						if ($_resp->success) {
 							$this->resp_data['dl-url']=$_resp->{'dl-url'};
