@@ -193,11 +193,11 @@ class tpg_lic_validation {
 		$this->ro->reset();
 		if ($_resp->success) {
 			$this->ro->add_msg(__('store version successful','tpg-get-posts'));
-			$this->ro->add_data(version,$_resp->metadata->version);
+			$this->ro->add_data('version',$_resp->metadata->version);
 		} else {
 			$this->ro->success=false;
 			$this->ro->add_errmsg(__('get-version-err','tpg-get-posts'),$_resp->errors[0]);
-			$this->ro->add_data(version,'0.0.0');
+			$this->ro->add_data('version','0.0.0');
 		}
 		return $this->ro;
 	}
