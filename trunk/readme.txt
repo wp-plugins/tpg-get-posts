@@ -135,6 +135,7 @@ Yes, see doc in plugin for selecting by post_type.
 = 3.3.0 =
 * add ability to set a custom style more link
 * add support for localization
+* add admin notice to update extensions if applicable 
 
 = 3.2.0 =
 * add ability to set a custom style for the entire post, not just the components
