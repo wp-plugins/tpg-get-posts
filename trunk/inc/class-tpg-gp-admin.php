@@ -16,7 +16,7 @@ class tpg_gp_admin {
 	private $ext_name='class-tpg-gp-process-ext.php';
 	
 	//versions
-	private $v_store = '';
+	public $v_store = '';
 	private $v_store_norm = 0.0;
 	private $v_plugin = '';
 	private $v_plugin_norm = 0.0;
@@ -32,7 +32,7 @@ class tpg_gp_admin {
 	public $plugin_data=array();
 	public $plugin_ext_data=array();
 	
-	function __construct($opts,$paths) {
+	function __construct($opts,$paths,$notice=false) {
 		$this->gp_opts=$opts;
 		$this->gp_paths=$paths;
 		$this->module_data= array( 
@@ -46,10 +46,13 @@ class tpg_gp_admin {
 		$this->plugin_data = $this->vl->plugin_data;
 		$this->plugin_ext_data = $this->vl->plugin_ext_data;
 		
-		// Register link to the pluging list
-		add_filter('plugin_action_links', array(&$this, 'tpg_get_posts_settings_link'), 10, 2);
-		// Add the admin menu item
+		// Register link to the pluging list- if not called from the admin_notice hook
+		if (!$notice) {
+			add_filter('plugin_action_links', array(&$this, 'tpg_get_posts_settings_link'), 10, 2);
+		}
+		// Add the admin menu item 
 		add_action('admin_menu', array(&$this,'tpg_get_posts_admin'));	
+
 
 		if ($opts['show-ids']) {
 			if ($opts['valid-lic'] && file_exists($paths['dir']."ext/class-tpg-show-ids.php")) {
@@ -359,6 +362,7 @@ class tpg_gp_admin {
 	 * @return   null
 	 */
 	function check_for_update(){
+		$ext_updt_msg = false;
 		if ($this->gp_opts['valid-lic']) {
 			if (!array_key_exists('last-updt',$this->gp_opts) || 	
 				($this->gp_opts['last-updt']+ $this->update_time) < time() ) {
@@ -381,7 +385,7 @@ class tpg_gp_admin {
 					update_option( 'tpg_gp_opts', $this->gp_opts);
 					
 					if (($_resp->success && $this->v_store_norm > $this->v_plugin_ext_norm) || (!file_exists($this->gp_paths['ext'].$this->ext_name)) ){
-						echo '<div id="message" class="updated"><p><strong>' . sprintf(__('An update to ver %s for the tpg-get-posts extension is available. Go to Settings tab to update.','tpg-get-posts'),$this->v_store) . '</strong></p></div>';
+						$ext_updt_msg = true;
 						$_resp=$this->vl->get_update_link();
 						if ($_resp->success) {
 							$this->resp_data['dl-url']=$_resp->{'dl-url'};
@@ -396,7 +400,7 @@ class tpg_gp_admin {
 			}
 		} 
 
-		return;
+		return $ext_updt_msg;
 	}
 	
 	/**

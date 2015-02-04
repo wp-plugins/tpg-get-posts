@@ -102,8 +102,11 @@ function tpg_update_notice() {
 	if (!class_exists("tpg_gp_factory")) {
 		require_once($gp->gp_paths["dir"]."inc/class-tpg-gp-factory.php");
 	}
-	$tpg_gp_admin = tpg_gp_factory::create_admin($gp->gp_opts,$gp->gp_paths);
-	$tpg_gp_admin->check_for_update();
+	$tpg_gp_admin = tpg_gp_factory::create_admin($gp->gp_opts,$gp->gp_paths,true);
+	$updt_msg = $tpg_gp_admin->check_for_update();
+	if ($updt_msg) {
+		echo '<div id="message" class="updated"><p><strong>' . sprintf(__('An update to ver %s for the tpg-get-posts extension is available. Go to Settings tab to update.','tpg-get-posts'),$tpg_gp_admin->v_store) . '</strong></p></div>';
+	}
 }
 
 ?>

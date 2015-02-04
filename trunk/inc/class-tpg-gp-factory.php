@@ -53,9 +53,9 @@ class tpg_gp_factory {
 	 * @param    array    $gp_paths  paths array
 	 * @return   class 	  $obj		 class
 	 */
-	public static function create_admin($_opts,$_paths) {
+	public static function create_admin($_opts,$_paths,$notice=false) {
 		require_once("class-tpg-gp-admin.php");
-		$obj = new tpg_gp_admin($_opts,$_paths);
+		$obj = new tpg_gp_admin($_opts,$_paths,$notice);
 		return $obj;
 	}
 	
