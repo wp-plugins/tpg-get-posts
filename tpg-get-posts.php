@@ -72,14 +72,38 @@ if(is_admin()){
  * load the textdomain for tpg-get-posts
  * 
  */
-
+ 
+add_action('init', 'tpg_get_posts_init'); 
 function tpg_get_posts_init()
 {
 // Localization
 load_plugin_textdomain('tpg-get-posts', false, dirname(plugin_basename(__FILE__).'/languages/'));
 }
 
-// Add actions
-add_action('init', 'tpg_get_posts_init'); 
+/*
+ *	display a message to update the extension
+ * @package WordPress
+ * @subpackage tpg_get_posts
+ * @since 3.3
+ *
+ * check for the valid lic and missing file or old version and display a message to update plugin extension
+ * 
+ */
+add_action('admin_notices','tpg_update_notice');
+function tpg_update_notice() {
+	if (!class_exists("tpg_get_posts")) {
+		require_once plugin_dir_path(__FILE__)."inc/class-tpg-get-posts.php";
+	}
+	
+	//get plugin options & set paths
+	$gp = new tpg_get_posts(plugin_dir_url(__FILE__),plugin_dir_path(__FILE__),plugin_basename(__FILE__));
+	
+	//get class factory
+	if (!class_exists("tpg_gp_factory")) {
+		require_once($gp->gp_paths["dir"]."inc/class-tpg-gp-factory.php");
+	}
+	$tpg_gp_admin = tpg_gp_factory::create_admin($gp->gp_opts,$gp->gp_paths);
+	$tpg_gp_admin->check_for_update();
+}
 
 ?>
