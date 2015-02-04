@@ -1,54 +1,50 @@
-# Copyright (C) 2014 TPG Get Posts
+# Copyright (C) 2015 TPG Get Posts
 # This file is distributed under the same license as the TPG Get Posts package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TPG Get Posts 3.2.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/tpg-get-posts\n"
-"POT-Creation-Date: 2014-11-13 22:34:20+00:00\n"
+"Project-Id-Version: TPG Get Posts 3.3.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/tpg-get-posts\n"
+"POT-Creation-Date: 2015-02-04 03:23:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: inc/class-tpg-gp-admin.php:101
+#: inc/class-tpg-gp-admin.php:104
 msgid "Settings/Doc"
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:208
+#: inc/class-tpg-gp-admin.php:212
 msgid "Update Plugin"
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:216
+#: inc/class-tpg-gp-admin.php:220
 msgid "The license opts have been validated - thank you."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:283
+#: inc/class-tpg-gp-admin.php:287
 msgid "Settings saved."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:313
+#: inc/class-tpg-gp-admin.php:319
 msgid "The license has been validated."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:334
+#: inc/class-tpg-gp-admin.php:340
 msgid "The premium plugin has been updated."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:342
+#: inc/class-tpg-gp-admin.php:348
 msgid "The update failed with a %s error.  %s"
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:381
-msgid "An update to ver %s is available."
-msgstr ""
-
-#: inc/class-tpg-gp-admin.php:385
+#: inc/class-tpg-gp-admin.php:392
 msgid "Download new version"
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:449
+#: inc/class-tpg-gp-admin.php:456
 msgid ""
 "If this plugin helps you build a website, please consider a small donation "
 "of $5 or $10 to continue the support of open source software.  Taking one "
@@ -56,19 +52,19 @@ msgid ""
 "that generates amazing returns."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:449
+#: inc/class-tpg-gp-admin.php:456
 msgid "Thank you for supporting open source software."
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:475
+#: inc/class-tpg-gp-admin.php:482
 msgid "Update Options"
 msgstr ""
 
-#: inc/class-tpg-gp-admin.php:476
+#: inc/class-tpg-gp-admin.php:483
 msgid "Validate Lic"
 msgstr ""
 
-#: inc/class-tpg-gp-process.php:140 inc/class-tpg-gp-process.php:172
+#: inc/class-tpg-gp-process.php:141 inc/class-tpg-gp-process.php:173
 msgid "View all posts in %s"
 msgstr ""
 
@@ -126,7 +122,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: inc/doc-text.php:12 inc/doc-text.php:165
+#: inc/doc-text.php:12 inc/doc-text.php:166
 msgid "Styling"
 msgstr ""
 
@@ -406,7 +402,7 @@ msgid ""
 "following is a list of the default field classes which can be overridden:"
 msgstr ""
 
-#: inc/doc-text.php:118
+#: inc/doc-text.php:119
 msgid ""
 "This option fi_layout=\"true\" in conjunction with the thumbnail_size="
 "\"medium\" option display the post in a \"featured image\" format where the "
@@ -415,7 +411,7 @@ msgid ""
 "thumbnail/featured image."
 msgstr ""
 
-#: inc/doc-text.php:120
+#: inc/doc-text.php:121
 msgid ""
 "This option mag_layout=\"true\" in conjunction with the thumbnail_size="
 "\"thumbnail\" option places the thumbnail at the beginning of the post items "
@@ -425,28 +421,28 @@ msgid ""
 "displaying the thumbnail/featured image."
 msgstr ""
 
-#: inc/doc-text.php:122
+#: inc/doc-text.php:123
 msgid ""
 "This option changes the text to display when the more tag is used to produce "
 "a teaser.  Enter as more_link_text=\"My Custom Text\". Default is \"(read "
 "more...)\"."
 msgstr ""
 
-#: inc/doc-text.php:124
+#: inc/doc-text.php:125
 msgid ""
 "The option page_next=\"true\" will show just the Previous and Next link "
 "instead of the pagination index.  The default is false."
 msgstr ""
 
-#: inc/doc-text.php:125
+#: inc/doc-text.php:126
 msgid "Set the text for the previous link. Default is \"&laquo; Previous\"."
 msgstr ""
 
-#: inc/doc-text.php:126
+#: inc/doc-text.php:127
 msgid "Set the text for the next link. Defautl is \"Next &raquo;\"."
 msgstr ""
 
-#: inc/doc-text.php:128
+#: inc/doc-text.php:129
 msgid ""
 "This option shorten_title=\"c15\" or shorten_title=\"w15\" specifies that "
 "the title will be shortened to 15 characters. The \"c\" indicates to cut at "
@@ -454,7 +450,7 @@ msgid ""
 "15 characters are included."
 msgstr ""
 
-#: inc/doc-text.php:130
+#: inc/doc-text.php:131
 msgid ""
 "Using the more tag is generally a better option, but is is provided for "
 "consistency. This option shorten_content=\"c150\" or shorten_content="
@@ -470,27 +466,27 @@ msgid ""
 "controlled. Using the read-more tag is safer."
 msgstr ""
 
-#: inc/doc-text.php:133
+#: inc/doc-text.php:134
 msgid ""
 "This option show_entire=\"true\" will show the entire post, not just the "
 "teaser.It ignores the more tag in the post content.  Default is \"false\"."
 msgstr ""
 
-#: inc/doc-text.php:135
+#: inc/doc-text.php:136
 msgid ""
 "This option show_excerpt=\"true\" will use the custom excerpt, if it exists, "
 "instead of the post content.  It will use the entire excerpt entry. Default "
 "is \"false\"."
 msgstr ""
 
-#: inc/doc-text.php:137
+#: inc/doc-text.php:138
 msgid ""
 "This parameter allows you to set the ellipsis displayed after shortened "
 "text. it defaults to text_ellipsis=' ...' but can be set to anything or "
 "nothing text_ellipsis=''."
 msgstr ""
 
-#: inc/doc-text.php:139
+#: inc/doc-text.php:140
 msgid ""
 "Enter \"none\", thumbnail\", \"medium\", \"large\" or\"full\" as the option "
 "value and if the thumbnail has been entered, it is used.  Example "
@@ -498,21 +494,21 @@ msgid ""
 "additional options for thumbnail sizes."
 msgstr ""
 
-#: inc/doc-text.php:141
+#: inc/doc-text.php:142
 msgid ""
-"This option thumbnail_only=\"true\" will only the thumbnail as a link to the "
-"post page.  Use in conjunction with the thumbnail_size to set the size of "
-"the image.   Default is \"false\""
+"This option thumbnail_only=\"true\" will only show the thumbnail as a link "
+"to the post page.  Use in conjunction with the thumbnail_size to set the "
+"size of the image.   Default is \"false\""
 msgstr ""
 
-#: inc/doc-text.php:143
+#: inc/doc-text.php:144
 msgid ""
 "This option thumbnail_link=\"true\" is the default and will wrap a thumbnail "
-"with the link to the post.  Setting to false will prevent the link on the "
-"image."
+"with the link to the post.  Setting to false will remove the link assigned "
+"to the image and selecting on the image will do nothing."
 msgstr ""
 
-#: inc/doc-text.php:145
+#: inc/doc-text.php:146
 msgid ""
 "This parameter controls the formatting of the title line. The default is to "
 "make post titles h2, which is consistent with the regular post markup. "
@@ -520,60 +516,60 @@ msgid ""
 "h2 markup. Note: do not include the <>."
 msgstr ""
 
-#: inc/doc-text.php:147
+#: inc/doc-text.php:148
 msgid ""
 "Setting this option to title_link=\"false\" will suppress the wrapping of "
 "the title with the hyperlink tag and the title will not be a link. Default "
 "is \"true\"."
 msgstr ""
 
-#: inc/doc-text.php:149
+#: inc/doc-text.php:150
 msgid ""
 "This is the class assigned to the bullet list. When this class is provided, "
 "the output is returned as an unordered list."
 msgstr ""
 
-#: inc/doc-text.php:151
+#: inc/doc-text.php:152
 msgid ""
 "Invoke the user Custom Functions by passing the codes for each exit to be "
 "invoked, ie cf='ppre,ppst,pre,pst,t,b,c,m'. The model function php file is "
 "provided in the /ext files folder and instructions are in the comments."
 msgstr ""
 
-#: inc/doc-text.php:152
+#: inc/doc-text.php:153
 msgid "before the invoking of the plugin"
 msgstr ""
 
-#: inc/doc-text.php:153
+#: inc/doc-text.php:154
 msgid "upon completion of plugin, just before returning results"
 msgstr ""
 
-#: inc/doc-text.php:154
+#: inc/doc-text.php:155
 msgid "before each post"
 msgstr ""
 
-#: inc/doc-text.php:155
+#: inc/doc-text.php:156
 msgid "after each post"
 msgstr ""
 
-#: inc/doc-text.php:156
+#: inc/doc-text.php:157
 msgid ""
 "after title,byline,content,metadata -- this allows final editing\r\n"
 "\t\t\t"
 msgstr ""
 
-#: inc/doc-text.php:158
+#: inc/doc-text.php:159
 msgid ""
 "Custom functions parameters.  This is an optional string that is passed to "
 "the custom functions routine.  It must be parsed by the custom function and "
 "is defined by the user."
 msgstr ""
 
-#: inc/doc-text.php:161
+#: inc/doc-text.php:162
 msgid "To exclude posts, see examples."
 msgstr ""
 
-#: inc/doc-text.php:166
+#: inc/doc-text.php:167
 msgid ""
 "To over-ride the default styling, create a css file in your theme root "
 "folder named <b>user-get-posts-style.css</b>.  When the plugin is loaded, "
@@ -582,64 +578,64 @@ msgid ""
 "standard style."
 msgstr ""
 
-#: inc/doc-text.php:167
+#: inc/doc-text.php:168
 msgid ""
 "By saving your custom user defined style sheet in the theme folder it will "
 "not be deleted with an upgrade to the plugin.  This is a change from version "
 "1.x"
 msgstr ""
 
-#: inc/doc-text.php:168
+#: inc/doc-text.php:169
 msgid "There are two ways to alter the styling: "
 msgstr ""
 
-#: inc/doc-text.php:170
+#: inc/doc-text.php:171
 msgid ""
 "In the user stylesheet, redefine the styles which are listed below.  The "
 "simplest approach is to copy the styles from tpg_get_posts-style.css and "
 "modify them as needed. "
 msgstr ""
 
-#: inc/doc-text.php:172
+#: inc/doc-text.php:173
 msgid "class of the post title division"
 msgstr ""
 
-#: inc/doc-text.php:173
+#: inc/doc-text.php:174
 msgid "class of the post byline"
 msgstr ""
 
-#: inc/doc-text.php:174
+#: inc/doc-text.php:175
 msgid "class for the body of the post"
 msgstr ""
 
-#: inc/doc-text.php:175
+#: inc/doc-text.php:176
 msgid "class for the metadata"
 msgstr ""
 
-#: inc/doc-text.php:176
+#: inc/doc-text.php:177
 msgid "class for the excerpt"
 msgstr ""
 
-#: inc/doc-text.php:177
+#: inc/doc-text.php:178
 msgid "class for the thumbnail division"
 msgstr ""
 
-#: inc/doc-text.php:181
+#: inc/doc-text.php:182
 msgid ""
 "If you need to pass different formatting to different pages, then the short-"
 "code must include the list of new classes.  The list must include all the "
 "default parameters, even if not altered:"
 msgstr ""
 
-#: inc/doc-text.php:182
+#: inc/doc-text.php:183
 msgid "The default classes are %s as shown in the following short-code:"
 msgstr ""
 
-#: inc/doc-text.php:187
+#: inc/doc-text.php:188
 msgid "Premium Formatting Control Template"
 msgstr ""
 
-#: inc/doc-text.php:187
+#: inc/doc-text.php:188
 msgid ""
 "The Premium plugin allows for the formatting of the by line and the meta "
 "line.  For example, you can change the byline from showing the default of "
@@ -648,138 +644,138 @@ msgid ""
 "be displayed and each tag can be formatted."
 msgstr ""
 
-#: inc/doc-text.php:188
+#: inc/doc-text.php:189
 msgid "Format Line Parms"
 msgstr ""
 
-#: inc/doc-text.php:188
+#: inc/doc-text.php:189
 msgid ""
 "The format line is a comma separated string with the first value being the "
 "separator for the formatted string and then a list of the tags or tokens. "
 "The general format is: sep,meta_tag,meta_tag...."
 msgstr ""
 
-#: inc/doc-text.php:189
+#: inc/doc-text.php:190
 msgid "Valid tags:"
 msgstr ""
 
-#: inc/doc-text.php:190
+#: inc/doc-text.php:191
 msgid "author name"
 msgstr ""
 
-#: inc/doc-text.php:191
+#: inc/doc-text.php:192
 msgid "list of categories assigned to post"
 msgstr ""
 
-#: inc/doc-text.php:192
+#: inc/doc-text.php:193
 msgid "comment, with format control for no, 1 or many comments"
 msgstr ""
 
-#: inc/doc-text.php:193
+#: inc/doc-text.php:194
 msgid "date posted"
 msgstr ""
 
-#: inc/doc-text.php:194
+#: inc/doc-text.php:195
 msgid "date of last maintenance"
 msgstr ""
 
-#: inc/doc-text.php:195
+#: inc/doc-text.php:196
 msgid "list of tags assigned to post"
 msgstr ""
 
-#: inc/doc-text.php:196
+#: inc/doc-text.php:197
 msgid "time of last maintenance"
 msgstr ""
 
-#: inc/doc-text.php:197
+#: inc/doc-text.php:198
 msgid "time of posting"
 msgstr ""
 
-#: inc/doc-text.php:199
+#: inc/doc-text.php:200
 msgid "default byline_fmt=\" ,auth,dp\" "
 msgstr ""
 
-#: inc/doc-text.php:200
+#: inc/doc-text.php:201
 msgid "default metaline_fmt=\"&nbsp;&nbsp;|&nbsp;&nbsp;,cmt,cat,tag\""
 msgstr ""
 
-#: inc/doc-text.php:202
+#: inc/doc-text.php:203
 msgid ""
 "The following format options allow customization of the individual fields in "
 "the byline or metaline."
 msgstr ""
 
-#: inc/doc-text.php:203
+#: inc/doc-text.php:204
 msgid ""
 "<b>Note</b>:  if you wish to use a comma in the the formatting, use the code "
 "<code>&amp;#44;</code>  The parsing routine uses commas to parse the format "
 "options, so the html code must be used to circumvent the parser. "
 msgstr ""
 
-#: inc/doc-text.php:205
+#: inc/doc-text.php:206
 msgid "default: auth_fmt=\",By ,\"   (separator,b4 text,after text)"
 msgstr ""
 
-#: inc/doc-text.php:206
+#: inc/doc-text.php:207
 msgid ""
 "default: cat_fmt=\"&amp;#44; ,Filed under: ,\"   (separator,b4 text,after "
 "text)"
 msgstr ""
 
-#: inc/doc-text.php:207
+#: inc/doc-text.php:208
 msgid ""
 "default: cmt_fmt=\" No Comments &#187;, 1 Comment &#187;, Comments &#187;"
 "\"   (nocmt,1-cmt, multi-cmt)"
 msgstr ""
 
-#: inc/doc-text.php:208
+#: inc/doc-text.php:209
 msgid ""
 "default: dp_fmt=\"F j&amp;#44; Y, on ,\"   (date format,b4 text,after text)"
 msgstr ""
 
-#: inc/doc-text.php:209
+#: inc/doc-text.php:210
 msgid ""
 "default: dm_fmt=\"F j&amp;#44; Y, on: ,\"   (date format,b4 text,after text)"
 msgstr ""
 
-#: inc/doc-text.php:210
+#: inc/doc-text.php:211
 msgid ""
 "default: tag_fmt=\"&amp;#44; ,<b>Tags:</b> ,\"    (separator,b4 text,after "
 "text)"
 msgstr ""
 
-#: inc/doc-text.php:211
+#: inc/doc-text.php:212
 msgid "default: tm_fmt=\"H:m:s, ,\"    (time format,b4 text,after text)"
 msgstr ""
 
-#: inc/doc-text.php:212
+#: inc/doc-text.php:213
 msgid "default: tp_fmt=\"H:m:s, ,\"    (time format,b4 text,after text)"
 msgstr ""
 
-#: inc/doc-text.php:218
+#: inc/doc-text.php:219
 msgid "Examples:"
 msgstr ""
 
-#: inc/doc-text.php:220
+#: inc/doc-text.php:221
 msgid ""
 "Shows 5 posts with the tag \"tag1\" or \"tag2\" ordered by title. Display "
 "the post title and content teaser."
 msgstr ""
 
-#: inc/doc-text.php:224
+#: inc/doc-text.php:225
 msgid ""
 "Shows 2 posts with the category name of \"Events\" or \"News\" ordered by "
 "title. Display the post title and the entire content."
 msgstr ""
 
-#: inc/doc-text.php:228
+#: inc/doc-text.php:229
 msgid ""
 "Shows a bullet list of post titles. The title will be wrapped in a tag with "
 "a class of \"tpg-ul-class\".  The title will provide a link to the post. The "
 "title can be formatted with a css style .tpg-ul-class h2 {}."
 msgstr ""
 
-#: inc/doc-text.php:232
+#: inc/doc-text.php:233
 msgid ""
 "To exclude a category within a selected category, you must use the category "
 "id for the selection.  The minus sign in front of the cateory id tells the "
@@ -787,34 +783,34 @@ msgid ""
 "category 15 and then eliminate all the post that are also in category 4."
 msgstr ""
 
-#: inc/doc-text.php:236
+#: inc/doc-text.php:237
 msgid ""
 "The magazine layout is available in the premium version.  The layout will "
 "float the thumbnail to the left and position the title and byline to the "
 "right.  The fields parm controls which elements to show."
 msgstr ""
 
-#: inc/doc-text.php:240
+#: inc/doc-text.php:241
 msgid ""
 "Pagination.  Show 5 posts per page with the pagination index at the end of "
 "the posts."
 msgstr ""
 
-#: inc/doc-text.php:244
+#: inc/doc-text.php:245
 msgid "If paging on a static front page use:"
 msgstr ""
 
-#: inc/doc-text.php:247
+#: inc/doc-text.php:248
 msgid ""
 "Formats the byline with author, date and time and the date format is defined "
 "in the dm_fmt option to produce 'last changed on: Month day, YYYY'."
 msgstr ""
 
-#: inc/doc-text.php:252
+#: inc/doc-text.php:253
 msgid "How to Use:"
 msgstr ""
 
-#: inc/doc-text.php:253
+#: inc/doc-text.php:254
 msgid ""
 "If you wish to have a subset of posts appear on a specific page.  The "
 "simplest approach is to specify a unique category and select it for the post "
@@ -822,80 +818,86 @@ msgid ""
 "will not alter your existing website structure."
 msgstr ""
 
-#: inc/doc-text.php:255
+#: inc/doc-text.php:256
 msgid ""
 " For instance, suppose you want to show 2 posts on your home page, but not "
 "everything you post, only those dealing with high profile events. The "
 "following steps should do this:"
 msgstr ""
 
-#: inc/doc-text.php:257
+#: inc/doc-text.php:258
 msgid "Create a new category \"homepage\""
 msgstr ""
 
-#: inc/doc-text.php:258
+#: inc/doc-text.php:259
 msgid ""
 "For each post that is to appear on the home page, select the category "
 "\"homepage\""
 msgstr ""
 
-#: inc/doc-text.php:259
+#: inc/doc-text.php:260
 msgid ""
 "On your home page, enter the following shortcode where you want the posts "
 "inserted:"
 msgstr ""
 
-#: inc/doc-text.php:262
+#: inc/doc-text.php:263
 msgid "That should do it!"
 msgstr ""
 
-#: inc/doc-text.php:266
+#: inc/doc-text.php:267
 msgid "Instructions for Upgrading to the Premium Version:"
 msgstr ""
 
-#: inc/doc-text.php:267
+#: inc/doc-text.php:268
 msgid "Purchase a license at "
 msgstr ""
 
-#: inc/doc-text.php:268
+#: inc/doc-text.php:269
 msgid ""
 "After purchasing a licences, an email will be sent to you with the Lic Key."
 msgstr ""
 
-#: inc/doc-text.php:270
+#: inc/doc-text.php:271
 msgid "To activate:"
 msgstr ""
 
-#: inc/doc-text.php:271
+#: inc/doc-text.php:272
 msgid "Add the Lic Key and Lic Email on the TPG Get Posts Settings tab"
 msgstr ""
 
-#: inc/doc-text.php:272
+#: inc/doc-text.php:273
 msgid "Select the Keep Options on uninstall checkbox"
 msgstr ""
 
-#: inc/doc-text.php:273
+#: inc/doc-text.php:274
 msgid "Click the Update Options to save the options"
 msgstr ""
 
-#: inc/doc-text.php:274
+#: inc/doc-text.php:275
 msgid "Click the Validate Lic to register and receive new update notices"
 msgstr ""
 
-#: inc/doc-text.php:277
+#: inc/doc-text.php:278
 msgid "To manually load the extension:"
 msgstr ""
 
-#: inc/doc-text.php:278
+#: inc/doc-text.php:279
 msgid "Click the download link in the email"
 msgstr ""
 
-#: inc/doc-text.php:279
+#: inc/doc-text.php:280
 msgid "FTP the contents of the /ext folder to your site"
 msgstr ""
 
-#: inc/doc-text.php:280
+#: inc/doc-text.php:281
 msgid "Activate by following instructions above "
+msgstr ""
+
+#: tpg-get-posts.php:108
+msgid ""
+"An update to ver %s for the tpg-get-posts extension is available. Go to "
+"Settings tab to update."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
