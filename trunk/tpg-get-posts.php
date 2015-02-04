@@ -77,7 +77,7 @@ add_action('init', 'tpg_get_posts_init');
 function tpg_get_posts_init()
 {
 // Localization
-load_plugin_textdomain('tpg-get-posts', false, dirname(plugin_basename(__FILE__).'/languages/'));
+load_plugin_textdomain('tpg-get-posts', false, dirname(plugin_basename(__FILE__)).'/languages/');
 }
 
 /*
