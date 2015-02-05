@@ -23,6 +23,8 @@ class tpg_gp_process {
 		  'ul_class'         => '',
 		  'title_tag'        => 'h2',
 		  'title_link'       => 'true',
+		  'cat_link'	     => 'true',
+		  'tag_link'         => 'true',
 		  'thumbnail_size'	 => 'thumbnail',
 		  'thumbnail_only'	 => 'false',
 		  'thumbnail_link'	 => 'true',
@@ -138,7 +140,11 @@ class tpg_gp_process {
 			foreach(get_the_category($id) as $cat) {
 				//get the category
 				$cat_name = $cat->name; 
-				$tpg_cats .='<a href="'.get_category_link($cat->term_id ).'" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $cat->name ) ) . '">'.$cat->cat_name.'</a>'.$_sep;        
+				if ($this->cat_link) {
+					$tpg_cats .='<a href="'.get_category_link($cat->term_id ).'" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $cat->name ) ) . '">'.$cat->cat_name.'</a>'.$_sep;        
+				} else {
+					$tpg_cats .= $cat->cat_name.$_sep;
+				}
 			}
 		}
 		return trim($tpg_cats,$_sep);
@@ -169,8 +175,11 @@ class tpg_gp_process {
 		if(get_the_tags($id)){ 
 			// loop through each tag for the post id
 			foreach(get_the_tags($id) as $tag) {
-				
-				$tpg_tags .='<a href="'.get_tag_link($tag->term_id ).'" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $tag->name ) ) . '">'.$tag->name.'</a>'.$_sep;
+				if ($this->tag_link) {
+					$tpg_tags .='<a href="'.get_tag_link($tag->term_id ).'" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $tag->name ) ) . '">'.$tag->name.'</a>'.$_sep;
+				} else {
+					$tpg_tags .= $tag->name.$_sep;
+				}
 			}
 		}
 		if ($tpg_tags == "") $tpg_tags = "No Tags ";
@@ -864,6 +873,8 @@ class tpg_gp_process {
 		} else {
 			$this->title_link = false;
 		}
+		$this->cat_link = true;
+		$this->tag_link = true;
 		
 		if ($this->r['ul_class'] == "") {
 			$this->show_as_list = false;

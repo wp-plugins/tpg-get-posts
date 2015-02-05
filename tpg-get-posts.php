@@ -3,7 +3,7 @@
 Plugin Name: TPG Get Posts
 Plugin URI: http://www.tpginc.net/wordpress-plugins/
 Description: Adds a shortcode tag to display posts on static page.
-Version: 3.3.0
+Version: 3.3.1
 Author: Criss Swaim
 Author URI: http://www.tpginc.net/
 Text Domain: tpg-get-posts

@@ -59,10 +59,15 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 		<h4><? _e('Selection parameters are:','tpg-get-posts')?></h4>
 			
 			<dt>tag</dt><dd><? _e('This allows for the selection of posts by tag (slug).','tpg-get-posts')?></dd>
+			
 			<dt>tag_id</dt><dd><? _e('This allows for the selection of posts by tag id.','tpg-get-posts')?></dd>
+			
 			<dt>cat</dt><dd><? _e("A comma separated list of cateory names,slugs or ids.  <br />These are OR logic comparisons.  Examples:  cat='4', cat='5,3,4', cat='news,events,5' cat='news'.  The category name is the name and not the slug. The coversion routine will look for id, slug and then category.  To accomodate complex taxonomonies and where a category name is repeated as a sub category use either slug or id.  Slugs and id''s are unique where a category name can be repeated.",'tpg-get-posts')?></dd>
 
+			<dt class="tpg-prem">cat_link</dt><dd><? _e('Setting this option to cat_link="false" will suppress the wrapping of the categories with the hyperlink tag and the category will not be a link. Default is "true".','tpg-get-posts')?></dd>
+
 			<dt>numberposts</dt><dd><? _e('Specify the maximum number of posts to select.  The default is 5.','tpg-get-posts')?></dd>
+			
 			<dt>offset</dt><dd><? _e('Specify the number of posts to skip.  This is a standard option to WP_Query.  If offset=3 is entered, the post will start showing at the 4 post.  The default is 0, show all.','tpg-get-posts')?></dd>
 			
 			<dt class="tpg-prem">posts_per_page</dt><dd><? _e('Specify the number of posts to show on page and enable pagination.  The numberposts option is ignored when this is specified. See the page_next_text and page_prev_text to set the text.  If paging on front page, see fp_pagination option.','tpg-get-posts')?></dd>
@@ -70,6 +75,7 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<dt class="tpg-prem">fp_pagination</dt><dd><? _e("This option is used in conjunction with the post_per_page option.  If the pagination is on a static front page, set fp_pagination='true'.",'tpg-get-posts')?></dd>
 			
 			<dt>post_type</dt><dd><? _e('This allows for the selection custom post types.','tpg-get-posts')?></dd>
+			
 			<dt>post_status</dt><dd><? _e('This allows for the selection by post status.','tpg-get-posts')?></dd>
 			
 			<dt class="tpg-prem">ignore_sticky_posts</dt><dd><? _e("Set to false, ignore_sticky_posts='false', to show sticky posts in selection.  By default the sticky posts only show on the home page.  By setting the option, the plugin will show sticky posts on any page.  The sticky posts are added to the beginning of the post list.  If you have requested 4 posts and you have 2 sticky, then 6 posts will be shown on the first page.",'tpg-get-posts')?></dd>
@@ -134,6 +140,8 @@ field_classes="post_title=tpg-title-class,post_content=tpg-content-class,post_me
 			<dt>show_entire</dt><dd><? _e('This option show_entire="true" will show the entire post, not just the teaser.It ignores the more tag in the post content.  Default is "false".','tpg-get-posts')?></dd>
 			
 			<dt>show_excerpt</dt><dd><? _e('This option show_excerpt="true" will use the custom excerpt, if it exists, instead of the post content.  It will use the entire excerpt entry. Default is "false".','tpg-get-posts')?></dd>
+
+			<dt class="tpg-prem">tag_link</dt><dd><? _e('Setting this option to tag_link="false" will suppress the wrapping of the tags with the hyperlink tag and the tag will not be a link. Default is "true".','tpg-get-posts')?></dd>
 			
 			<dt>text_ellipsis</dt><dd><? _e("This parameter allows you to set the ellipsis displayed after shortened text. it defaults to text_ellipsis=' ...' but can be set to anything or nothing text_ellipsis=''.",'tpg-get-posts')?></dd>
 			
