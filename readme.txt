@@ -2,12 +2,12 @@
 Contributors: Criss Swaim
 Donate link: http://www.tpginc.net/wordpress-plugins/donate
 Tags: get_posts, post, posts, formatting, list, thumbnails, get posts, posts on page
-Requires at least: 2.8    
-Tested up to: 4.1
+Requires at least: 2.8
+Tested up to: 4.2
 Stable tag: 3.3.1
 License: GPLv2 or later
 
-Display posts on a page with ability to filter category or tag.  
+Display posts on a page with ability to filter category or tag.
 
 == Description ==
 Please review the Changelog for release change notices and save any custom styling before applying any upgrade.
@@ -21,9 +21,9 @@ To use it, just put the following into the HTML of any page or post, use as many
 
 	[tpg_get_posts]
 
-	
+
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
-	
+
 See the usage section in 'Other Notes' for a list of parms and more examples of use.  Full documentation is on the plugin settings page or at the plugin website
 
 * Plugin Website: (http://www.tpginc.net/wordpress-plugins/)
@@ -40,7 +40,7 @@ The premium extension supports:
 
 **NOTE**
 	The 3.0 release alters the default for thumbnails.  If this upgrade breaks your site, download tag 2.5.0 and set the option to freeze the release.  Be sure to test before upgrading.
-	
+
 == Usage ==
 
 **WARNING**  If you copy/paste the commands, the function may not work. If this happens, type the entire command in to avoid introducing hidden characters.
@@ -48,20 +48,20 @@ The premium extension supports:
 To use it, just put the following into the HTML of any page or post, use as many times as you like on the same page:
 
 	[tpg_get_posts]
-	
+
 	this is equivalent to:
-	
-	[tpg_get_posts fields="title,byline,content,metadata" 
+
+	[tpg_get_posts fields="title,byline,content,metadata"
 	fields_classes="post_title=tpg-title-class,
 	post_content=tpg-content-class,post_byline=tpg-byline-class,
 	post_metadata=tpg-metadata-class" numberposts=5 ]
-	
+
 This default usage will return the last 5 posts in reverse chronological order.  It will display the post similarly to a standard post, honoring the <!more> tag to produce a teaser.  Meta data showing post date, author, modified date, comments, categories and tags is also displayed.
 
 A common usage is to show post on a page that have a common tag or category:
-	
+
 		[tpg_get_posts tag="tag1, tag2,tag3"]
-	or 
+	or
 		[tpg_get_posts cat="catname1, catname2, catname3,catid,slug"]
 
 See Settings in plugin for full list of parameters
@@ -74,7 +74,7 @@ Show 5 posts with the tag "tag1" or "tag2" ordered by title. Display the post ti
 
 Show 2 posts with the category name of "Events" or "News" ordered by title. Display the post title and the entire content.
 
-	[tpg_get_posts cat="Events,News" numberposts=2 
+	[tpg_get_posts cat="Events,News" numberposts=2
 	orderby="title show_entire="true"]
 
 Show a bullet list of post titles. The title will be wrapped in a of class "p-ul-class".  The title will provide a link to the post. The title can be formatted with a css style .p-ul-class h2 {}.
@@ -92,14 +92,14 @@ Activating the extension is completed on the setting page for the plugin.
 
 1. Enter the lic code and email address and save the options
 1. Validate the options.
-1. Select the download button to install the extension or apply updates. 
+1. Select the download button to install the extension or apply updates.
 
 == Frequently Asked Questions ==
 
 = How to I format the output? =
 
 Set the format in your css
- 
+
 * title - .tpg-title-class
 * byline - .tpg-byline-class
 * content - .tpg-content-class
@@ -114,7 +114,7 @@ Yes, multiple category_name(s) can be submitted.  The base WordPress function ge
 
 = Can I combine categories and tags? =
 
-Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets both selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.  
+Yes, but listing both category and tag as selection criteria forms 'and' logic not 'or' logic.  So if a post meets both selection criteria, then it is selected.  If it meets only a single selection, then it is ignored.
 
 = Can I select categories with 'and' logic? =
 
@@ -122,12 +122,12 @@ Yes, in premium version.  See the doc on using category__and.
 
 = Will the plugin pull custom posts? =
 
-Yes, see doc in plugin for selecting by post_type. 
+Yes, see doc in plugin for selecting by post_type.
 
 == Screenshots ==
 
 1. Page without plugin active.
-2. Plugin setup on a page - selecting only posts assigned to the category home page and supressing by-line and meta data. 
+2. Plugin setup on a page - selecting only posts assigned to the category home page and supressing by-line and meta data.
 3. The output from the shortcode.
 4. Usage page - documentation on options and styling
 
@@ -140,7 +140,7 @@ Yes, see doc in plugin for selecting by post_type.
 = 3.3.0 =
 * add ability to set a custom style more link
 * add support for localization
-* add admin notice to update extensions if applicable 
+* add admin notice to update extensions if applicable
 
 = 3.2.0 =
 * add ability to set a custom style for the entire post, not just the components
@@ -161,7 +161,7 @@ Yes, see doc in plugin for selecting by post_type.
 * remove id from div - the repeating of a div caused validation routines to throw errors with duplicate div id.  This change may break formatting. see option to stop updates
 * set default thumbnail size to thumbnail instead of none.
 * removed the !important from .tpg-title-class, if this breaks your layout add it in your css file. This change is to allow more format control.
-* add pagination to the premium version 
+* add pagination to the premium version
 * add sticky post to premium version
 * add featured-image option (fi_layout)
 * update doc for new features
@@ -170,8 +170,8 @@ Yes, see doc in plugin for selecting by post_type.
 * add option to stop update to plugin - in preparation for new release
 
 = 2.4.0 =
-* allow slugs to be used in the cat option 
-* correct typo in tpg-get-post-style css 
+* allow slugs to be used in the cat option
+* correct typo in tpg-get-post-style css
 * update doc for new feature and correct small typos
 
 
@@ -204,12 +204,12 @@ Yes, see doc in plugin for selecting by post_type.
 * Wrap the thumbnail and title in division
 * Modify update notice in premium version
 * Add a layout to show heading and content next to thumbnail
-* Doc update 
+* Doc update
 
 = 2.0.2 =
 * Add the premium version functionality which allow selection: category_and, category_in and category_not_in.
 * Add ability to format the byline & metadata line.
-* Add settings options.  
+* Add settings options.
 * Code restructuring and changes some html output.
 
 = 1.3.8 =
@@ -218,20 +218,20 @@ Yes, see doc in plugin for selecting by post_type.
 * Changed div id tpg_get_posts-post, tpg-post-content, tpg-get-posts-excerpt and tpg-get-posts-thumbnail to classes
 
 = 1.3.7 =
-* Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire  
+* Correct when application of filters are applied to content, the 3.6 release removed this function from excerpts & post_entire
 * Thank you Hennie de Klerk for your assist in correcting this
 
 = 1.3.6 =
 * Apply title filters before displaying the post title
-* Thank you Collin Donahue-Oponski for supplying this patch. 
-* Change order of applying filter to content to match base wp 
+* Thank you Collin Donahue-Oponski for supplying this patch.
+* Change order of applying filter to content to match base wp
 * Added option title_link="false" to suppress making the title a link
 
 = 1.3.5 =
 * This is a code restructure to correct some old (and poor) coding techniques
 * correct conflict with WP 3.4 in style loading which caused errors in admin section
 * correct conflict with tpg-phplist plugin
-* corrected doc 
+* corrected doc
 
 = 1.3.4 =
 * correction for shorten_content which was broken several releases back...guess it isn't used much
@@ -244,26 +244,26 @@ Yes, see doc in plugin for selecting by post_type.
 = 1.3.2 =
 * add support for excerpts
 * add thumbnail support
-* add thumbnail only -- expiremental feature, subject to change 
+* add thumbnail only -- expiremental feature, subject to change
 
-= 1.3.1.1= 
+= 1.3.1.1=
 * correct readme tag appearing on enteries without a more tag
 
 = 1.3.1 =
 * add div wrapper around each post to allow some formatting to entire post
-* add custom style sheet support 
+* add custom style sheet support
 * changed process for assigning class names to sections of post
- 
+
 = 1.3.0 =
 * This change is a documentation and code structure change. No additional features have been added.
 * Documetation change to show documentation in the settings page of the plugin instead of the readme.
 * Restructure code as a class to reduce risk of name clash
- 
+
 = 1.2.4 =
-* Modified the display of content to correctly parse the caption for images.  Note that the metadata will move up beside the image if a custom css is not set to clear.  I opted to leave formating to the designer and not change the behavior. 
+* Modified the display of content to correctly parse the caption for images.  Note that the metadata will move up beside the image if a custom css is not set to clear.  I opted to leave formating to the designer and not change the behavior.
 
 = 1.2.3 =
-* Corrected error introduced in version 1.2.2 when no parameters were passed - the argument parameter defaulted as a space and not an array which threw an invalid type error. 
+* Corrected error introduced in version 1.2.2 when no parameters were passed - the argument parameter defaulted as a space and not an array which threw an invalid type error.
 
 = 1.2.2 =
 * Corrected option behavior to allow additional get_posts options to be accepted.  The earlier releases of this plugin only allowed the options defined in the default table to be passed to WP get_posts.  This fix appends any undefined option to the table and passes it to WP get_posts.  thanks cdaley1981 for pointing this out.
@@ -285,7 +285,7 @@ Yes, see doc in plugin for selecting by post_type.
 * Update to allow multiple categories to be entered
 
 = 0.1 =
-* Initial release. 
+* Initial release.
 
 == Upgrade Notice ==
 
